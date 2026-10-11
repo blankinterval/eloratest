@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Elora Beauty by Rabi. Handcrafted, 100% herbal hair and skin care solutions inspired by nature's tradition.">
     <title>Elora Beauty by Rabi | Natural Hair & Skin Care</title>
     
     <!-- Google Fonts -->
@@ -19,32 +20,18 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        charcoal: '#222222',
-                        gold: '#d4af37',
-                        cream: '#faf9f6',
-                        sage: '#f1f4f0',
-                    },
-                    fontFamily: {
-                        playfair: ['"Playfair Display"', 'serif'],
-                        montserrat: ['"Montserrat"', 'sans-serif'],
-                        greatvibes: ['"Great Vibes"', 'cursive']
-                    },
-                    keyframes: {
-                        marquee: {
-                            '0%': { transform: 'translateX(0%)' },
-                            '100%': { transform: 'translateX(-50%)' }
-                        }
-                    },
-                    animation: {
-                        'marquee': 'marquee 40s linear infinite',
-                    }
+                    colors: { charcoal: '#222222', gold: '#d4af37', cream: '#faf9f6', sage: '#f1f4f0' },
+                    fontFamily: { playfair: ['"Playfair Display"', 'serif'], montserrat: ['"Montserrat"', 'sans-serif'], greatvibes: ['"Great Vibes"', 'cursive'] },
+                    keyframes: { marquee: { '0%': { transform: 'translateX(0%)' }, '100%': { transform: 'translateX(-50%)' } } },
+                    animation: { marquee: 'marquee 40s linear infinite' }
                 }
             }
         }
     </script>
+    
     <style>
         body { background-color: #faf9f6; }
+        
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #faf9f6; }
         ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 4px; }
@@ -56,18 +43,13 @@
 
         .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        
+
         .nav-hover { position: relative; }
         .nav-hover::after {
             content: ''; position: absolute; width: 100%; transform: scaleX(0); height: 1.5px; bottom: -4px; left: 0; background-color: #d4af37; transform-origin: center; transition: transform 0.3s ease-out;
         }
         .nav-hover:hover::after { transform: scaleX(1); }
 
-        @keyframes glow {
-            0% { box-shadow: 0 0 5px rgba(212, 175, 55, 0.2); transform: scale(1); }
-            100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); transform: scale(1.02); }
-        }
-        .btn-glow:hover { animation: glow 1.5s infinite alternate ease-in-out; }
         .btn-glow i { transition: transform 0.3s ease-out; }
         .btn-glow:hover i.fa-arrow-right { transform: translateX(6px); }
         .btn-glow:hover i.fa-whatsapp { transform: scale(1.15) rotate(5deg); }
@@ -77,14 +59,36 @@
         
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+
+        @keyframes shine {
+            0% { transform: translateX(-150%) skewX(-25deg); }
+            20%, 100% { transform: translateX(250%) skewX(-25deg); }
+        }
+        .animate-shine::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            animation: shine 4s infinite ease-in-out;
+            z-index: 1;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body class="font-montserrat text-charcoal antialiased overflow-x-hidden relative">
 
-    <div id="mobile-menu-overlay" class="fixed inset-0 bg-charcoal/60 z-[60] hidden transition-opacity opacity-0 duration-300 backdrop-blur-sm"></div>
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-charcoal/60 z-[60] hidden transition-opacity opacity-0 duration-300 backdrop-blur-sm" aria-hidden="true"></div>
     
-    <aside id="mobile-menu" class="fixed top-0 right-0 h-full w-72 bg-cream z-[70] transform translate-x-full transition-transform duration-300 shadow-2xl flex flex-col px-8 py-10 border-l border-gold/20">
-        <button id="close-menu" class="self-end text-charcoal text-3xl mb-12 hover:text-gold transition-colors focus:outline-none"><i class="fa-solid fa-xmark"></i></button>
+    <!-- Mobile Menu Drawer -->
+    <aside id="mobile-menu" class="fixed top-0 right-0 h-full w-72 bg-cream z-[70] transform translate-x-full transition-transform duration-300 shadow-2xl flex flex-col px-8 py-10 border-l border-gold/20" aria-label="Mobile Navigation">
+        <button id="close-menu" class="self-end text-charcoal text-3xl mb-12 hover:text-gold transition-colors focus:outline-none" aria-label="Close mobile menu"><i class="fa-solid fa-xmark"></i></button>
         <nav class="flex flex-col gap-8 text-sm uppercase tracking-[0.2em] font-bold text-charcoal">
             <a href="#home" class="mobile-link hover:text-gold transition-colors no-underline">Home</a>
             <a href="#products" class="mobile-link hover:text-gold transition-colors no-underline">Products</a>
@@ -94,17 +98,18 @@
         </nav>
         <div class="mt-auto pt-10 border-t border-charcoal/10">
             <p class="text-[10px] text-charcoal/50 uppercase tracking-widest font-bold mb-4">Need Help?</p>
-            <a href="https://wa.me/923332952456" class="flex items-center gap-3 text-charcoal hover:text-gold transition-colors text-sm font-bold uppercase tracking-widest no-underline">
+            <a href="https://wa.me/923332952456" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-charcoal hover:text-gold transition-colors text-sm font-bold uppercase tracking-widest no-underline">
                 <i class="fa-brands fa-whatsapp text-2xl text-gold shrink-0"></i> Message Us
             </a>
         </div>
     </aside>
 
+    <!-- Header / Navigation -->
     <header id="main-header" class="texture-linen border-b border-charcoal/10 sticky top-0 z-50 transition-all duration-300 py-3 md:py-4 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center w-full">
             
-            <div class="flex flex-row items-center space-x-2 md:space-x-3 shrink-0 group">
-                <a href="#"><img id="header-logo" src="Logo Only_2.svg" alt="Elora Beauty Icon" class="h-16 md:h-24 w-auto transition-all duration-300"></a>
+            <div class="flex flex-row items-center space-x-2 md:space-x-3 shrink-0">
+                <a href="#" aria-label="Go to homepage"><img id="header-logo" src="Logo Only_2.svg" alt="Elora Beauty Logo" class="h-12 md:h-24 w-auto transition-all duration-300"></a>
                 <div class="flex flex-col items-center justify-center">
                     <span id="header-elora" class="font-playfair text-2xl md:text-3xl tracking-[0.15em] font-bold text-charcoal leading-none pl-[0.15em] transition-all duration-300">ELORA</span>
                     <span id="header-beauty" class="font-montserrat text-[8px] md:text-[10px] uppercase tracking-[0.4em] font-semibold text-charcoal/70 mt-1 pl-[0.4em] transition-all duration-300">BEAUTY</span>
@@ -112,280 +117,302 @@
                 </div>
             </div>
 
-            <nav class="hidden md:flex gap-8 text-xs uppercase tracking-[0.15em] font-bold text-charcoal/80">
+            <nav class="hidden md:flex gap-8 text-xs uppercase tracking-[0.15em] font-bold text-charcoal/80" aria-label="Desktop Navigation">
                 <a href="#home" class="nav-hover hover:text-gold transition-colors no-underline inline-block">Home</a>
                 <a href="#products" class="nav-hover hover:text-gold transition-colors no-underline inline-block">Products</a>
                 <a href="#process" class="nav-hover hover:text-gold transition-colors no-underline inline-block">Process</a>
                 <a href="#about" class="nav-hover hover:text-gold transition-colors no-underline inline-block">About Us</a>
             </nav>
 
-            <div class="flex items-center">
-                <button id="mobile-toggle" class="md:hidden text-charcoal focus:outline-none ml-2 transition-colors hover:text-gold">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
-                    </svg>
+            <div class="flex items-center shrink-0">
+                <button id="mobile-toggle" class="md:hidden text-charcoal focus:outline-none p-2 -mr-2 transition-colors hover:text-gold" aria-label="Toggle mobile menu">
+                    <i class="fa-solid fa-bars text-2xl"></i>
                 </button>
             </div>
             
         </div>
     </header>
 
-    <section id="home" class="text-cream pt-20 pb-32 md:pt-24 md:pb-40 lg:pt-32 lg:pb-48 relative overflow-hidden bg-cover bg-[80%_center] md:bg-center bg-no-repeat" style="background-image: url('Hero section elongated.jpg');">
-        <div class="absolute inset-0 bg-charcoal/70 lg:bg-gradient-to-r lg:from-charcoal/95 lg:from-20% lg:via-charcoal/10 lg:via-50% lg:to-transparent lg:to-100% z-0 pointer-events-none"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center lg:items-start text-center lg:text-left reveal">
-            <div class="w-full md:w-2/3 lg:w-1/2 flex flex-col items-center lg:items-start">
-                <span class="text-gold uppercase tracking-[0.2em] text-xs font-bold mb-6 inline-block drop-shadow-md">Nature's Tradition</span>
-                <h1 class="font-playfair text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight drop-shadow-lg">
-                    Natural Hair & Skin Care<br>Solutions for <span class="italic text-gold">Healthy Beauty</span>
+    <main>
+        <!-- Cinematic Hero Section -->
+        <section id="home" class="text-cream relative overflow-hidden bg-cover bg-center bg-no-repeat flex flex-col justify-center min-h-[70vh] md:min-h-[85vh] pt-24 pb-16 md:pt-0" style="background-image: url('Hero section elongated.jpg');">
+            <div class="absolute inset-0 bg-charcoal/60 z-0 pointer-events-none"></div>
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex flex-col items-center text-center reveal">
+                <span class="text-gold uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-4 md:mb-6 inline-block drop-shadow-md">Nature's Tradition</span>
+                <h1 class="font-playfair text-3xl sm:text-4xl md:text-5xl lg:text-7xl mb-4 md:mb-6 leading-tight drop-shadow-lg">
+                    Natural Hair & Skin Care<br>Solutions for <br class="md:hidden"><span class="italic text-gold">Healthy Beauty</span>
                 </h1>
-                <p class="text-cream/90 text-base md:text-lg leading-relaxed mb-10 max-w-xl font-light drop-shadow-md px-4 lg:px-0">
+                <p class="text-cream/90 text-sm md:text-lg leading-relaxed mb-8 md:mb-10 max-w-xl mx-auto font-light drop-shadow-md px-4 lg:px-0">
                     Experience the power of nature with Elora Beauty by Rabi. Handcrafted tradition. Pure ingredients. Real results.
                 </p>
-                <a href="#products" class="bg-gold text-charcoal px-10 py-4 rounded-sm text-sm uppercase tracking-widest font-bold hover:bg-cream transition-all duration-300 shadow-xl inline-flex items-center justify-center gap-3 btn-glow no-underline">
-                    Shop Now <i class="fa-solid fa-arrow-right shrink-0"></i>
+                <a href="#products" class="bg-gold text-charcoal hover:bg-cream px-8 md:px-10 py-3 md:py-4 rounded-sm text-xs md:text-sm uppercase tracking-widest font-bold transition-all duration-300 shadow-xl inline-flex items-center justify-center gap-3 btn-glow no-underline group">
+                    <span class="relative after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[1.5px] after:bg-current after:origin-bottom-right after:scale-x-0 group-hover:after:origin-bottom-left group-hover:after:scale-x-100 after:transition-transform after:duration-300">Shop Now</span> 
+                    <i class="fa-solid fa-arrow-right shrink-0 block"></i>
                 </a>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <div class="bg-charcoal py-10 border-t border-white/10 shadow-inner relative z-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x-0 md:divide-x divide-white/10">
-                <div class="flex flex-col items-center px-2 reveal" style="transition-delay: 100ms;">
-                    <i class="fa-solid fa-leaf text-gold text-2xl md:text-3xl mb-3"></i>
-                    <h4 class="font-bold text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-cream">100% Herbal</h4>
-                    <span class="font-normal text-[8px] md:text-[9px] text-cream/50 tracking-widest mt-1">Ingredients</span>
-                </div>
-                <div class="flex flex-col items-center px-2 reveal" style="transition-delay: 200ms;">
-                    <i class="fa-solid fa-flask-vial text-gold text-2xl md:text-3xl mb-3"></i>
-                    <h4 class="font-bold text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-cream">No Harmful</h4>
-                    <span class="font-normal text-[8px] md:text-[9px] text-cream/50 tracking-widest mt-1">Chemicals</span>
-                </div>
-                <div class="flex flex-col items-center px-2 reveal" style="transition-delay: 300ms;">
-                    <i class="fa-solid fa-mortar-pestle text-gold text-2xl md:text-3xl mb-3"></i>
-                    <h4 class="font-bold text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-cream">Small-Batch</h4>
-                    <span class="font-normal text-[8px] md:text-[9px] text-cream/50 tracking-widest mt-1">Production</span>
-                </div>
-                <div class="flex flex-col items-center px-2 reveal" style="transition-delay: 400ms;">
-                    <i class="fa-solid fa-truck-fast text-gold text-2xl md:text-3xl mb-3"></i>
-                    <h4 class="font-bold text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-cream">Nationwide</h4>
-                    <span class="font-normal text-[8px] md:text-[9px] text-cream/50 tracking-widest mt-1">Delivery</span>
+        <!-- DESKTOP TRUST BAR -->
+        <div class="hidden md:block bg-charcoal py-10 border-t border-white/10 shadow-inner relative z-20">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="grid grid-cols-4 gap-8 text-center divide-x divide-white/10">
+                    <div class="flex flex-col items-center px-2 reveal" style="transition-delay: 100ms;">
+                        <i class="fa-solid fa-leaf text-gold text-3xl mb-3" aria-hidden="true"></i>
+                        <h4 class="font-bold text-[10px] uppercase tracking-[0.2em] text-cream">100% Herbal</h4>
+                        <span class="font-normal text-[9px] text-cream/50 tracking-widest mt-1">Ingredients</span>
+                    </div>
+                    <div class="flex flex-col items-center px-2 reveal" style="transition-delay: 200ms;">
+                        <i class="fa-solid fa-flask-vial text-gold text-3xl mb-3" aria-hidden="true"></i>
+                        <h4 class="font-bold text-[10px] uppercase tracking-[0.2em] text-cream">No Harmful</h4>
+                        <span class="font-normal text-[9px] text-cream/50 tracking-widest mt-1">Chemicals</span>
+                    </div>
+                    <div class="flex flex-col items-center px-2 reveal" style="transition-delay: 300ms;">
+                        <i class="fa-solid fa-mortar-pestle text-gold text-3xl mb-3" aria-hidden="true"></i>
+                        <h4 class="font-bold text-[10px] uppercase tracking-[0.2em] text-cream">Small-Batch</h4>
+                        <span class="font-normal text-[9px] text-cream/50 tracking-widest mt-1">Production</span>
+                    </div>
+                    <div class="flex flex-col items-center px-2 reveal" style="transition-delay: 400ms;">
+                        <i class="fa-solid fa-truck-fast text-gold text-3xl mb-3" aria-hidden="true"></i>
+                        <h4 class="font-bold text-[10px] uppercase tracking-[0.2em] text-cream">Nationwide</h4>
+                        <span class="font-normal text-[9px] text-cream/50 tracking-widest mt-1">Delivery</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="overflow-hidden bg-gold/10 py-4 md:py-5 border-b border-gold/20 flex items-center relative z-20">
-        <div class="animate-marquee whitespace-nowrap inline-flex items-center text-charcoal/80 font-montserrat uppercase tracking-[0.3em] text-[10px] md:text-xs font-bold">
-            <span class="mx-4 text-gold">✦</span> AMLA <span class="mx-4 text-gold">✦</span> REETHA <span class="mx-4 text-gold">✦</span> SHIKAKAI <span class="mx-4 text-gold">✦</span> BALCHAR <span class="mx-4 text-gold">✦</span> RATANJOT <span class="mx-4 text-gold">✦</span> ROSEMARY LEAVES <span class="mx-4 text-gold">✦</span> BLACK CUMIN <span class="mx-4 text-gold">✦</span> METHI DANA <span class="mx-4 text-gold">✦</span> ALSI <span class="mx-4 text-gold">✦</span> NAGAR MOTHA <span class="mx-4 text-gold">✦</span> POPPY SEEDS <span class="mx-4 text-gold">✦</span> ARGAN OIL <span class="mx-4 text-gold">✦</span> JOJOBA OIL <span class="mx-4 text-gold">✦</span> PUMPKIN SEED OIL <span class="mx-4 text-gold">✦</span> ALMOND OIL 
-            <span class="mx-4 text-gold">✦</span> AMLA <span class="mx-4 text-gold">✦</span> REETHA <span class="mx-4 text-gold">✦</span> SHIKAKAI <span class="mx-4 text-gold">✦</span> BALCHAR <span class="mx-4 text-gold">✦</span> RATANJOT <span class="mx-4 text-gold">✦</span> ROSEMARY LEAVES <span class="mx-4 text-gold">✦</span> BLACK CUMIN <span class="mx-4 text-gold">✦</span> METHI DANA <span class="mx-4 text-gold">✦</span> ALSI <span class="mx-4 text-gold">✦</span> NAGAR MOTHA <span class="mx-4 text-gold">✦</span> POPPY SEEDS <span class="mx-4 text-gold">✦</span> ARGAN OIL <span class="mx-4 text-gold">✦</span> JOJOBA OIL <span class="mx-4 text-gold">✦</span> PUMPKIN SEED OIL <span class="mx-4 text-gold">✦</span> ALMOND OIL
+        <!-- MOBILE TRUST BAR -->
+        <div class="md:hidden bg-charcoal py-8 border-t border-white/10 shadow-inner relative z-20">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="grid grid-cols-2 gap-6 text-center">
+                    <div class="flex flex-col items-center px-2 reveal" style="transition-delay: 100ms;">
+                        <i class="fa-solid fa-leaf text-gold text-xl mb-1.5" aria-hidden="true"></i>
+                        <h4 class="font-bold text-[9px] uppercase tracking-[0.2em] text-cream">100% Herbal</h4>
+                    </div>
+                    <div class="flex flex-col items-center px-2 reveal" style="transition-delay: 200ms;">
+                        <i class="fa-solid fa-flask-vial text-gold text-xl mb-1.5" aria-hidden="true"></i>
+                        <h4 class="font-bold text-[9px] uppercase tracking-[0.2em] text-cream">No Harmful</h4>
+                    </div>
+                    <div class="flex flex-col items-center px-2 reveal" style="transition-delay: 300ms;">
+                        <i class="fa-solid fa-mortar-pestle text-gold text-xl mb-1.5" aria-hidden="true"></i>
+                        <h4 class="font-bold text-[9px] uppercase tracking-[0.2em] text-cream">Small-Batch</h4>
+                    </div>
+                    <div class="flex flex-col items-center px-2 reveal" style="transition-delay: 400ms;">
+                        <i class="fa-solid fa-truck-fast text-gold text-xl mb-1.5" aria-hidden="true"></i>
+                        <h4 class="font-bold text-[9px] uppercase tracking-[0.2em] text-cream">Delivery</h4>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <section id="products" class="py-24 md:py-32 bg-white relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="flex flex-col gap-24 md:gap-32 lg:gap-48">
+        <!-- Apothecary Marquee -->
+        <div class="overflow-hidden bg-gold/10 py-3 md:py-5 border-y border-gold/20 flex items-center relative z-20" aria-hidden="true">
+            <div class="animate-marquee whitespace-nowrap inline-flex items-center text-charcoal/80 font-montserrat uppercase tracking-[0.3em] text-[9px] md:text-xs font-bold">
+                <span class="mx-4 text-gold">✦</span> AMLA <span class="mx-4 text-gold">✦</span> REETHA <span class="mx-4 text-gold">✦</span> SHIKAKAI <span class="mx-4 text-gold">✦</span> BALCHAR <span class="mx-4 text-gold">✦</span> RATANJOT <span class="mx-4 text-gold">✦</span> ROSEMARY LEAVES <span class="mx-4 text-gold">✦</span> BLACK CUMIN <span class="mx-4 text-gold">✦</span> METHI DANA <span class="mx-4 text-gold">✦</span> ALSI <span class="mx-4 text-gold">✦</span> NAGAR MOTHA <span class="mx-4 text-gold">✦</span> POPPY SEEDS <span class="mx-4 text-gold">✦</span> ARGAN OIL <span class="mx-4 text-gold">✦</span> JOJOBA OIL <span class="mx-4 text-gold">✦</span> PUMPKIN SEED OIL <span class="mx-4 text-gold">✦</span> ALMOND OIL 
+                <span class="mx-4 text-gold">✦</span> AMLA <span class="mx-4 text-gold">✦</span> REETHA <span class="mx-4 text-gold">✦</span> SHIKAKAI <span class="mx-4 text-gold">✦</span> BALCHAR <span class="mx-4 text-gold">✦</span> RATANJOT <span class="mx-4 text-gold">✦</span> ROSEMARY LEAVES <span class="mx-4 text-gold">✦</span> BLACK CUMIN <span class="mx-4 text-gold">✦</span> METHI DANA <span class="mx-4 text-gold">✦</span> ALSI <span class="mx-4 text-gold">✦</span> NAGAR MOTHA <span class="mx-4 text-gold">✦</span> POPPY SEEDS <span class="mx-4 text-gold">✦</span> ARGAN OIL <span class="mx-4 text-gold">✦</span> JOJOBA OIL <span class="mx-4 text-gold">✦</span> PUMPKIN SEED OIL <span class="mx-4 text-gold">✦</span> ALMOND OIL
+            </div>
+        </div>
+
+        <!-- Editorial Product Showcase -->
+        <section id="products" class="py-16 md:py-32 bg-white relative overflow-hidden">
+            <svg class="absolute top-10 right-[-15%] w-[40rem] md:w-[70rem] opacity-[0.04] rotate-[15deg] pointer-events-none z-0" viewBox="0 0 200 200" fill="none" stroke="#222222" stroke-width="0.2">
+                 <path d="M20,100 Q100,20 180,100 Q100,180 20,100 Z" /><path d="M20,100 Q100,60 180,100" />
+            </svg>
+            <svg class="absolute bottom-10 left-[-15%] w-[40rem] md:w-[70rem] opacity-[0.04] -rotate-[15deg] pointer-events-none z-0" viewBox="0 0 200 200" fill="none" stroke="#222222" stroke-width="0.2">
+                 <path d="M20,100 Q100,20 180,100 Q100,180 20,100 Z" /><path d="M20,100 Q100,60 180,100" />
+            </svg>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="flex flex-col gap-16 md:gap-32 lg:gap-48">
+                    
+                    <!-- Product 1: Herbal Hair Oil -->
+                    <article class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0 items-center reveal">
+                        <div class="lg:col-span-5 relative group z-10 rounded-xl overflow-hidden shadow-2xl h-[24rem] sm:h-[28rem] md:h-[36rem] lg:h-[42rem]">
+                            <img src="Oil Image 2.jpg" alt="Elora Herbal Hair Oil Bottle" loading="lazy" class="w-full h-full object-cover object-center slow-pan bg-cream relative z-10">
+                        </div>
+                        <div class="lg:col-span-6 lg:col-start-7 flex flex-col justify-center pt-2 md:py-0 relative z-20">
+                            <span class="text-gold font-bold text-[9px] md:text-xs uppercase tracking-[0.2em] mb-1 md:mb-3 block">Signature Product</span>
+                            <h3 class="font-playfair text-3xl md:text-4xl lg:text-5xl text-charcoal mb-2 md:mb-4 leading-tight">Elora Herbal Hair Oil</h3>
+                            
+                            <p class="text-[11px] md:text-sm text-charcoal/70 font-bold uppercase tracking-widest mb-4 md:mb-8 pb-3 md:pb-4 border-b border-charcoal/10 leading-relaxed">
+                                A carefully crafted blend inspired by traditional hair care practices.
+                            </p>
+                            
+                            <ul class="space-y-2 md:space-y-4 text-xs md:text-base font-medium text-charcoal/80 mb-6 md:mb-10">
+                                <li class="flex items-start gap-2 md:gap-4"><span class="text-gold font-bold text-base md:text-lg leading-none" aria-hidden="true">—</span> <span><strong>20+ Selected Herbs:</strong> Enriched with Amla, Reetha & Shikakai.</span></li>
+                                <li class="flex items-start gap-2 md:gap-4"><span class="text-gold font-bold text-base md:text-lg leading-none" aria-hidden="true">—</span> <span><strong>8-Hour Infusion:</strong> Prepared via patient, low-temperature heating.</span></li>
+                                <li class="flex items-start gap-2 md:gap-4"><span class="text-gold font-bold text-base md:text-lg leading-none" aria-hidden="true">—</span> <span><strong>7 Cold-Pressed Oils:</strong> Including Argan, Jojoba & Pumpkin Seed.</span></li>
+                                <li class="flex items-start gap-2 md:gap-4"><span class="text-gold font-bold text-base md:text-lg leading-none" aria-hidden="true">—</span> <span><strong>Small-Batch Quality:</strong> Prepared with attention to absolute purity.</span></li>
+                            </ul>
+                            
+                            <div class="flex flex-row items-center justify-between sm:justify-start sm:gap-6 w-full">
+                                <div class="flex flex-col">
+                                    <span class="flex items-baseline gap-1 font-playfair text-charcoal">
+                                        <span class="text-xl md:text-xl font-medium text-charcoal/60">Rs.</span>
+                                        <span class="text-4xl md:text-4xl font-bold tracking-tight">1,850</span>
+                                    </span>
+                                    <span class="block text-[10px] md:text-xs font-bold uppercase tracking-widest text-charcoal/50 mt-1">200 ml (6.76 fl. oz.)</span>
+                                </div>
+                                <a href="https://wa.me/923332952456?text=Hello%20Elora%20Beauty,%20I%20would%20like%20to%20order%20the%20Herbal%20Hair%20Oil" target="_blank" rel="noopener noreferrer" class="group hover:bg-cream hover:text-charcoal border border-transparent hover:border-charcoal/20 bg-charcoal text-cream py-3 px-6 md:py-4 md:px-8 rounded-sm inline-flex items-center justify-center gap-2 md:gap-3 text-[10px] md:text-sm uppercase tracking-widest font-bold transition-all shadow-lg shrink-0 btn-glow no-underline">
+                                    <i class="fa-brands fa-whatsapp text-lg md:text-xl shrink-0 block text-[#25D366] group-hover:text-current transition-colors"></i> 
+                                    <span class="relative after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[1.5px] after:bg-current after:origin-bottom-right after:scale-x-0 group-hover:after:origin-bottom-left group-hover:after:scale-x-100 after:transition-transform after:duration-300">Order Now</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Product 2: Beauty Cream -->
+                    <article class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0 items-center reveal">
+                        <div class="lg:col-span-6 flex flex-col justify-center pt-2 md:py-0 order-2 lg:order-1 relative z-20">
+                            <span class="text-gold font-bold text-[9px] md:text-xs uppercase tracking-[0.2em] mb-1 md:mb-3 block">Daily Radiance</span>
+                            <h3 class="font-playfair text-3xl md:text-4xl lg:text-5xl text-charcoal mb-2 md:mb-4 leading-tight">Whitening & Brightening Cream</h3>
+                            
+                            <p class="text-[11px] md:text-sm text-charcoal/70 font-bold uppercase tracking-widest mb-4 md:mb-8 pb-3 md:pb-4 border-b border-charcoal/10 leading-relaxed">
+                                Enriched with 24K Gold, Vitamin C & Natural Extracts
+                            </p>
+                            
+                            <ul class="space-y-2 md:space-y-4 text-xs md:text-base font-medium text-charcoal/80 mb-6 md:mb-10">
+                                <li class="flex items-start gap-2 md:gap-4"><span class="text-gold font-bold text-base md:text-lg leading-none" aria-hidden="true">—</span> <span>Helps brighten & even skin tone</span></li>
+                                <li class="flex items-start gap-2 md:gap-4"><span class="text-gold font-bold text-base md:text-lg leading-none" aria-hidden="true">—</span> <span>Deeply nourishes & hydrates</span></li>
+                                <li class="flex items-start gap-2 md:gap-4"><span class="text-gold font-bold text-base md:text-lg leading-none" aria-hidden="true">—</span> <span>Provides Sun Protection & SPF Boost</span></li>
+                                <li class="flex items-start gap-2 md:gap-4"><span class="text-gold font-bold text-base md:text-lg leading-none" aria-hidden="true">—</span> <span>Gentle & effective for all skin types</span></li>
+                            </ul>
+                            
+                            <div class="flex flex-row items-center justify-between sm:justify-start sm:gap-6 w-full">
+                                <div class="flex flex-col">
+                                    <span class="flex items-baseline gap-1 font-playfair text-charcoal">
+                                        <span class="text-xl md:text-xl font-medium text-charcoal/60">Rs.</span>
+                                        <span class="text-4xl md:text-4xl font-bold tracking-tight">1,100</span>
+                                    </span>
+                                    <span class="block text-[10px] md:text-xs font-bold uppercase tracking-widest text-charcoal/50 mt-1">For All Skin Types</span>
+                                </div>
+                                <a href="https://wa.me/923332952456?text=Hello%20Elora%20Beauty,%20I%20would%20like%20to%20order%20the%20Whitening%20%26%20Brightening%20Cream" target="_blank" rel="noopener noreferrer" class="group hover:bg-cream hover:text-charcoal border border-transparent hover:border-charcoal/20 bg-charcoal text-cream py-3 px-6 md:py-4 md:px-8 rounded-sm inline-flex items-center justify-center gap-2 md:gap-3 text-[10px] md:text-sm uppercase tracking-widest font-bold transition-all shadow-lg shrink-0 btn-glow no-underline">
+                                    <i class="fa-brands fa-whatsapp text-lg md:text-xl shrink-0 block text-[#25D366] group-hover:text-current transition-colors"></i> 
+                                    <span class="relative after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[1.5px] after:bg-current after:origin-bottom-right after:scale-x-0 group-hover:after:origin-bottom-left group-hover:after:scale-x-100 after:transition-transform after:duration-300">Order Now</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-5 lg:col-start-8 relative group order-1 lg:order-2 z-10 rounded-xl overflow-hidden shadow-2xl h-[24rem] sm:h-[28rem] md:h-[36rem] lg:h-[42rem]">
+                            <img src="Creme Image_4.jpg" alt="Elora Whitening and Brightening Cream Container" loading="lazy" class="w-full h-full object-cover object-center slow-pan bg-cream relative z-10">
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- The Process -->
+        <section id="process" class="py-16 md:py-32 bg-sage relative overflow-hidden">
+            <div class="max-w-4xl mx-auto px-6 sm:px-8 lg:px-8">
+                <div class="text-center mb-12 md:mb-20 reveal">
+                    <span class="text-gold uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-3 block">Our Traditional Process</span>
+                    <h2 class="font-playfair text-3xl md:text-5xl text-charcoal">The Art of Herbal Infusion</h2>
+                    <p class="mt-4 md:mt-6 text-sm md:text-base text-charcoal/70 max-w-2xl mx-auto">Quality starts long before a product reaches your hands. We use a slow, intentional process to preserve the pure qualities of every ingredient.</p>
+                </div>
                 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-0 items-center reveal">
-                    <div class="lg:col-span-5 relative group z-10 cursor-pointer rounded-xl overflow-hidden shadow-2xl h-[28rem] sm:h-[32rem] md:h-[36rem] lg:h-[42rem]">
-                        <img src="Oil Image 2.jpg" alt="Elora Herbal Hair Oil" class="w-full h-full object-cover object-center slow-pan bg-cream relative z-10">
+                <div class="relative border-l border-gold/40 pl-6 md:pl-8 ml-2 md:ml-auto md:mr-auto space-y-8 md:space-y-16 max-w-2xl">
+                    <div class="relative reveal" style="transition-delay: 100ms;">
+                        <div class="absolute -left-[31.5px] md:-left-[39.5px] top-1 w-3 h-3 md:w-4 md:h-4 rounded-full bg-sage border-[2px] md:border-[3px] border-gold"></div>
+                        <span class="text-gold font-bold text-[9px] md:text-[10px] uppercase tracking-[0.2em] mb-1 md:mb-2 block">Step 01</span>
+                        <h4 class="font-playfair text-xl md:text-2xl text-charcoal mb-2 md:mb-3">Selecting Premium Herbs</h4>
+                        <p class="text-xs md:text-sm text-charcoal/70 leading-relaxed font-medium">We carefully choose a blend of traditional herbs, including Amla, Reetha, Shikakai, Rosemary Leaves, Black Cumin, Methi Dana, and Ratanjot.</p>
                     </div>
-                    <div class="lg:col-span-6 lg:col-start-7 flex flex-col justify-center pt-2 md:py-0 relative z-20">
-                        <span class="text-gold font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] mb-2 md:mb-3 block">Signature Product</span>
-                        <h3 class="font-playfair text-3xl md:text-4xl lg:text-5xl text-charcoal mb-3 md:mb-4 leading-tight">Elora Herbal<br>Hair Oil</h3>
-                        <p class="text-[12px] md:text-sm text-charcoal/70 font-bold uppercase tracking-widest mb-6 md:mb-8 pb-4 border-b border-charcoal/10 leading-relaxed">
-                            A carefully crafted blend inspired by traditional hair care practices.
-                        </p>
-                        <ul class="space-y-3 md:space-y-4 text-sm md:text-base font-medium text-charcoal/80 mb-8 md:mb-10">
-                            <li class="flex items-start gap-3 md:gap-4"><span class="text-gold font-bold text-lg leading-none">—</span> <span><strong>20+ Selected Herbs:</strong> Enriched with Amla, Reetha & Shikakai.</span></li>
-                            <li class="flex items-start gap-3 md:gap-4"><span class="text-gold font-bold text-lg leading-none">—</span> <span><strong>8-Hour Infusion:</strong> Prepared via patient, low-temperature heating.</span></li>
-                            <li class="flex items-start gap-3 md:gap-4"><span class="text-gold font-bold text-lg leading-none">—</span> <span><strong>7 Cold-Pressed Oils:</strong> Including Argan, Jojoba & Pumpkin Seed.</span></li>
-                            <li class="flex items-start gap-3 md:gap-4"><span class="text-gold font-bold text-lg leading-none">—</span> <span><strong>Small-Batch Quality:</strong> Prepared with attention to absolute purity.</span></li>
-                        </ul>
-                        <div class="flex flex-col sm:flex-row sm:items-center gap-5 md:gap-6">
+                    <div class="relative reveal" style="transition-delay: 200ms;">
+                        <div class="absolute -left-[31.5px] md:-left-[39.5px] top-1 w-3 h-3 md:w-4 md:h-4 rounded-full bg-sage border-[2px] md:border-[3px] border-gold"></div>
+                        <span class="text-gold font-bold text-[9px] md:text-[10px] uppercase tracking-[0.2em] mb-1 md:mb-2 block">Step 02</span>
+                        <h4 class="font-playfair text-xl md:text-2xl text-charcoal mb-2 md:mb-3">Slow, Low-Temperature Infusion</h4>
+                        <p class="text-xs md:text-sm text-charcoal/70 leading-relaxed font-medium">Unlike quick-production methods, our herbs are infused slowly at a controlled low temperature for approximately 8 hours. This allows the oils to absorb natural properties while avoiding excessive heat exposure.</p>
+                    </div>
+                    <div class="relative reveal" style="transition-delay: 300ms;">
+                        <div class="absolute -left-[31.5px] md:-left-[39.5px] top-1 w-3 h-3 md:w-4 md:h-4 rounded-full bg-sage border-[2px] md:border-[3px] border-gold"></div>
+                        <span class="text-gold font-bold text-[9px] md:text-[10px] uppercase tracking-[0.2em] mb-1 md:mb-2 block">Step 03</span>
+                        <h4 class="font-playfair text-xl md:text-2xl text-charcoal mb-2 md:mb-3">Filtration & Purification</h4>
+                        <p class="text-xs md:text-sm text-charcoal/70 leading-relaxed font-medium">After infusion, the herbs are carefully filtered. The pure extracts are separated, allowed to cool naturally, and undergo strict final quality checks before packaging.</p>
+                    </div>
+                    <div class="relative reveal" style="transition-delay: 400ms;">
+                        <div class="absolute -left-[31.5px] md:-left-[39.5px] top-1 w-3 h-3 md:w-4 md:h-4 rounded-full bg-sage border-[2px] md:border-[3px] border-gold"></div>
+                        <span class="text-gold font-bold text-[9px] md:text-[10px] uppercase tracking-[0.2em] mb-1 md:mb-2 block">Step 04</span>
+                        <h4 class="font-playfair text-xl md:text-2xl text-charcoal mb-2 md:mb-3">Premium Cold-Pressed Oils</h4>
+                        <p class="text-xs md:text-sm text-charcoal/70 leading-relaxed font-medium">We blend our formula using a base of premium cold-pressed oils—including Argan, Jojoba, Almond, and Pumpkin Seed. These are valued because they are extracted purely without high heat processing.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-16 md:py-32 bg-cream relative overflow-hidden reveal">
+            <svg class="absolute top-[-10%] left-[20%] w-[40rem] md:w-[60rem] opacity-[0.04] -rotate-12 pointer-events-none z-0" viewBox="0 0 200 200" fill="none" stroke="#222222" stroke-width="0.3"><path d="M100,200 C100,100 10,100 10,10 C50,20 100,50 100,100 C100,50 150,20 190,10 C190,100 100,100 100,200 Z" /></svg>
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                <span class="text-charcoal/50 uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-3 block">Our Philosophy</span>
+                <h2 class="font-playfair text-3xl md:text-5xl text-charcoal mb-6 md:mb-8">Nature's Tradition, Crafted with Care.</h2>
+                <p class="text-sm md:text-lg text-charcoal/80 leading-relaxed mb-8 md:mb-10 max-w-3xl mx-auto px-4">
+                    At Elora Beauty by Rabi, we believe that quality starts long before a product reaches your hands. Our carefully prepared formulas combine traditional herbs and premium cold-pressed oils through slow, intentional processes. Prepared in small batches, our focus is always on ultimate consistency, safety, and purity.
+                </p>
+                <p class="font-greatvibes text-3xl md:text-5xl text-gold mb-2">Because you deserve the best — Rabi</p>
+                <i class="fa-regular fa-heart text-charcoal/30 text-xl mt-4" aria-hidden="true"></i>
+            </div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section id="reviews" class="py-16 md:py-24 bg-white border-t border-charcoal/5 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-0 md:px-6 lg:px-8">
+                <div class="text-center mb-10 md:mb-16 reveal px-4">
+                    <span class="text-charcoal/50 uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-2 block">What Our Customers Say</span>
+                    <h2 class="font-playfair text-3xl md:text-5xl text-charcoal">Real People. Real Results.</h2>
+                </div>
+                <div class="flex overflow-x-auto snap-x snap-mandatory hide-scroll md:grid md:grid-cols-3 gap-4 md:gap-8 pb-10 pt-4 -mt-4 px-4 md:px-0 md:pb-0 md:pt-0 md:-mt-0">
+                    
+                    <article class="min-w-[85vw] sm:min-w-[60vw] md:min-w-0 snap-center bg-cream border border-charcoal/5 p-6 md:p-8 rounded-lg shadow-sm hover:shadow-2xl md:hover:-translate-y-2 transition-all duration-300 reveal" style="transition-delay: 100ms;">
+                        <div class="text-gold mb-3 md:mb-4 text-[10px] md:text-xs flex gap-1" aria-label="5 out of 5 stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="text-xs md:text-sm text-charcoal/80 mb-6 md:mb-8 leading-relaxed">"I have been using Elora hair oil for a month now and my hair fall has reduced a lot. My hair feels stronger and healthier!"</p>
+                        <div class="flex items-center gap-3 md:gap-4 mt-auto">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-charcoal text-cream flex items-center justify-center font-playfair font-bold text-sm md:text-base" aria-hidden="true">A</div>
                             <div>
-                                <span class="flex items-baseline gap-1 font-playfair text-charcoal">
-                                    <span class="text-lg md:text-xl font-medium text-charcoal/60">Rs.</span>
-                                    <span class="text-3xl md:text-4xl font-bold">1,850</span>
-                                </span>
-                                <span class="block text-[10px] md:text-xs font-bold uppercase tracking-widest text-charcoal/50 mt-1">200 ml (6.76 fl. oz.)</span>
+                                <h4 class="font-bold text-xs md:text-sm text-charcoal flex items-center gap-2">Ayesha Khan <span class="text-[#25D366] text-[8px] md:text-[9px] uppercase tracking-widest font-bold whitespace-nowrap"><i class="fa-solid fa-circle-check"></i> Verified</span></h4>
+                                <span class="text-[8px] md:text-[10px] text-charcoal/50 uppercase tracking-widest font-bold">Islamabad</span>
                             </div>
-                            <a href="https://wa.me/923332952456?text=Hello%20Elora%20Beauty,%20I%20would%20like%20to%20order%20the%20Herbal%20Hair%20Oil" target="_blank" class="bg-charcoal text-cream py-4 px-8 rounded-sm inline-flex items-center justify-center gap-3 text-xs md:text-sm uppercase tracking-widest font-bold transition-all shadow-lg shrink-0 btn-glow no-underline">
-                                <i class="fa-brands fa-whatsapp text-xl shrink-0"></i> Order Now
-                            </a>
                         </div>
-                        <p class="text-[9px] md:text-[10px] text-charcoal/50 uppercase tracking-widest font-bold flex items-center gap-2 mt-4 md:mt-5">
-                            <i class="fa-solid fa-shield-check text-gold"></i> ✓ Nationwide Delivery Available
-                        </p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-0 items-center reveal">
-                    <div class="lg:col-span-6 flex flex-col justify-center pt-2 md:py-0 order-2 lg:order-1 relative z-20">
-                        <span class="text-gold font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] mb-2 md:mb-3 block">Daily Radiance</span>
-                        <h3 class="font-playfair text-3xl md:text-4xl lg:text-5xl text-charcoal mb-3 md:mb-4 leading-tight">Whitening & Brightening<br>Cream</h3>
-                        <p class="text-[12px] md:text-sm text-charcoal/70 font-bold uppercase tracking-widest mb-6 md:mb-8 pb-4 border-b border-charcoal/10 leading-relaxed">
-                            Enriched with 24K Gold, Vitamin C & Natural Extracts
-                        </p>
-                        <ul class="space-y-3 md:space-y-4 text-sm md:text-base font-medium text-charcoal/80 mb-8 md:mb-10">
-                            <li class="flex items-start gap-3 md:gap-4"><span class="text-gold font-bold text-lg leading-none">—</span> <span>Helps brighten & even skin tone</span></li>
-                            <li class="flex items-start gap-3 md:gap-4"><span class="text-gold font-bold text-lg leading-none">—</span> <span>Deeply nourishes & hydrates</span></li>
-                            <li class="flex items-start gap-3 md:gap-4"><span class="text-gold font-bold text-lg leading-none">—</span> <span>Provides Sun Protection & SPF Boost</span></li>
-                            <li class="flex items-start gap-3 md:gap-4"><span class="text-gold font-bold text-lg leading-none">—</span> <span>Gentle & effective for all skin types</span></li>
-                        </ul>
-                        <div class="flex flex-col sm:flex-row sm:items-center gap-5 md:gap-6">
+                    </article>
+                    
+                    <article class="min-w-[85vw] sm:min-w-[60vw] md:min-w-0 snap-center bg-cream border border-charcoal/5 p-6 md:p-8 rounded-lg shadow-sm hover:shadow-2xl md:hover:-translate-y-2 transition-all duration-300 reveal" style="transition-delay: 200ms;">
+                        <div class="text-gold mb-3 md:mb-4 text-[10px] md:text-xs flex gap-1" aria-label="5 out of 5 stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="text-xs md:text-sm text-charcoal/80 mb-6 md:mb-8 leading-relaxed">"The beauty cream really works! My skin looks brighter, smoother and more hydrated. I'm in love with this product."</p>
+                        <div class="flex items-center gap-3 md:gap-4 mt-auto">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gold text-charcoal flex items-center justify-center font-playfair font-bold text-sm md:text-base" aria-hidden="true">S</div>
                             <div>
-                                <span class="flex items-baseline gap-1 font-playfair text-charcoal">
-                                    <span class="text-lg md:text-xl font-medium text-charcoal/60">Rs.</span>
-                                    <span class="text-3xl md:text-4xl font-bold">1,100</span>
-                                </span>
-                                <span class="block text-[10px] md:text-xs font-bold uppercase tracking-widest text-charcoal/50 mt-1">For All Skin Types</span>
+                                <h4 class="font-bold text-xs md:text-sm text-charcoal flex items-center gap-2">Sana Ahmed <span class="text-[#25D366] text-[8px] md:text-[9px] uppercase tracking-widest font-bold whitespace-nowrap"><i class="fa-solid fa-circle-check"></i> Verified</span></h4>
+                                <span class="text-[8px] md:text-[10px] text-charcoal/50 uppercase tracking-widest font-bold">Lahore</span>
                             </div>
-                            <a href="https://wa.me/923332952456?text=Hello%20Elora%20Beauty,%20I%20would%20like%20to%20order%20the%20Whitening%20%26%20Brightening%20Cream" target="_blank" class="bg-charcoal text-cream py-4 px-8 rounded-sm inline-flex items-center justify-center gap-3 text-xs md:text-sm uppercase tracking-widest font-bold transition-all shadow-lg shrink-0 btn-glow no-underline">
-                                <i class="fa-brands fa-whatsapp text-xl shrink-0"></i> Order Now
-                            </a>
                         </div>
-                        <p class="text-[9px] md:text-[10px] text-charcoal/50 uppercase tracking-widest font-bold flex items-center gap-2 mt-4 md:mt-5">
-                            <i class="fa-solid fa-shield-check text-gold"></i> ✓ Nationwide Delivery Available
-                        </p>
-                    </div>
-                    <div class="lg:col-span-5 lg:col-start-8 relative group order-1 lg:order-2 z-10 cursor-pointer rounded-xl overflow-hidden shadow-2xl h-[28rem] sm:h-[32rem] md:h-[36rem] lg:h-[42rem]">
-                        <img src="Creme Image_4.jpg" alt="Whitening & Brightening Cream" class="w-full h-full object-cover object-center slow-pan bg-cream relative z-10">
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="process" class="py-24 md:py-32 bg-sage relative overflow-hidden">
-        <div class="max-w-4xl mx-auto px-6 sm:px-8 lg:px-8">
-            <div class="text-center mb-16 md:mb-20 reveal">
-                <span class="text-gold uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-3 block">Our Traditional Process</span>
-                <h2 class="font-playfair text-3xl md:text-5xl text-charcoal">The Art of Herbal Infusion</h2>
-                <p class="mt-4 md:mt-6 text-sm md:text-base text-charcoal/70 max-w-2xl mx-auto">Quality starts long before a product reaches your hands. We use a slow, intentional process to preserve the pure qualities of every ingredient.</p>
-            </div>
-            
-            <div class="relative border-l border-gold/40 pl-6 md:pl-8 ml-2 md:ml-auto md:mr-auto space-y-12 md:space-y-16 max-w-2xl">
-                <div class="relative reveal">
-                    <div class="absolute -left-[31.5px] md:-left-[39.5px] top-1 w-3 h-3 md:w-4 md:h-4 rounded-full bg-sage border-[2px] md:border-[3px] border-gold"></div>
-                    <span class="text-gold font-bold text-[9px] md:text-[10px] uppercase tracking-[0.2em] mb-1 md:mb-2 block">Step 01</span>
-                    <h4 class="font-playfair text-xl md:text-2xl text-charcoal mb-2 md:mb-3">Selecting Premium Herbs</h4>
-                    <p class="text-xs md:text-sm text-charcoal/70 leading-relaxed font-medium">We carefully choose a blend of traditional herbs, including Amla, Reetha, Shikakai, Rosemary Leaves, Black Cumin, Methi Dana, and Ratanjot.</p>
-                </div>
-                <div class="relative reveal">
-                    <div class="absolute -left-[31.5px] md:-left-[39.5px] top-1 w-3 h-3 md:w-4 md:h-4 rounded-full bg-sage border-[2px] md:border-[3px] border-gold"></div>
-                    <span class="text-gold font-bold text-[9px] md:text-[10px] uppercase tracking-[0.2em] mb-1 md:mb-2 block">Step 02</span>
-                    <h4 class="font-playfair text-xl md:text-2xl text-charcoal mb-2 md:mb-3">Slow, Low-Temperature Infusion</h4>
-                    <p class="text-xs md:text-sm text-charcoal/70 leading-relaxed font-medium">Unlike quick-production methods, our herbs are infused slowly at a controlled low temperature for approximately 8 hours. This allows the oils to absorb natural properties while avoiding excessive heat exposure.</p>
-                </div>
-                <div class="relative reveal">
-                    <div class="absolute -left-[31.5px] md:-left-[39.5px] top-1 w-3 h-3 md:w-4 md:h-4 rounded-full bg-sage border-[2px] md:border-[3px] border-gold"></div>
-                    <span class="text-gold font-bold text-[9px] md:text-[10px] uppercase tracking-[0.2em] mb-1 md:mb-2 block">Step 03</span>
-                    <h4 class="font-playfair text-xl md:text-2xl text-charcoal mb-2 md:mb-3">Filtration & Purification</h4>
-                    <p class="text-xs md:text-sm text-charcoal/70 leading-relaxed font-medium">After infusion, the herbs are carefully filtered. The pure extracts are separated, allowed to cool naturally, and undergo strict final quality checks before packaging.</p>
-                </div>
-                <div class="relative reveal">
-                    <div class="absolute -left-[31.5px] md:-left-[39.5px] top-1 w-3 h-3 md:w-4 md:h-4 rounded-full bg-sage border-[2px] md:border-[3px] border-gold"></div>
-                    <span class="text-gold font-bold text-[9px] md:text-[10px] uppercase tracking-[0.2em] mb-1 md:mb-2 block">Step 04</span>
-                    <h4 class="font-playfair text-xl md:text-2xl text-charcoal mb-2 md:mb-3">Premium Cold-Pressed Oils</h4>
-                    <p class="text-xs md:text-sm text-charcoal/70 leading-relaxed font-medium">We blend our formula using a base of premium cold-pressed oils—including Argan, Jojoba, Almond, and Pumpkin Seed. These are valued because they are extracted purely without high heat processing.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="py-24 md:py-32 bg-cream relative overflow-hidden reveal">
-        <svg class="absolute top-[-10%] left-[20%] w-[40rem] md:w-[60rem] opacity-[0.04] -rotate-12 pointer-events-none z-0" viewBox="0 0 200 200" fill="none" stroke="#222222" stroke-width="0.3">
-            <path d="M100,200 C100,100 10,100 10,10 C50,20 100,50 100,100 C100,50 150,20 190,10 C190,100 100,100 100,200 Z" />
-        </svg>
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <span class="text-charcoal/50 uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-3 block">Our Philosophy</span>
-            <h2 class="font-playfair text-3xl md:text-5xl text-charcoal mb-6 md:mb-8">Nature's Tradition, Crafted with Care.</h2>
-            <p class="text-sm md:text-lg text-charcoal/80 leading-relaxed mb-8 md:mb-10 max-w-3xl mx-auto px-4">
-                At Elora Beauty by Rabi, we believe that quality starts long before a product reaches your hands. Our carefully prepared formulas combine traditional herbs and premium cold-pressed oils through slow, intentional processes. Prepared in small batches, our focus is always on ultimate consistency, safety, and purity.
-            </p>
-            <p class="font-greatvibes text-3xl md:text-5xl text-gold mb-2">Because you deserve the best — Rabi</p>
-            <i class="fa-regular fa-heart text-charcoal/30 text-xl mt-4"></i>
-        </div>
-    </section>
-
-    <section id="reviews" class="py-24 bg-white border-t border-charcoal/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
-                <span class="text-charcoal/50 uppercase tracking-[0.2em] text-xs font-bold mb-3 block">What Our Customers Say</span>
-                <h2 class="font-playfair text-4xl md:text-5xl text-charcoal">Real People. Real Results.</h2>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-cream border border-charcoal/5 p-8 rounded-lg shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 reveal" style="transition-delay: 100ms;">
-                    <div class="text-gold mb-4 text-xs flex gap-1">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-sm text-charcoal/80 mb-8 leading-relaxed">
-                        "I have been using Elora hair oil for a month now and my hair fall has reduced a lot. My hair feels stronger and healthier!"
-                    </p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-full bg-charcoal text-cream flex items-center justify-center font-playfair font-bold">A</div>
-                        <div>
-                            <h4 class="font-bold text-sm text-charcoal flex items-center gap-2">
-                                Ayesha Khan 
-                                <span class="text-[#25D366] text-[9px] uppercase tracking-widest font-bold whitespace-nowrap"><i class="fa-solid fa-circle-check"></i> Verified</span>
-                            </h4>
-                            <span class="text-[10px] text-charcoal/50 uppercase tracking-widest font-bold">Islamabad</span>
+                    </article>
+                    
+                    <article class="min-w-[85vw] sm:min-w-[60vw] md:min-w-0 snap-center bg-cream border border-charcoal/5 p-6 md:p-8 rounded-lg shadow-sm hover:shadow-2xl md:hover:-translate-y-2 transition-all duration-300 reveal" style="transition-delay: 300ms;">
+                        <div class="text-gold mb-3 md:mb-4 text-[10px] md:text-xs flex gap-1" aria-label="5 out of 5 stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="text-xs md:text-sm text-charcoal/80 mb-6 md:mb-8 leading-relaxed">"Both products are amazing. 100% herbal and no side effects. Highly recommended!"</p>
+                        <div class="flex items-center gap-3 md:gap-4 mt-auto">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-charcoal text-cream flex items-center justify-center font-playfair font-bold text-sm md:text-base" aria-hidden="true">M</div>
+                            <div>
+                                <h4 class="font-bold text-xs md:text-sm text-charcoal flex items-center gap-2">Mehwish Tariq <span class="text-[#25D366] text-[8px] md:text-[9px] uppercase tracking-widest font-bold whitespace-nowrap"><i class="fa-solid fa-circle-check"></i> Verified</span></h4>
+                                <span class="text-[8px] md:text-[10px] text-charcoal/50 uppercase tracking-widest font-bold">Karachi</span>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="bg-cream border border-charcoal/5 p-8 rounded-lg shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 reveal" style="transition-delay: 200ms;">
-                    <div class="text-gold mb-4 text-xs flex gap-1">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-sm text-charcoal/80 mb-8 leading-relaxed">
-                        "The beauty cream really works! My skin looks brighter, smoother and more hydrated. I'm in love with this product."
-                    </p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-full bg-gold text-charcoal flex items-center justify-center font-playfair font-bold">S</div>
-                        <div>
-                            <h4 class="font-bold text-sm text-charcoal flex items-center gap-2">
-                                Sana Ahmed 
-                                <span class="text-[#25D366] text-[9px] uppercase tracking-widest font-bold whitespace-nowrap"><i class="fa-solid fa-circle-check"></i> Verified</span>
-                            </h4>
-                            <span class="text-[10px] text-charcoal/50 uppercase tracking-widest font-bold">Lahore</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-cream border border-charcoal/5 p-8 rounded-lg shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 reveal" style="transition-delay: 300ms;">
-                    <div class="text-gold mb-4 text-xs flex gap-1">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-sm text-charcoal/80 mb-8 leading-relaxed">
-                        "Both products are amazing. 100% herbal and no side effects. Highly recommended!"
-                    </p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-full bg-charcoal text-cream flex items-center justify-center font-playfair font-bold">M</div>
-                        <div>
-                            <h4 class="font-bold text-sm text-charcoal flex items-center gap-2">
-                                Mehwish Tariq 
-                                <span class="text-[#25D366] text-[9px] uppercase tracking-widest font-bold whitespace-nowrap"><i class="fa-solid fa-circle-check"></i> Verified</span>
-                            </h4>
-                            <span class="text-[10px] text-charcoal/50 uppercase tracking-widest font-bold">Karachi</span>
-                        </div>
-                    </div>
+                    </article>
+
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <footer class="bg-charcoal text-cream py-16 reveal">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
-                <div class="text-center md:text-left flex flex-col gap-3">
+    <!-- DESKTOP FOOTER (Hidden on Mobile) -->
+    <footer class="hidden md:block bg-charcoal text-cream py-16">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="grid grid-cols-3 gap-12 items-center text-left">
+                <div class="flex flex-col gap-3">
                     <h5 class="text-cream font-bold uppercase tracking-widest text-xs mb-2">Quick Links</h5>
                     <a href="#home" class="text-sm text-cream/70 hover:text-gold transition-colors no-underline">Home</a>
                     <a href="#products" class="text-sm text-cream/70 hover:text-gold transition-colors no-underline">Products</a>
                     <a href="#process" class="text-sm text-cream/70 hover:text-gold transition-colors no-underline">Our Process</a>
                 </div>
-                <div class="flex flex-row items-center justify-center space-x-3">
+                <div class="flex flex-row items-center justify-center space-x-3 text-center">
                     <img src="Logo Only_2.svg" alt="Elora Beauty Icon" class="h-24 w-auto">
                     <div class="flex flex-col items-center justify-center">
                         <span class="font-playfair text-3xl tracking-[0.15em] font-bold text-cream leading-none pl-[0.15em]">ELORA</span>
@@ -393,15 +420,16 @@
                         <span class="font-greatvibes text-gold text-2xl leading-tight mt-0.5">by Rabi</span>
                     </div>
                 </div>
-                <div class="text-center md:text-right">
-                    <h5 class="text-cream font-bold uppercase tracking-widest text-xs mb-4">Contact Us</h5>
-                    <a href="https://wa.me/923332952456" class="text-cream/80 hover:text-gold transition-colors text-sm flex items-center justify-center md:justify-end gap-2 mb-4 no-underline">
+                <div class="flex flex-col items-end gap-5">
+                    <a href="https://wa.me/923332952456" target="_blank" rel="noopener noreferrer" class="text-cream/80 hover:text-gold transition-colors text-sm flex items-center justify-end gap-2 no-underline">
                         <i class="fa-brands fa-whatsapp text-gold text-lg"></i> +92 333 2952456
                     </a>
-                    <div class="flex items-center justify-center md:justify-end gap-4 text-cream/70">
-                        <a href="#" class="hover:text-gold transition-colors text-xl no-underline"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="#" class="hover:text-gold transition-colors text-xl no-underline"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="hover:text-gold transition-colors text-xl no-underline"><i class="fa-brands fa-tiktok"></i></a>
+                    
+                    <!-- Desktop Glowing Social Icons -->
+                    <div class="flex items-center justify-end gap-5">
+                        <a href="#" aria-label="Visit our Facebook page" class="text-cream/70 hover:text-gold hover:-translate-y-1 hover:drop-shadow-[0_0_15px_rgba(212,175,55,0.8)] transition-all duration-300 text-xl no-underline"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Visit our Instagram page" class="text-cream/70 hover:text-gold hover:-translate-y-1 hover:drop-shadow-[0_0_15px_rgba(212,175,55,0.8)] transition-all duration-300 text-xl no-underline"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" aria-label="Visit our TikTok page" class="text-cream/70 hover:text-gold hover:-translate-y-1 hover:drop-shadow-[0_0_15px_rgba(212,175,55,0.8)] transition-all duration-300 text-xl no-underline"><i class="fa-brands fa-tiktok"></i></a>
                     </div>
                 </div>
             </div>
@@ -411,10 +439,49 @@
         </div>
     </footer>
 
-    <a href="https://wa.me/923332952456" target="_blank" title="Chat with us" class="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 hover:shadow-[0_0_20px_rgba(37,211,102,0.5)] transition-all z-50 flex items-center justify-center no-underline">
-        <i class="fa-brands fa-whatsapp text-3xl"></i>
-    </a>
+    <!-- PREMIUM EDITORIAL MOBILE FOOTER (Re-thought, No Text) -->
+    <footer class="md:hidden bg-charcoal text-cream pt-16 pb-28 border-t border-white/5 relative overflow-hidden">
+        
+        <i class="fa-solid fa-leaf absolute -bottom-10 -right-10 text-[12rem] text-cream/5 -rotate-12 pointer-events-none" aria-hidden="true"></i>
+        
+        <div class="max-w-7xl mx-auto px-6 relative z-10 flex flex-col items-center text-center">
+            
+            <!-- Restored Horizontal Logo -->
+            <div class="flex flex-row items-center justify-center space-x-3 mb-10 text-center">
+                <img src="Logo Only_2.svg" alt="Elora Beauty Icon" class="h-16 w-auto">
+                <div class="flex flex-col items-center justify-center">
+                    <span class="font-playfair text-2xl tracking-[0.15em] font-bold text-cream leading-none pl-[0.15em]">ELORA</span>
+                    <span class="font-montserrat text-[7px] uppercase tracking-[0.4em] font-semibold text-cream/70 mt-1 pl-[0.4em]">BEAUTY</span>
+                    <span class="font-greatvibes text-gold text-lg leading-tight mt-0.5">by Rabi</span>
+                </div>
+            </div>
 
+            <!-- WhatsApp Link -->
+            <div class="mb-10">
+                <a href="https://wa.me/923332952456" target="_blank" rel="noopener noreferrer" class="text-sm text-cream/90 hover:text-gold hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] transition-all duration-300 flex items-center justify-center gap-3 no-underline tracking-widest font-medium">
+                    <i class="fa-brands fa-whatsapp text-gold text-lg"></i> +92 333 2952456
+                </a>
+            </div>
+
+            <!-- Mobile Glowing Social Icons -->
+            <div class="flex items-center gap-8 mb-12">
+                <a href="#" aria-label="Instagram" class="text-cream/40 hover:text-gold hover:-translate-y-1 hover:drop-shadow-[0_0_15px_rgba(212,175,55,0.8)] transition-all duration-300 text-2xl no-underline"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="Facebook" class="text-cream/40 hover:text-gold hover:-translate-y-1 hover:drop-shadow-[0_0_15px_rgba(212,175,55,0.8)] transition-all duration-300 text-2xl no-underline"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" aria-label="TikTok" class="text-cream/40 hover:text-gold hover:-translate-y-1 hover:drop-shadow-[0_0_15px_rgba(212,175,55,0.8)] transition-all duration-300 text-2xl no-underline"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+
+            <p class="text-[9px] text-cream/30 uppercase tracking-[0.2em]">&copy; 2026 Elora Beauty by Rabi.</p>
+        </div>
+    </footer>
+
+    <!-- UNIFIED FLOATING ACTION BUTTON (Icon Only) -->
+    <div class="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 pointer-events-none">
+        <a href="https://wa.me/923332952456" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp" class="pointer-events-auto relative bg-[#25D366] text-white w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-full shadow-[0_4px_20px_rgba(37,211,102,0.4)] hover:scale-110 active:scale-95 transition-transform duration-300 overflow-hidden no-underline animate-shine">
+            <i class="fa-brands fa-whatsapp text-3xl md:text-4xl z-10 relative block"></i>
+        </a>
+    </div>
+
+    <!-- UI Scripts -->
     <script>
         const mobileToggle = document.getElementById('mobile-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -426,15 +493,15 @@
             const isClosed = mobileMenu.classList.contains('translate-x-full');
             if (isClosed) {
                 mobileOverlay.classList.remove('hidden');
-                setTimeout(() => {
-                    mobileOverlay.classList.remove('opacity-0');
-                    mobileMenu.classList.remove('translate-x-full');
+                setTimeout(() => { 
+                    mobileOverlay.classList.remove('opacity-0'); 
+                    mobileMenu.classList.remove('translate-x-full'); 
                 }, 10);
             } else {
                 mobileMenu.classList.add('translate-x-full');
                 mobileOverlay.classList.add('opacity-0');
-                setTimeout(() => {
-                    mobileOverlay.classList.add('hidden');
+                setTimeout(() => { 
+                    mobileOverlay.classList.add('hidden'); 
                 }, 300);
             }
         }
@@ -450,31 +517,42 @@
         const beautyText = document.getElementById('header-beauty');
         const rabiText = document.getElementById('header-rabi');
         
+        let isShrunk = false;
+
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('bg-cream/95', 'backdrop-blur-md', 'py-2', 'shadow-md');
-                header.classList.remove('texture-linen', 'py-4', 'shadow-sm');
-                logo.classList.add('h-14');
-                logo.classList.remove('h-24');
-                eloraText.classList.replace('text-3xl', 'text-xl');
-                beautyText.classList.replace('text-[10px]', 'text-[7px]');
-                rabiText.classList.replace('text-2xl', 'text-lg');
-            } else {
-                header.classList.add('texture-linen', 'py-4', 'shadow-sm');
-                header.classList.remove('bg-cream/95', 'backdrop-blur-md', 'py-2', 'shadow-md');
-                logo.classList.add('h-24');
-                logo.classList.remove('h-14');
-                eloraText.classList.replace('text-xl', 'text-3xl');
-                beautyText.classList.replace('text-[7px]', 'text-[10px]');
-                rabiText.classList.replace('text-lg', 'text-2xl');
+            if (window.scrollY > 50 && !isShrunk) {
+                isShrunk = true;
+                header.classList.add('bg-cream/95', 'backdrop-blur-md', 'shadow-md'); 
+                header.classList.remove('texture-linen', 'shadow-sm');
+                logo.classList.replace('h-16', 'h-12'); 
+                logo.classList.replace('md:h-24', 'md:h-14');
+                eloraText.classList.replace('text-2xl', 'text-lg'); 
+                eloraText.classList.replace('md:text-3xl', 'md:text-xl');
+                beautyText.classList.replace('text-[8px]', 'text-[6px]'); 
+                beautyText.classList.replace('md:text-[10px]', 'md:text-[7px]');
+                rabiText.classList.replace('text-xl', 'text-base'); 
+                rabiText.classList.replace('md:text-2xl', 'md:text-lg');
+            } else if (window.scrollY <= 50 && isShrunk) {
+                isShrunk = false;
+                header.classList.add('texture-linen', 'shadow-sm'); 
+                header.classList.remove('bg-cream/95', 'backdrop-blur-md', 'shadow-md');
+                logo.classList.replace('h-12', 'h-16'); 
+                logo.classList.replace('md:h-14', 'md:h-24');
+                eloraText.classList.replace('text-lg', 'text-2xl'); 
+                eloraText.classList.replace('md:text-xl', 'md:text-3xl');
+                beautyText.classList.replace('text-[6px]', 'text-[8px]'); 
+                beautyText.classList.replace('md:text-[7px]', 'md:text-[10px]');
+                rabiText.classList.replace('text-base', 'text-xl'); 
+                rabiText.classList.replace('md:text-lg', 'md:text-2xl');
             }
         });
 
         const revealElements = document.querySelectorAll('.reveal');
-        const revealObserver = new IntersectionObserver((entries) => {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
+                    observer.unobserve(entry.target); 
                 }
             });
         }, { threshold: 0.15 });
