@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Elora Beauty by Rabi. Handcrafted, 100% natural herbal hair and skin care solutions in Pakistan—steeped for 8 hours using 20+ whole herbs and 7 cold-pressed oils.">
+    <meta name="description" content="Elora Beauty by Rabi. Handcrafted, 100% natural herbal hair and skin care solutions in Pakistan—steeped for 8 hours using 11 whole herbs and 4 cold-pressed oils.">
     <meta name="theme-color" content="#161311">
     <link rel="canonical" href="https://elorabyrabi.store/">
     <link rel="icon" href="Logo Only_2.svg" type="image/svg+xml">
@@ -28,9 +28,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
-    <!-- Media-Aware LCP Hero Image Preloads (Only downloads the active hero for the device shape) -->
+    <!-- Media-Aware LCP Hero Image Preloads (Zero aspect-ratio dead zone) -->
     <link rel="preload" as="image" href="Mobile Hero V4.jpg" media="(max-aspect-ratio: 4/5)" fetchpriority="high">
-    <link rel="preload" as="image" href="Hero new_2.jpg" media="(min-aspect-ratio: 801/1000)" fetchpriority="high">
+    <link rel="preload" as="image" href="Hero new_2.jpg" media="not all and (max-aspect-ratio: 4/5)" fetchpriority="high">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&display=swap" rel="stylesheet">
@@ -60,8 +60,8 @@
                     },
                     screens: {
                         'portrait-hero': { 'raw': '(max-aspect-ratio: 4/5)' },
-                        'wide-hero': { 'raw': '(min-aspect-ratio: 801/1000)' },
-                        'short-land': { 'raw': '(min-aspect-ratio: 801/1000) and (max-height: 640px)' }
+                        'wide-hero': { 'raw': 'not all and (max-aspect-ratio: 4/5)' },
+                        'short-land': { 'raw': '(min-aspect-ratio: 4/5) and (max-height: 640px)' }
                     }
                 }
             }
@@ -69,13 +69,13 @@
     </script>
     
     <style>
-        /* Critical FOUC Prevention before Tailwind JS initializes */
+        /* Critical FOUC Prevention & Mutually Exclusive Aspect-Ratio Routing */
         .hidden { display: none; }
         @media (max-aspect-ratio: 4/5) {
             .portrait-hero\:flex { display: flex !important; }
             .wide-hero\:flex { display: none !important; }
         }
-        @media (min-aspect-ratio: 801/1000) {
+        @media not all and (max-aspect-ratio: 4/5) {
             .wide-hero\:flex { display: flex !important; }
             .portrait-hero\:flex { display: none !important; }
         }
@@ -109,8 +109,9 @@
         /* Smooth Editorial Reveal */
         .reveal { 
             opacity: 0; 
-            transform: translateY(28px); 
-            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); 
+            transform: translateY(24px); 
+            transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1); 
+            will-change: opacity, transform;
         }
         .reveal.active { 
             opacity: 1; 
@@ -156,6 +157,7 @@
             will-change: transform;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
+            image-rendering: -webkit-optimize-contrast;
         }
 
         /* Seamless multi-stop feathered gradient for Mobile/Tablet Portrait Hero */
@@ -177,9 +179,11 @@
             contain-intrinsic-size: auto 700px;
         }
 
-        /* Drawer paint containment for 60fps swipe gestures */
+        /* Drawer paint containment & dynamic viewport height for mobile keyboards */
         #mobile-drawer, #bag-drawer {
             contain: layout paint;
+            height: 100vh;
+            height: 100dvh;
         }
 
         /* Pill Hover Transitions */
@@ -210,17 +214,25 @@
             animation: bagPulse 0.38s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        /* Fly-to-Bag Floating Thumbnail Token */
+        .fly-to-bag-token {
+            position: fixed;
+            z-index: 70;
+            width: 44px;
+            height: 44px;
+            border-radius: 9999px;
+            border: 2px solid #c8a45d;
+            box-shadow: 0 12px 28px rgba(22, 19, 17, 0.38), 0 0 0 3px rgba(200, 164, 93, 0.22);
+            object-fit: cover;
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+
         html { scroll-padding-top: 84px; }
         :focus-visible { outline: 2px solid #c8a45d; outline-offset: 3px; }
         #dial-node-bar, #mobile-herb-pills, #astrolabe-dial-stage, #ing-lens-stage { touch-action: pan-y; }
         @media (max-width: 639px) { body .text-xs { font-size: .875rem; line-height: 1.6; } }
         @media (max-width: 1023px) { body.has-bag-items footer { padding-bottom: 5.5rem; } }
-        
-        /* Short landscape drawer usability: allow entire drawer to scroll smoothly on sideways phones */
-        @media (max-height: 680px) {
-            #bag-drawer { overflow-y: auto; }
-            #bag-items { overflow-y: visible; flex-grow: 0; }
-        }
 
         /* Contrast fixes: darker gold/green/greys on light surfaces */
         .bg-travertine .text-gold, .bg-cream .text-gold, .bg-sand\/70 .text-gold, .bg-sand\/40 .text-gold, header.bg-travertine\/95 .text-gold { color: #7a5c1f; }
@@ -229,10 +241,12 @@
         body .text-espresso\/60, body .text-espresso\/65 { color: rgba(22, 19, 17, .78); }
         body .text-cream\/35, body .text-cream\/40, body .text-cream\/45, body .text-cream\/50 { color: rgba(250, 247, 242, .7); }
         .bg-espresso .text-gold, .bg-espresso\/75 .text-gold, .bg-espresso\/75.text-gold, .bg-espresso\/80 .text-gold, .bg-umber .text-gold { color: #c8a45d; }
+        .js-add-btn:hover .js-add-icon { color: #161311 !important; }
         #bag-drawer .bg-espresso .text-\[\#25D366\] { color: #25D366; }
         
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto !important; }
+            .reveal { opacity: 1 !important; transform: none !important; }
             *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
         }
     </style>
@@ -254,7 +268,7 @@
                 "@type": "Product",
                 "name": "Elora Herbal Hair Oil (200 ml)",
                 "image": "https://elorabyrabi.store/Oil%20v4.jpg",
-                "description": "Deeply nourishing herbal hair oil steeped slowly for 8 hours at <45°C using 20+ whole herbs and 7 cold-pressed oils.",
+                "description": "Deeply nourishing herbal hair oil steeped slowly for 8 hours at <45°C using 11 whole herbs and 4 cold-pressed oils.",
                 "brand": { "@id": "https://elorabyrabi.store/#brand" },
                 "offers": {
                     "@type": "Offer",
@@ -281,6 +295,11 @@
                     "priceCurrency": "PKR",
                     "price": "1100",
                     "availability": "https://schema.org/InStock"
+                },
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "5.0",
+                    "reviewCount": "3"
                 }
             },
             {
@@ -295,6 +314,11 @@
                     "priceCurrency": "PKR",
                     "price": "2550",
                     "availability": "https://schema.org/InStock"
+                },
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "5.0",
+                    "reviewCount": "3"
                 }
             }
         ]
@@ -313,12 +337,11 @@
                 <button onclick="toggleMobileMenu()" class="lg:hidden w-9 h-9 shrink-0 aspect-square rounded-full border border-current/25 flex items-center justify-center text-current" aria-label="Open Menu">
                     <i class="fa-solid fa-bars-staggered text-sm"></i>
                 </button>
-                <nav class="hidden lg:flex items-center lg:gap-5 xl:gap-8 text-[11px] uppercase lg:tracking-[0.15em] xl:tracking-[0.22em] font-medium whitespace-nowrap">
+                <nav class="hidden lg:flex items-center lg:gap-6 xl:gap-9 text-[11px] uppercase lg:tracking-[0.18em] xl:tracking-[0.24em] font-medium whitespace-nowrap">
                     <a href="#duology" class="hover:text-gold transition-colors no-underline">Products</a>
                     <a href="#infusion" class="hover:text-gold transition-colors no-underline">8-Hr Process</a>
                     <a href="#herbarium" class="hover:text-gold transition-colors no-underline">Ingredients</a>
                     <a href="#patronage" class="hover:text-gold transition-colors no-underline">Our Story</a>
-                    <a href="#faq" class="hover:text-gold transition-colors no-underline">FAQ</a>
                 </nav>
             </div>
 
@@ -330,11 +353,8 @@
                 </a>
             </div>
 
-            <!-- Right: Clean Transparent Outline WhatsApp & Ritual Bag Trigger -->
+            <!-- Right: Ritual Bag Trigger -->
             <div class="w-1/4 sm:w-1/3 lg:w-2/5 flex items-center justify-end gap-2.5 sm:gap-4 lg:gap-5">
-                <a href="https://wa.me/923332952456" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center justify-center w-9 h-9 shrink-0 aspect-square rounded-full border border-current/30 hover:border-gold hover:text-gold transition-colors text-current no-underline" aria-label="Direct WhatsApp">
-                    <i class="fa-brands fa-whatsapp text-sm"></i>
-                </a>
                 <button onclick="openBag()" id="header-bag-btn" class="shrink-0 border border-current/50 rounded-full px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 text-[11px] sm:text-[11px] uppercase tracking-[0.16em] sm:tracking-[0.2em] lg:tracking-[0.22em] font-semibold hover:bg-cream hover:text-espresso transition-all duration-300 flex items-center gap-1.5 sm:gap-2.5 whitespace-nowrap">
                     <i class="fa-solid fa-bag-shopping text-[11px] sm:hidden"></i>
                     <span class="hidden sm:inline">Ritual Bag</span>
@@ -371,20 +391,21 @@
             <a href="#faq" onclick="toggleMobileMenu()" class="font-playfair text-2xl text-cream hover:text-gold no-underline">06. FAQ &amp; Delivery Info</a>
         </nav>
         <div class="pt-5 line-t-light flex justify-between items-center text-[11px] uppercase tracking-[0.2em] text-cream/60">
-            <span>Order on WhatsApp</span>
-            <a href="https://wa.me/923332952456" class="text-gold font-bold no-underline flex items-center gap-1.5">
+            <span>WhatsApp Concierge</span>
+            <a href="https://wa.me/923332952456" target="_blank" rel="noopener noreferrer" class="text-gold font-bold no-underline flex items-center gap-1.5">
                 <i class="fa-brands fa-whatsapp text-sm"></i> +92 333 2952456
             </a>
         </div>
     </aside>
 
-    <!-- SLIDE-OUT WHATSAPP RITUAL BAG (Supports Swipe-Right to Close) -->
+    <!-- SLIDE-OUT WHATSAPP RITUAL BAG (Supports Swipe-Right to Close + Unified Scroll Area for Mobile Keyboards) -->
     <div id="bag-overlay" onclick="closeBag()" class="fixed inset-0 bg-espresso/70 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"></div>
-    <aside id="bag-drawer" role="dialog" aria-modal="true" aria-label="Your Ritual Bag" inert class="fixed top-0 right-0 h-full w-full max-w-md bg-travertine text-espresso z-50 transform translate-x-full transition-transform duration-500 ease-out flex flex-col justify-between line-l shadow-2xl">
+    <aside id="bag-drawer" role="dialog" aria-modal="true" aria-label="Your Ritual Bag" inert class="fixed top-0 right-0 w-full max-w-md bg-travertine text-espresso z-50 transform translate-x-full transition-transform duration-500 ease-out flex flex-col justify-between line-l shadow-2xl">
         
-        <div class="p-5 sm:p-8 line-b flex justify-between items-center bg-cream shrink-0">
+        <!-- Pinned Top Header -->
+        <div class="px-5 py-4 sm:px-8 sm:py-6 line-b flex justify-between items-center bg-cream shrink-0">
             <div>
-                <span class="text-[11px] uppercase tracking-[0.28em] text-gold font-bold block mb-1">Order Summary</span>
+                <span class="text-[11px] uppercase tracking-[0.28em] text-gold font-bold block mb-0.5">Order Summary</span>
                 <h3 class="font-playfair text-xl sm:text-2xl">Your Ritual Bag</h3>
             </div>
             <button onclick="closeBag()" aria-label="Close Ritual Bag" class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-full border border-espresso/15 flex items-center justify-center hover:bg-espresso hover:text-cream transition-colors">
@@ -392,48 +413,58 @@
             </button>
         </div>
 
-        <div id="bag-items" class="p-5 sm:p-8 overflow-y-auto grow space-y-5 sm:space-y-6">
-            <!-- Populated via JS -->
-        </div>
+        <!-- Unified Scrollable Body (Items + Upsell + Delivery Details Form scroll together without viewport crunch) -->
+        <div id="bag-scroll-body" class="overflow-y-auto grow flex flex-col justify-between">
+            <div id="bag-items" class="p-5 sm:p-8 space-y-5 sm:space-y-6">
+                <!-- Populated via JS -->
+            </div>
 
-        <!-- One-Tap Companion Upsell -->
-        <div id="bag-upsell" class="px-5 sm:px-6 py-3.5 sm:py-4 bg-sand/70 line-t line-b hidden shrink-0">
-            <div class="flex items-center justify-between gap-4">
-                <div>
-                    <span class="text-[11px] uppercase tracking-[0.24em] text-espresso/60 font-bold block">Complete the Set &amp; Save Rs. 400</span>
-                    <p id="upsell-label" class="text-xs font-semibold text-espresso mt-0.5"></p>
+            <div>
+                <!-- One-Tap Companion Upsell -->
+                <div id="bag-upsell" class="px-5 sm:px-6 py-3.5 sm:py-4 bg-sand/70 line-t line-b hidden">
+                    <div class="flex items-center justify-between gap-4">
+                        <div>
+                            <span class="text-[11px] uppercase tracking-[0.24em] text-espresso/60 font-bold block">Complete the Set &amp; Save Rs. 400</span>
+                            <p id="upsell-label" class="text-xs font-semibold text-espresso mt-0.5"></p>
+                        </div>
+                        <button id="upsell-action" class="px-4 py-2 bg-umber text-cream text-[11px] uppercase tracking-[0.2em] font-bold hover:bg-gold hover:text-espresso transition-colors rounded-full shrink-0">
+                            + Add
+                        </button>
+                    </div>
                 </div>
-                <button id="upsell-action" class="px-4 py-2 bg-umber text-cream text-[11px] uppercase tracking-[0.2em] font-bold hover:bg-gold hover:text-espresso transition-colors rounded-full shrink-0">
-                    + Add
-                </button>
+
+                <!-- Delivery Details Section (Hidden when bag is empty; scrolls naturally above mobile keyboard) -->
+                <div id="bag-form-section" class="p-5 sm:px-8 sm:py-6 bg-cream/60 line-t space-y-3">
+                    <div class="flex justify-between items-center text-[11px] uppercase tracking-[0.2em] text-espresso/60 pb-2 line-b">
+                        <span>Shipping Method</span>
+                        <span class="font-semibold text-espresso">Nationwide Delivery (COD)</span>
+                    </div>
+                    <div class="space-y-2.5 pt-1">
+                        <p class="text-[11px] uppercase tracking-[0.16em] font-bold text-espresso/70">Delivery details</p>
+                        <input id="f-name" oninput="clearFieldError(this)" type="text" autocomplete="name" enterkeyhint="next" placeholder="Full name" aria-label="Full name" class="bag-input w-full bg-travertine border border-espresso/20 rounded-lg px-3 py-2.5 text-sm transition-shadow">
+                        <input id="f-phone" oninput="clearFieldError(this)" type="tel" autocomplete="tel" inputmode="tel" enterkeyhint="next" placeholder="Phone (e.g. 0333 1234567)" aria-label="Phone number" class="bag-input w-full bg-travertine border border-espresso/20 rounded-lg px-3 py-2.5 text-sm transition-shadow">
+                        <input id="f-city" oninput="clearFieldError(this)" type="text" autocomplete="address-level2" enterkeyhint="next" placeholder="City" aria-label="City" class="bag-input w-full bg-travertine border border-espresso/20 rounded-lg px-3 py-2.5 text-sm transition-shadow">
+                        <textarea id="f-addr" oninput="clearFieldError(this)" rows="2" autocomplete="street-address" enterkeyhint="done" placeholder="Full delivery address" aria-label="Delivery address" class="bag-input w-full bg-travertine border border-espresso/20 rounded-lg px-3 py-2.5 text-sm transition-shadow"></textarea>
+                        <p id="bag-saved" class="hidden text-xs font-semibold" style="color:#0f7a3f"></p>
+                        <p id="f-err" role="alert" class="hidden text-xs text-red-700 font-medium"></p>
+                        <div id="bag-confirmed" role="status" class="hidden p-3 rounded-lg bg-[#0f7a3f]/10 border border-[#0f7a3f]/30 text-xs text-espresso flex items-center justify-between gap-2">
+                            <span><strong style="color:#0f7a3f">Opened in WhatsApp!</strong> Send the message there to finish your COD order.</span>
+                            <button type="button" onclick="clearBagAfterOrder()" class="underline font-bold shrink-0 text-[11px] uppercase tracking-wider">Reset bag</button>
+                        </div>
+                        <p class="text-xs text-espresso/70">No payment now. We confirm your order on WhatsApp and you pay cash on delivery.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="p-5 sm:p-8 bg-cream space-y-4 shrink-0">
-            <div class="flex justify-between items-center text-[11px] uppercase tracking-[0.2em] text-espresso/60">
-                <span>Shipping Method</span>
-                <span class="font-semibold text-espresso">Nationwide Delivery (COD)</span>
-            </div>
-            <div class="flex justify-between items-baseline pt-3 line-t">
+        <!-- Compact Pinned Checkout Footer -->
+        <div class="px-5 pt-3.5 sm:px-8 sm:pt-5 bg-cream line-t space-y-3 shrink-0" style="padding-bottom:calc(1rem + env(safe-area-inset-bottom))">
+            <div class="flex justify-between items-baseline">
                 <span class="text-xs uppercase tracking-[0.22em] font-bold">Total Amount</span>
                 <div class="flex items-baseline gap-2">
                     <span id="bag-original-total" class="hidden font-playfair text-sm sm:text-base text-espresso/40 line-through">Rs. 2,950</span>
                     <span id="bag-total" class="font-playfair text-2xl sm:text-3xl font-bold">Rs. 0</span>
                 </div>
-            </div>
-            <div class="space-y-2.5">
-                <p class="text-[11px] uppercase tracking-[0.16em] font-bold text-espresso/70">Delivery details</p>
-                <input id="f-name" oninput="clearFieldError(this)" type="text" autocomplete="name" enterkeyhint="next" placeholder="Full name" aria-label="Full name" class="bag-input w-full bg-travertine border border-espresso/20 rounded-lg px-3 py-2.5 text-sm transition-shadow">
-                <input id="f-phone" oninput="clearFieldError(this)" type="tel" autocomplete="tel" inputmode="tel" enterkeyhint="next" placeholder="Phone (e.g. 0333 1234567)" aria-label="Phone number" class="bag-input w-full bg-travertine border border-espresso/20 rounded-lg px-3 py-2.5 text-sm transition-shadow">
-                <input id="f-city" oninput="clearFieldError(this)" type="text" autocomplete="address-level2" enterkeyhint="next" placeholder="City" aria-label="City" class="bag-input w-full bg-travertine border border-espresso/20 rounded-lg px-3 py-2.5 text-sm transition-shadow">
-                <textarea id="f-addr" oninput="clearFieldError(this)" rows="2" autocomplete="street-address" enterkeyhint="done" placeholder="Full delivery address" aria-label="Delivery address" class="bag-input w-full bg-travertine border border-espresso/20 rounded-lg px-3 py-2.5 text-sm transition-shadow"></textarea>
-                <p id="bag-saved" class="hidden text-xs font-semibold" style="color:#0f7a3f"></p>
-                <p id="f-err" role="alert" class="hidden text-xs text-red-700 font-medium"></p>
-                <div id="bag-confirmed" role="status" class="hidden p-3 rounded-lg bg-[#0f7a3f]/10 border border-[#0f7a3f]/30 text-xs text-espresso flex items-center justify-between gap-2">
-                    <span><strong style="color:#0f7a3f">Opened in WhatsApp!</strong> Send the message there to finish your COD order.</span>
-                    <button type="button" onclick="clearBagAfterOrder()" class="underline font-bold shrink-0 text-[11px] uppercase tracking-wider">Reset bag</button>
-                </div>
-                <p class="text-xs text-espresso/70">No payment now. We confirm your order on WhatsApp and you pay cash on delivery.</p>
             </div>
             <button id="confirm-btn" onclick="dispatchWhatsApp()" class="w-full py-4 bg-espresso text-cream hover:bg-gold hover:text-espresso rounded-full text-[11px] sm:text-[11px] uppercase tracking-[0.22em] font-bold transition-all duration-300 flex items-center justify-center gap-3 shadow-xl">
                 <i class="fa-brands fa-whatsapp text-lg text-[#25D366]"></i>
@@ -451,14 +482,14 @@
             
             <div class="absolute inset-x-0 top-0 h-[72%] md:h-[75%] overflow-hidden pointer-events-none">
                 <picture class="contents">
-                    <source media="(min-aspect-ratio: 801/1000)" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+                    <source media="not all and (max-aspect-ratio: 4/5)" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
                     <img src="Mobile Hero V4.jpg" width="900" height="1200" fetchpriority="high" decoding="async" alt="Elora Beauty Editorial Portrait" class="w-full h-full object-cover object-top">
                 </picture>
                 <div class="absolute inset-x-0 top-0 -bottom-1 hero-portrait-fade"></div>
                 <div class="absolute inset-0 bg-gradient-to-r from-espresso/45 via-transparent to-transparent"></div>
             </div>
 
-            <div class="relative z-10 px-5 sm:px-8 md:px-12 pb-6 md:pb-12 pt-8 space-y-4 md:space-y-5 max-w-3xl">
+            <div class="relative z-10 px-5 sm:px-8 md:px-12 pb-6 md:pb-12 pt-8 space-y-4 md:space-y-5 max-w-3xl reveal active">
                 <div class="flex items-center gap-3">
                     <span class="w-6 h-[1.5px] bg-gold shrink-0"></span>
                     <span class="text-gold text-[11px] uppercase tracking-[0.28em] font-bold">
@@ -472,7 +503,7 @@
                         purely, timelessly you.
                     </h1>
                     <p class="text-cream/80 text-xs md:text-sm leading-relaxed font-light max-w-xl">
-                        Handcrafted hair and skin care steeped for 8 hours using 20+ whole herbs, 7 cold-pressed oils, and no synthetic fragrances, mineral oils or parabens.
+                        Handcrafted hair and skin care steeped for 8 hours using 11 whole herbs, 4 cold-pressed oils, and no synthetic fragrances, mineral oils or parabens.
                     </p>
                 </div>
 
@@ -481,7 +512,7 @@
                         <span>Explore Duology</span>
                         <i class="fa-solid fa-arrow-down text-[11px]"></i>
                     </a>
-                    <button onclick="addDuoBundle()" class="hidden sm:inline-flex text-cream hover:text-gold text-[11px] uppercase tracking-[0.2em] font-semibold py-2.5 px-3 transition-colors underline underline-offset-4 decoration-cream/40 hover:decoration-gold">
+                    <button onclick="addDuoBundle(this)" class="hidden sm:inline-flex text-cream hover:text-gold text-[11px] uppercase tracking-[0.2em] font-semibold py-2.5 px-3 transition-colors underline underline-offset-4 decoration-cream/40 hover:decoration-gold">
                         + Buy Complete Bundle (Rs. 2,550)
                     </button>
                 </div>
@@ -489,8 +520,8 @@
         </section>
 
         <!-- ===================================================================
-             2B. HORIZONTAL, SQUARISH, FOLDABLE & DESKTOP HERO (min-aspect-ratio: 801/1000)
-             Shown on Desktops, Laptops, Landscape Tablets, Squarish/Foldables (e.g. 960x840, Galaxy Fold), and Landscape Phones
+             2B. HORIZONTAL, SQUARISH, FOLDABLE & DESKTOP HERO (not all and (max-aspect-ratio: 4/5))
+             Shown on Desktops, Laptops, Landscape Tablets, Squarish/Foldables, and Landscape Phones
              =================================================================== -->
         <section class="hidden wide-hero:flex relative w-full h-[100svh] min-h-[600px] xl:min-h-[660px] short-land:h-auto short-land:min-h-[100svh] bg-espresso text-cream overflow-hidden flex-col justify-between select-none">
             
@@ -518,14 +549,14 @@
                             purely, timelessly you.
                         </h1>
                         <p class="hidden short-land:block text-cream/85 text-xs leading-relaxed max-w-md mb-4 font-light drop-shadow">
-                            Steeped for 8 hours using 20+ whole herbs and 7 cold-pressed oils—with no mineral oils or parabens.
+                            Steeped for 8 hours using 11 whole herbs and 4 cold-pressed oils—with no mineral oils or parabens.
                         </p>
                         <div class="flex flex-wrap items-center gap-3 lg:gap-4">
                             <a href="#duology" class="bg-gold text-espresso hover:bg-cream transition-colors shadow-lg rounded-full px-6 md:px-8 lg:px-9 py-3 md:py-3.5 lg:py-4 short-land:px-6 short-land:py-2.5 text-[10px] lg:text-[11px] uppercase tracking-[0.22em] lg:tracking-[0.24em] font-semibold no-underline inline-flex items-center gap-2.5 lg:gap-3">
                                 <span>Explore Duology</span>
                                 <i class="fa-solid fa-arrow-right text-[11px]"></i>
                             </a>
-                            <button onclick="addDuoBundle()" class="text-cream text-[10px] lg:text-[11px] uppercase tracking-[0.2em] lg:tracking-[0.22em] font-semibold py-2.5 lg:py-3 px-3 lg:px-4 transition-colors relative after:absolute after:bottom-1.5 lg:after:bottom-2 after:left-3 lg:after:left-4 after:w-[calc(100%-1.5rem)] lg:after:w-[calc(100%-2rem)] after:h-[1px] after:bg-cream/40 hover:after:bg-gold hover:text-gold">
+                            <button onclick="addDuoBundle(this)" class="text-cream text-[10px] lg:text-[11px] uppercase tracking-[0.2em] lg:tracking-[0.22em] font-semibold py-2.5 lg:py-3 px-3 lg:px-4 transition-colors relative after:absolute after:bottom-1.5 lg:after:bottom-2 after:left-3 lg:after:left-4 after:w-[calc(100%-1.5rem)] lg:after:w-[calc(100%-2rem)] after:h-[1px] after:bg-cream/40 hover:after:bg-gold hover:text-gold">
                                 + Buy Complete Bundle (Rs. 2,550)
                             </button>
                         </div>
@@ -536,7 +567,7 @@
                 <div class="block short-land:hidden relative w-full pt-3 xl:pt-4">
                     <div class="flex items-end justify-between gap-6 mb-3 xl:mb-4 relative z-20">
                         <p class="text-cream/90 text-xs leading-relaxed max-w-sm font-light drop-shadow-md">
-                            Explore a thoughtfully curated edit of 100% herbal hair and skin care essentials — steeped for 8 hours using 20+ whole botanicals, 7 cold-pressed oils, and no synthetic fragrances, mineral oils or parabens.
+                            Explore a thoughtfully curated edit of 100% herbal hair and skin care essentials — steeped for 8 hours using 11 whole herbs, 4 cold-pressed oils, and no synthetic fragrances, mineral oils or parabens.
                         </p>
                     </div>
 
@@ -583,7 +614,7 @@
         <!-- 3. PRODUCTS SECTION -->
         <section id="duology" class="max-w-[1700px] mx-auto">
             
-            <div class="grid grid-cols-12 line-b bg-travertine px-4 sm:px-10 lg:px-14 py-5 sm:py-8 items-center">
+            <div class="grid grid-cols-12 line-b bg-travertine px-4 sm:px-10 lg:px-14 py-5 sm:py-8 items-center reveal">
                 <div class="col-span-12 md:col-span-6">
                     <span class="text-[11px] sm:text-[11px] uppercase tracking-[0.3em] text-gold font-bold block mb-0.5 sm:mb-1">Our Collection</span>
                     <h2 class="font-playfair text-2xl sm:text-4xl">Hair &amp; Skin Essentials</h2>
@@ -595,13 +626,12 @@
 
             <!-- ===============================================================
                  3A. MOBILE & TABLET PRODUCT CARDS (< 1024px)
-                 1-Column on Phones, 2-Column Side-by-Side Grid on Tablets (md: 768px-1023px)
-                 Compact V4 Button/Tab Sizing Preserved + Golden Tab Underline + Swipeable Tabs
+                 Prominent Espresso + Gold Rim Add to Bag CTA + Stabilized Tab Panel Heights
                  =============================================================== -->
             <div class="lg:hidden divide-y md:divide-y-0 md:grid md:grid-cols-2 md:divide-x divide-espresso/15 line-b">
                 
                 <!-- MOBILE PRODUCT 01: HERBAL HAIR OIL -->
-                <article id="crown-mobile" class="bg-travertine px-4 sm:px-6 py-6 flex flex-col justify-between">
+                <article id="crown-mobile" class="bg-travertine px-4 sm:px-6 py-6 flex flex-col justify-between reveal">
                     <div>
                         <div class="flex justify-between items-center text-[11px] uppercase tracking-[0.22em] text-espresso/55 font-bold mb-2 px-0.5">
                             <span>01 // HERBAL HAIR OIL</span>
@@ -612,47 +642,43 @@
                             <img loading="lazy" decoding="async" src="Oil v4.jpg" width="800" height="860" alt="Elora Herbal Hair Oil" class="w-full h-full object-cover object-center">
                             <div class="absolute bottom-2.5 left-2.5 right-2.5 bg-espresso/75 backdrop-blur-md text-cream px-3 py-1.5 rounded-lg border border-white/15 flex justify-between items-center">
                                 <span class="text-[11px] uppercase tracking-[0.18em] font-semibold">8-Hour Gentle Infusion</span>
-                                <span class="text-gold font-playfair italic text-[11px]">20+ Herbs &amp; 7 Oils</span>
+                                <span class="text-gold font-playfair italic text-[11px]">11 Herbs &amp; 4 Oils</span>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <h3 class="font-playfair text-2xl text-espresso leading-tight mb-3">Elora Herbal Hair Oil</h3>
 
-                            <div class="flex items-center justify-between py-2.5 px-3.5 rounded-xl bg-cream border border-espresso/12">
+                            <div class="flex items-center justify-between py-2.5 pl-4 pr-2.5 rounded-xl bg-cream border border-espresso/12">
                                 <div class="flex items-baseline gap-1.5">
                                     <span class="text-[11px] uppercase tracking-[0.16em] text-espresso/50 font-semibold">Price</span>
                                     <span class="font-playfair text-xl font-bold text-espresso">Rs. 1,850</span>
                                 </div>
-                                <div class="flex items-center gap-2">
-                                    <button onclick="addToBag('oil')" class="bg-umber text-cream active:bg-gold active:text-espresso px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.16em] font-bold transition-colors">
-                                        Add to Bag
-                                    </button>
-                                    <a href="https://wa.me/923332952456?text=Hello%20Elora%20Beauty,%20I%20would%20like%20to%20order%20the%20Elora%20Herbal%20Hair%20Oil%20(Rs.%201,850)" target="_blank" rel="noopener noreferrer" class="w-8 h-8 shrink-0 aspect-square rounded-full border border-espresso/20 flex items-center justify-center text-[#25D366]" aria-label="Order on WhatsApp">
-                                        <i class="fa-brands fa-whatsapp text-sm"></i>
-                                    </a>
-                                </div>
+                                <button onclick="addToBag('oil', this)" class="js-add-btn group bg-espresso text-cream border border-gold/85 hover:bg-gold hover:text-espresso px-6 py-3.5 rounded-full text-[11px] uppercase tracking-[0.2em] font-bold transition-all duration-300 shadow-md inline-flex items-center justify-center gap-2.5">
+                                    <i class="js-add-icon fa-solid fa-bag-shopping text-xs text-gold transition-colors"></i>
+                                    <span class="js-add-label">Add to Bag</span>
+                                </button>
                             </div>
                         </div>
                     </div>
 
                     <div data-swipe-tabs="oil" class="bg-cream rounded-xl border border-espresso/12 overflow-hidden">
-                        <div class="grid grid-cols-3 border-b border-espresso/10 bg-sand/25 px-2 pt-1 gap-1">
-                            <button onclick="switchMobileProductTab('oil', 0, this)" class="oil-m-tab py-1.5 border-b-2 border-gold text-[10px] uppercase tracking-[0.16em] font-bold text-espresso transition-all">
+                        <div role="tablist" aria-label="Elora Herbal Hair Oil details" class="grid grid-cols-3 border-b border-espresso/10 bg-sand/25 px-2 pt-1 gap-1">
+                            <button id="oil-tab-0" role="tab" aria-selected="true" aria-controls="oil-panel-0" onclick="switchMobileProductTab('oil', 0, this)" class="oil-m-tab py-1.5 border-b-2 border-gold text-[10px] uppercase tracking-[0.16em] font-bold text-espresso transition-all">
                                 Overview
                             </button>
-                            <button onclick="switchMobileProductTab('oil', 1, this)" class="oil-m-tab py-1.5 border-b-2 border-transparent text-[10px] uppercase tracking-[0.16em] font-semibold text-espresso/55 hover:text-espresso transition-all">
+                            <button id="oil-tab-1" role="tab" aria-selected="false" aria-controls="oil-panel-1" onclick="switchMobileProductTab('oil', 1, this)" class="oil-m-tab py-1.5 border-b-2 border-transparent text-[10px] uppercase tracking-[0.16em] font-semibold text-espresso/55 hover:text-espresso transition-all">
                                 Key Actives
                             </button>
-                            <button onclick="switchMobileProductTab('oil', 2, this)" class="oil-m-tab py-1.5 border-b-2 border-transparent text-[10px] uppercase tracking-[0.16em] font-semibold text-espresso/55 hover:text-espresso transition-all">
+                            <button id="oil-tab-2" role="tab" aria-selected="false" aria-controls="oil-panel-2" onclick="switchMobileProductTab('oil', 2, this)" class="oil-m-tab py-1.5 border-b-2 border-transparent text-[10px] uppercase tracking-[0.16em] font-semibold text-espresso/55 hover:text-espresso transition-all">
                                 How to Use
                             </button>
                         </div>
 
-                        <div class="p-3.5">
-                            <div class="oil-m-panel space-y-2.5">
+                        <div class="p-3.5 min-h-[172px] flex flex-col justify-center">
+                            <div id="oil-panel-0" role="tabpanel" aria-labelledby="oil-tab-0" class="oil-m-panel space-y-2.5">
                                 <p class="text-xs text-espresso/80 leading-relaxed">
-                                    A deeply nourishing herbal hair oil inspired by traditional South Asian hair care. Steeped slowly for 8 hours on gentle heat so 7 cold-pressed oils absorb the full goodness of over 20 whole herbs without heat damage.
+                                    A deeply nourishing herbal hair oil inspired by traditional South Asian hair care. Steeped slowly for 8 hours on gentle heat so 4 pure cold-pressed oils absorb the full goodness of 11 whole herbs without heat damage.
                                 </p>
                                 <div class="grid grid-cols-2 gap-1.5 text-[11px] font-semibold text-espresso">
                                     <div class="flex items-center gap-1.5 bg-travertine px-2.5 py-1.5 rounded-lg"><i class="fa-solid fa-check text-gold text-[11px]"></i> Reduces Hair Fall</div>
@@ -662,18 +688,18 @@
                                 </div>
                             </div>
 
-                            <div class="oil-m-panel hidden space-y-2 text-xs">
+                            <div id="oil-panel-1" role="tabpanel" aria-labelledby="oil-tab-1" class="oil-m-panel hidden space-y-2 text-xs">
                                 <div class="p-2.5 rounded-lg bg-travertine">
-                                    <span class="text-[11px] uppercase tracking-[0.18em] text-gold font-bold block mb-0.5">20+ Whole Herbs</span>
+                                    <span class="text-[11px] uppercase tracking-[0.18em] text-gold font-bold block mb-0.5">11 Whole Herbs</span>
                                     <p class="text-espresso font-medium leading-relaxed">Amla, Reetha, Shikakai, Balchar, Ratanjot, Rosemary Leaves, Black Cumin, Methi Dana, Alsi, Nagar Motha &amp; Poppy Seeds.</p>
                                 </div>
                                 <div class="p-2.5 rounded-lg bg-travertine">
-                                    <span class="text-[11px] uppercase tracking-[0.18em] text-gold font-bold block mb-0.5">7 Cold-Pressed Oils</span>
-                                    <p class="text-espresso font-medium leading-relaxed">Argan Oil, Jojoba Oil, Pumpkin Seed Oil, Sweet Almond Oil &amp; pure cold-pressed oils.</p>
+                                    <span class="text-[11px] uppercase tracking-[0.18em] text-gold font-bold block mb-0.5">4 Cold-Pressed Oils</span>
+                                    <p class="text-espresso font-medium leading-relaxed">Argan Oil, Jojoba Oil, Pumpkin Seed Oil &amp; Sweet Almond Oil extracted without high heat.</p>
                                 </div>
                             </div>
 
-                            <div class="oil-m-panel hidden space-y-1.5">
+                            <div id="oil-panel-2" role="tabpanel" aria-labelledby="oil-tab-2" class="oil-m-panel hidden space-y-1.5">
                                 <span class="text-[11px] uppercase tracking-[0.18em] text-gold font-bold block">Scalp &amp; Root Massage</span>
                                 <p class="text-xs text-espresso/80 leading-relaxed">
                                     Part dry hair and apply onto scalp and roots. Massage gently for 5–10 minutes, then work through lengths. Leave for 2–4 hours or overnight before washing.
@@ -684,7 +710,7 @@
                 </article>
 
                 <!-- MOBILE PRODUCT 02: WHITENING & BRIGHTENING CREAM -->
-                <article id="complexion-mobile" class="bg-travertine px-4 sm:px-6 py-6 flex flex-col justify-between">
+                <article id="complexion-mobile" class="bg-travertine px-4 sm:px-6 py-6 flex flex-col justify-between reveal">
                     <div>
                         <div class="flex justify-between items-center text-[11px] uppercase tracking-[0.22em] text-espresso/55 font-bold mb-2 px-0.5">
                             <span>02 // BRIGHTENING FACE CREAM</span>
@@ -702,38 +728,34 @@
                         <div class="mb-4">
                             <h3 class="font-playfair text-2xl text-espresso leading-tight mb-3">Whitening &amp; Brightening Cream</h3>
 
-                            <div class="flex items-center justify-between py-2.5 px-3.5 rounded-xl bg-cream border border-espresso/12">
+                            <div class="flex items-center justify-between py-2.5 pl-4 pr-2.5 rounded-xl bg-cream border border-espresso/12">
                                 <div class="flex items-baseline gap-1.5">
                                     <span class="text-[11px] uppercase tracking-[0.16em] text-espresso/50 font-semibold">Price</span>
                                     <span class="font-playfair text-xl font-bold text-espresso">Rs. 1,100</span>
                                 </div>
-                                <div class="flex items-center gap-2">
-                                    <button onclick="addToBag('cream')" class="bg-umber text-cream active:bg-gold active:text-espresso px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.16em] font-bold transition-colors">
-                                        Add to Bag
-                                    </button>
-                                    <a href="https://wa.me/923332952456?text=Hello%20Elora%20Beauty,%20I%20would%20like%20to%20order%20the%20Whitening%20%26%20Brightening%20Cream%20(Rs.%201,100)" target="_blank" rel="noopener noreferrer" class="w-8 h-8 shrink-0 aspect-square rounded-full border border-espresso/20 flex items-center justify-center text-[#25D366]" aria-label="Order on WhatsApp">
-                                        <i class="fa-brands fa-whatsapp text-sm"></i>
-                                    </a>
-                                </div>
+                                <button onclick="addToBag('cream', this)" class="js-add-btn group bg-espresso text-cream border border-gold/85 hover:bg-gold hover:text-espresso px-6 py-3.5 rounded-full text-[11px] uppercase tracking-[0.2em] font-bold transition-all duration-300 shadow-md inline-flex items-center justify-center gap-2.5">
+                                    <i class="js-add-icon fa-solid fa-bag-shopping text-xs text-gold transition-colors"></i>
+                                    <span class="js-add-label">Add to Bag</span>
+                                </button>
                             </div>
                         </div>
                     </div>
 
                     <div data-swipe-tabs="cream" class="bg-cream rounded-xl border border-espresso/12 overflow-hidden">
-                        <div class="grid grid-cols-3 border-b border-espresso/10 bg-sand/25 px-2 pt-1 gap-1">
-                            <button onclick="switchMobileProductTab('cream', 0, this)" class="cream-m-tab py-1.5 border-b-2 border-gold text-[10px] uppercase tracking-[0.16em] font-bold text-espresso transition-all">
+                        <div role="tablist" aria-label="Whitening and Brightening Cream details" class="grid grid-cols-3 border-b border-espresso/10 bg-sand/25 px-2 pt-1 gap-1">
+                            <button id="cream-tab-0" role="tab" aria-selected="true" aria-controls="cream-panel-0" onclick="switchMobileProductTab('cream', 0, this)" class="cream-m-tab py-1.5 border-b-2 border-gold text-[10px] uppercase tracking-[0.16em] font-bold text-espresso transition-all">
                                 Overview
                             </button>
-                            <button onclick="switchMobileProductTab('cream', 1, this)" class="cream-m-tab py-1.5 border-b-2 border-transparent text-[10px] uppercase tracking-[0.16em] font-semibold text-espresso/55 hover:text-espresso transition-all">
+                            <button id="cream-tab-1" role="tab" aria-selected="false" aria-controls="cream-panel-1" onclick="switchMobileProductTab('cream', 1, this)" class="cream-m-tab py-1.5 border-b-2 border-transparent text-[10px] uppercase tracking-[0.16em] font-semibold text-espresso/55 hover:text-espresso transition-all">
                                 Key Actives
                             </button>
-                            <button onclick="switchMobileProductTab('cream', 2, this)" class="cream-m-tab py-1.5 border-b-2 border-transparent text-[10px] uppercase tracking-[0.16em] font-semibold text-espresso/55 hover:text-espresso transition-all">
+                            <button id="cream-tab-2" role="tab" aria-selected="false" aria-controls="cream-panel-2" onclick="switchMobileProductTab('cream', 2, this)" class="cream-m-tab py-1.5 border-b-2 border-transparent text-[10px] uppercase tracking-[0.16em] font-semibold text-espresso/55 hover:text-espresso transition-all">
                                 How to Use
                             </button>
                         </div>
 
-                        <div class="p-3.5">
-                            <div class="cream-m-panel space-y-2.5">
+                        <div class="p-3.5 min-h-[172px] flex flex-col justify-center">
+                            <div id="cream-panel-0" role="tabpanel" aria-labelledby="cream-tab-0" class="cream-m-panel space-y-2.5">
                                 <p class="text-xs text-espresso/80 leading-relaxed">
                                     A hydrating daily face cream enriched with 24K Gold, Vitamin C, and natural plant extracts to visibly brighten and even skin tone, deeply nourish and hydrate, and provide daily Sun Protection with an SPF boost.
                                 </p>
@@ -745,7 +767,7 @@
                                 </div>
                             </div>
 
-                            <div class="cream-m-panel hidden space-y-2 text-xs">
+                            <div id="cream-panel-1" role="tabpanel" aria-labelledby="cream-tab-1" class="cream-m-panel hidden space-y-2 text-xs">
                                 <div class="p-2.5 rounded-lg bg-travertine">
                                     <span class="text-[11px] uppercase tracking-[0.18em] text-gold font-bold block mb-0.5">24K Gold &amp; Vitamin C</span>
                                     <p class="text-espresso font-medium leading-relaxed">Reduces dullness and uneven pigmentation while enhancing natural glow and moisture retention.</p>
@@ -756,7 +778,7 @@
                                 </div>
                             </div>
 
-                            <div class="cream-m-panel hidden space-y-1.5">
+                            <div id="cream-panel-2" role="tabpanel" aria-labelledby="cream-tab-2" class="cream-m-panel hidden space-y-1.5">
                                 <span class="text-[11px] uppercase tracking-[0.18em] text-gold font-bold block">Morning &amp; Evening Routine</span>
                                 <p class="text-xs text-espresso/80 leading-relaxed">
                                     Cleanse face and pat dry. Dot a small amount across forehead, cheeks, and chin, then massage gently in upward circular strokes until absorbed.
@@ -770,6 +792,7 @@
 
             <!-- ===============================================================
                  3B. LOCKED DESKTOP STICKY SHOWCASE (lg+ 1024px)
+                 Option B Espresso + Gold Rim Add to Bag Button Locked
                  =============================================================== -->
             <div class="hidden lg:block">
                 <!-- HAIR OIL -->
@@ -784,7 +807,7 @@
                             <div class="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-espresso/85 via-espresso/40 to-transparent flex justify-between items-end text-cream">
                                 <div>
                                     <span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 block mb-0.5">8-Hour Gentle Infusion</span>
-                                    <span class="font-playfair italic text-gold text-lg">20+ Whole Herbs &amp; 7 Cold-Pressed Oils</span>
+                                    <span class="font-playfair italic text-gold text-lg">11 Whole Herbs &amp; 4 Cold-Pressed Oils</span>
                                 </div>
                                 <span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 font-semibold">Paraben &amp; Mineral-Oil Free</span>
                             </div>
@@ -792,10 +815,10 @@
                     </div>
 
                     <div class="col-span-6 bg-travertine divide-y divide-espresso/10">
-                        <div class="lg:p-8 xl:p-16 2xl:p-20">
+                        <div class="lg:p-8 xl:p-16 2xl:p-20 reveal">
                             <h3 class="font-playfair lg:text-4xl xl:text-5xl text-espresso leading-[1.1] mb-5">Elora Herbal Hair Oil</h3>
                             <p class="text-base text-espresso/75 leading-relaxed mb-8 font-normal">
-                                A deeply nourishing herbal hair oil inspired by traditional South Asian hair care. Steeped slowly for 8 hours at a controlled low temperature so 7 cold-pressed oils absorb the full goodness of over 20 whole herbs without heat damage.
+                                A deeply nourishing herbal hair oil inspired by traditional South Asian hair care. Steeped slowly for 8 hours at a controlled low temperature so 4 pure cold-pressed oils absorb the full goodness of 11 whole herbs without heat damage.
                             </p>
                             <div class="p-5 xl:p-6 rounded-2xl bg-cream line-t line-b line-l line-r flex flex-wrap items-center justify-between gap-4">
                                 <div>
@@ -805,27 +828,23 @@
                                         <span class="text-3xl xl:text-4xl font-bold text-espresso">1,850</span>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-3">
-                                    <button onclick="addToBag('oil')" class="bg-espresso text-cream hover:bg-gold hover:text-espresso px-6 xl:px-8 py-4 rounded-full text-[11px] uppercase tracking-[0.22em] font-bold transition-all duration-300 shadow-lg">
-                                        Add to Bag
-                                    </button>
-                                    <a href="https://wa.me/923332952456?text=Hello%20Elora%20Beauty,%20I%20would%20like%20to%20order%20the%20Elora%20Herbal%20Hair%20Oil%20(Rs.%201,850)" target="_blank" rel="noopener noreferrer" class="w-12 h-12 shrink-0 aspect-square rounded-full border border-espresso/20 hover:border-[#25D366] flex items-center justify-center text-espresso hover:text-[#25D366] transition-colors" title="Instant WhatsApp Order">
-                                        <i class="fa-brands fa-whatsapp text-lg"></i>
-                                    </a>
-                                </div>
+                                <button onclick="addToBag('oil', this)" class="js-add-btn group bg-espresso text-cream border border-gold/85 hover:bg-gold hover:text-espresso px-8 xl:px-10 py-4 rounded-full text-[11px] uppercase tracking-[0.22em] font-bold transition-all duration-300 shadow-lg inline-flex items-center gap-2.5">
+                                    <i class="js-add-icon fa-solid fa-bag-shopping text-xs text-gold transition-colors"></i>
+                                    <span class="js-add-label">Add to Bag</span>
+                                </button>
                             </div>
                         </div>
 
-                        <div class="lg:p-8 xl:p-16 2xl:p-20">
+                        <div class="lg:p-8 xl:p-16 2xl:p-20 reveal">
                             <span class="text-[11px] uppercase tracking-[0.3em] text-espresso/50 font-bold block mb-6">What's Inside</span>
                             <div class="border-t border-l border-r border-espresso/15 text-xs">
                                 <div class="grid grid-cols-12 line-b py-4 px-4 bg-cream/60">
-                                    <span class="col-span-4 uppercase tracking-[0.18em] text-[11px] font-bold text-espresso/60">20+ Selected Herbs</span>
+                                    <span class="col-span-4 uppercase tracking-[0.18em] text-[11px] font-bold text-espresso/60">11 Whole Herbs</span>
                                     <span class="col-span-8 font-medium text-espresso">Enriched with Amla, Reetha, Shikakai, Balchar, Ratanjot, Rosemary Leaves, Black Cumin, Methi Dana, Alsi, Nagar Motha &amp; Poppy Seeds.</span>
                                 </div>
                                 <div class="grid grid-cols-12 line-b py-4 px-4">
-                                    <span class="col-span-4 uppercase tracking-[0.18em] text-[11px] font-bold text-espresso/60">7 Cold-Pressed Oils</span>
-                                    <span class="col-span-8 font-medium text-espresso">Argan Oil, Jojoba Oil, Pumpkin Seed Oil, Sweet Almond Oil &amp; pure cold-pressed oils extracted without high heat.</span>
+                                    <span class="col-span-4 uppercase tracking-[0.18em] text-[11px] font-bold text-espresso/60">4 Cold-Pressed Oils</span>
+                                    <span class="col-span-8 font-medium text-espresso">Argan Oil, Jojoba Oil, Pumpkin Seed Oil &amp; Sweet Almond Oil extracted without high heat.</span>
                                 </div>
                                 <div class="grid grid-cols-12 line-b py-4 px-4 bg-cream/60">
                                     <span class="col-span-4 uppercase tracking-[0.18em] text-[11px] font-bold text-espresso/60">8-Hour Infusion</span>
@@ -838,7 +857,7 @@
                             </div>
                         </div>
 
-                        <div class="lg:p-8 xl:p-16 2xl:p-20">
+                        <div class="lg:p-8 xl:p-16 2xl:p-20 reveal">
                             <span class="text-[11px] uppercase tracking-[0.3em] text-gold font-bold block mb-3">How to Use</span>
                             <h4 class="font-playfair text-2xl text-espresso mb-6">For Best Results</h4>
                             <div class="line-t">
@@ -863,7 +882,7 @@
                                     <div class="acc-body">
                                         <div class="overflow-hidden">
                                             <p class="text-xs text-espresso/75 leading-relaxed pt-3 pr-4">
-                                                Commercial hair oils boil herbs rapidly at high temperatures, scorching the essential vitamins and antioxidants. Our 8-hour low-temperature infusion gently draws natural nutrients out of the roots and seeds into cold-pressed Argan, Jojoba, and Pumpkin Seed oils.
+                                                Commercial hair oils boil herbs rapidly at high temperatures, scorching the essential vitamins and antioxidants. Our 8-hour low-temperature infusion gently draws natural nutrients out of the roots and seeds into cold-pressed Argan, Jojoba, Almond, and Pumpkin Seed oils.
                                             </p>
                                         </div>
                                     </div>
@@ -876,7 +895,7 @@
                 <!-- FACE CREAM -->
                 <article id="complexion" class="grid grid-cols-12 line-b relative">
                     <div class="col-span-6 bg-travertine divide-y divide-espresso/10 line-r">
-                        <div class="lg:p-8 xl:p-16 2xl:p-20">
+                        <div class="lg:p-8 xl:p-16 2xl:p-20 reveal">
                             <h3 class="font-playfair lg:text-4xl xl:text-5xl text-espresso leading-[1.1] mb-5">Whitening &amp; Brightening Cream</h3>
                             <p class="text-base text-espresso/75 leading-relaxed mb-8 font-normal">
                                 A hydrating daily face cream enriched with 24K Gold, Vitamin C, and pure herbal extracts. Crafted to visibly brighten and even skin tone, deeply nourish and hydrate, and provide daily Sun Protection with an SPF boost.
@@ -889,18 +908,14 @@
                                         <span class="text-3xl xl:text-4xl font-bold text-espresso">1,100</span>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-3">
-                                    <button onclick="addToBag('cream')" class="bg-espresso text-cream hover:bg-gold hover:text-espresso px-6 xl:px-8 py-4 rounded-full text-[11px] uppercase tracking-[0.22em] font-bold transition-all duration-300 shadow-lg">
-                                        Add to Bag
-                                    </button>
-                                    <a href="https://wa.me/923332952456?text=Hello%20Elora%20Beauty,%20I%20would%20like%20to%20order%20the%20Whitening%20%26%20Brightening%20Cream%20(Rs.%201,100)" target="_blank" rel="noopener noreferrer" class="w-12 h-12 shrink-0 aspect-square rounded-full border border-espresso/20 hover:border-[#25D366] flex items-center justify-center text-espresso hover:text-[#25D366] transition-colors" title="Instant WhatsApp Order">
-                                        <i class="fa-brands fa-whatsapp text-lg"></i>
-                                    </a>
-                                </div>
+                                <button onclick="addToBag('cream', this)" class="js-add-btn group bg-espresso text-cream border border-gold/85 hover:bg-gold hover:text-espresso px-8 xl:px-10 py-4 rounded-full text-[11px] uppercase tracking-[0.22em] font-bold transition-all duration-300 shadow-lg inline-flex items-center gap-2.5">
+                                    <i class="js-add-icon fa-solid fa-bag-shopping text-xs text-gold transition-colors"></i>
+                                    <span class="js-add-label">Add to Bag</span>
+                                </button>
                             </div>
                         </div>
 
-                        <div class="lg:p-8 xl:p-16 2xl:p-20">
+                        <div class="lg:p-8 xl:p-16 2xl:p-20 reveal">
                             <span class="text-[11px] uppercase tracking-[0.3em] text-espresso/50 font-bold block mb-6">What's Inside</span>
                             <div class="border-t border-l border-r border-espresso/15 text-xs">
                                 <div class="grid grid-cols-12 line-b py-4 px-4 bg-cream/60">
@@ -922,7 +937,7 @@
                             </div>
                         </div>
 
-                        <div class="lg:p-8 xl:p-16 2xl:p-20">
+                        <div class="lg:p-8 xl:p-16 2xl:p-20 reveal">
                             <span class="text-[11px] uppercase tracking-[0.3em] text-gold font-bold block mb-3">How to Use</span>
                             <h4 class="font-playfair text-2xl text-espresso mb-6">Daily Skincare Routine</h4>
                             <div class="line-t">
@@ -976,7 +991,7 @@
             </div>
 
             <!-- COMPLETE HAIR & SKIN SET PAIRING BANNER -->
-            <div class="bg-sand/70 line-b px-4 sm:px-10 lg:px-14 py-6 sm:py-12">
+            <div class="bg-sand/70 line-b px-4 sm:px-10 lg:px-14 py-6 sm:py-12 reveal">
                 <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4 sm:gap-8">
                     
                     <div class="flex items-center gap-3.5 sm:gap-6 text-left">
@@ -1003,8 +1018,9 @@
                                 <span class="font-playfair text-xl sm:text-3xl font-bold text-espresso">Rs. 2,550</span>
                             </div>
                         </div>
-                        <button onclick="addDuoBundle()" class="bg-espresso text-cream hover:bg-gold hover:text-espresso px-4 sm:px-8 py-2.5 sm:py-4 rounded-full text-[10px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.22em] font-bold transition-all duration-300 shadow-md">
-                            + Add Both to Bag
+                        <button onclick="addDuoBundle(this)" class="js-add-btn group bg-espresso text-cream border border-gold/85 hover:bg-gold hover:text-espresso px-5 sm:px-8 py-3.5 sm:py-4 rounded-full text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.22em] font-bold transition-all duration-300 shadow-md inline-flex items-center gap-2.5">
+                            <i class="js-add-icon fa-solid fa-bag-shopping text-xs text-gold transition-colors"></i>
+                            <span class="js-add-label">+ Add Both to Bag</span>
                         </button>
                     </div>
 
@@ -1020,7 +1036,7 @@
 
             <div class="max-w-[1700px] mx-auto px-4 sm:px-10 lg:px-14 relative z-10">
                 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 lg:gap-8 items-end pb-4 lg:pb-12 mb-4 lg:mb-12 line-b-light">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 lg:gap-8 items-end pb-4 lg:pb-12 mb-4 lg:mb-12 line-b-light reveal">
                     
                     <div class="lg:col-span-6">
                         <span class="text-gold uppercase tracking-[0.3em] text-[11px] sm:text-[11px] font-bold block mb-1 sm:mb-2">Our Signature Process</span>
@@ -1070,7 +1086,7 @@
 
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center reveal">
                     
                     <div class="lg:col-span-5 flex flex-col items-center justify-center p-4 sm:p-10 rounded-2xl sm:rounded-3xl border border-white/15 bg-umber/50 backdrop-blur-md relative">
                         
@@ -1121,14 +1137,14 @@
                             </button>
                         </div>
 
-                        <div class="lg:hidden w-full bg-espresso/60 rounded-xl p-3.5 mt-3 border border-white/10 text-left">
+                        <div class="lg:hidden w-full bg-espresso/60 rounded-xl p-3.5 mt-3 border border-white/10 text-left min-h-[124px] flex flex-col justify-center">
                             <div class="flex items-center justify-between mb-1">
                                 <span id="mobile-step-kicker" class="text-[11px] uppercase tracking-[0.22em] text-gold font-bold">Step 01 • Handpicked Quality</span>
                                 <span class="text-[10px] uppercase tracking-[0.14em] text-cream/45">Tap or Swipe</span>
                             </div>
                             <h3 id="mobile-step-title" class="font-playfair text-lg text-cream mb-1">Selecting Premium Herbs</h3>
                             <p id="mobile-step-desc" class="text-xs text-cream/75 leading-relaxed">
-                                We carefully choose a blend of whole, unbleached traditional herbs—including Amla, Reetha, Shikakai, Rosemary Leaves, Black Cumin, Methi Dana, and Ratanjot.
+                                We carefully choose a blend of 11 whole, unbleached traditional herbs—including Amla, Reetha, Shikakai, Rosemary Leaves, Black Cumin, Methi Dana, and Ratanjot.
                             </p>
                         </div>
 
@@ -1145,7 +1161,7 @@
                                         <h3 class="font-playfair text-2xl text-cream">Selecting Premium Herbs</h3>
                                     </div>
                                 </div>
-                                <span class="text-[11px] uppercase tracking-[0.2em] px-3 py-1 rounded-full border border-white/15 text-cream/70">20+ Whole Herbs</span>
+                                <span class="text-[11px] uppercase tracking-[0.2em] px-3 py-1 rounded-full border border-white/15 text-cream/70">11 Whole Herbs</span>
                             </div>
                             <div class="step-drawer">
                                 <div class="overflow-hidden">
@@ -1205,12 +1221,12 @@
                                         <h3 class="font-playfair text-2xl text-cream">Premium Cold-Pressed Oils</h3>
                                     </div>
                                 </div>
-                                <span class="text-[11px] uppercase tracking-[0.2em] px-3 py-1 rounded-full border border-white/15 text-cream/70">7 Cold-Pressed Oils</span>
+                                <span class="text-[11px] uppercase tracking-[0.2em] px-3 py-1 rounded-full border border-white/15 text-cream/70">4 Cold-Pressed Oils</span>
                             </div>
                             <div class="step-drawer">
                                 <div class="overflow-hidden">
                                     <p class="text-cream/75 text-sm leading-relaxed pt-4 pl-12">
-                                        We blend our formula using a base of premium cold-pressed oils—including Argan, Jojoba, Almond, and Pumpkin Seed. These are valued because they are extracted purely without high heat processing.
+                                        We blend our formula using a base of 4 premium cold-pressed oils—Argan, Jojoba, Sweet Almond, and Pumpkin Seed. These are valued because they are extracted purely without high heat processing.
                                     </p>
                                 </div>
                             </div>
@@ -1227,24 +1243,24 @@
         <section id="herbarium" class="py-10 lg:py-28 bg-travertine line-b">
             <div class="max-w-[1700px] mx-auto px-4 sm:px-10 lg:px-14">
                 
-                <div class="flex flex-col md:flex-row md:items-end justify-between mb-5 lg:mb-10 gap-2">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-5 lg:mb-10 gap-2 reveal">
                     <div>
                         <span class="text-gold uppercase tracking-[0.3em] text-[11px] sm:text-[11px] font-bold block mb-1 sm:mb-2">What Goes Inside</span>
                         <h2 class="font-playfair text-2xl sm:text-5xl text-espresso">Pure Herbs &amp; Cold-Pressed Oils</h2>
                     </div>
                     <p class="text-xs text-espresso/65 max-w-md">
-                        Explore 15 signature whole herbs and cold-pressed oils from our 20+ botanical blend.
+                        Explore the 15 whole herbs and pure cold-pressed oils infused into our signature hair oil.
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 border border-espresso/15 rounded-2xl overflow-hidden bg-cream shadow-sm">
+                <div class="grid grid-cols-1 lg:grid-cols-12 border border-espresso/15 rounded-2xl overflow-hidden bg-cream shadow-sm reveal">
                     
                     <div class="hidden lg:flex lg:col-span-7 p-10 line-r space-y-6 flex-col justify-between">
                         
                         <div class="space-y-6">
                             <div>
                                 <div class="flex items-center justify-between mb-3">
-                                    <span class="text-[11px] uppercase tracking-[0.25em] text-espresso/50 font-bold">01 // Whole Traditional Herbs (8-Hr Infusion)</span>
+                                    <span class="text-[11px] uppercase tracking-[0.25em] text-espresso/50 font-bold">01 // 11 Whole Traditional Herbs (8-Hr Infusion)</span>
                                     <span class="text-[11px] uppercase tracking-[0.2em] text-gold font-semibold">Hover or Tap to Explore</span>
                                 </div>
                                 <div class="flex flex-wrap gap-2">
@@ -1263,7 +1279,7 @@
                             </div>
 
                             <div class="pt-4 line-t">
-                                <span class="text-[11px] uppercase tracking-[0.25em] text-espresso/50 font-bold block mb-3">02 // Pure Cold-Pressed Oils</span>
+                                <span class="text-[11px] uppercase tracking-[0.25em] text-espresso/50 font-bold block mb-3">02 // 4 Pure Cold-Pressed Oils</span>
                                 <div class="flex flex-wrap gap-2">
                                     <button onmouseenter="if(canHover()) showIngredient(11)" onclick="showIngredient(11)" data-idx="11" class="ing-pill bg-sand/70 hover:bg-espresso hover:text-cream text-espresso px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.2em] font-semibold transition-all">✦ Argan Oil</button>
                                     <button onmouseenter="if(canHover()) showIngredient(12)" onclick="showIngredient(12)" data-idx="12" class="ing-pill bg-sand/70 hover:bg-espresso hover:text-cream text-espresso px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.2em] font-semibold transition-all">✦ Jojoba Oil</button>
@@ -1334,7 +1350,7 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3 sm:mb-6" aria-live="polite">
+                            <div class="mb-3 sm:mb-6 min-h-[82px]" aria-live="polite">
                                 <h3 id="ing-name" class="font-playfair text-xl sm:text-3xl text-espresso mb-1 sm:mb-2">Amla Berry</h3>
                                 <p id="ing-benefit" class="text-xs sm:text-sm text-espresso/80 leading-relaxed">
                                     Rich in natural Vitamin C and antioxidants; strengthens hair roots and promotes natural shine.
@@ -1360,7 +1376,7 @@
         <section id="patronage" class="py-12 lg:py-28 bg-cream line-b">
             <div class="max-w-[1700px] mx-auto px-4 sm:px-10 lg:px-14">
                 
-                <div class="max-w-3xl mx-auto text-center mb-10 sm:mb-20 pb-10 sm:pb-20 line-b">
+                <div class="max-w-3xl mx-auto text-center mb-10 sm:mb-20 pb-10 sm:pb-20 line-b reveal">
                     <span class="text-[11px] sm:text-[11px] uppercase tracking-[0.3em] text-espresso/50 font-bold block mb-2 sm:mb-3">Our Philosophy</span>
                     <h2 class="font-playfair text-2xl sm:text-5xl text-espresso mb-3.5 sm:mb-6">Nature's Tradition, Crafted with Care.</h2>
                     <p class="text-xs sm:text-base text-espresso/80 leading-relaxed mb-4 sm:mb-8">
@@ -1369,7 +1385,7 @@
                     <p class="font-greatvibes text-3xl sm:text-5xl text-gold">Because you deserve the best — Rabi</p>
                 </div>
 
-                <div class="flex items-end justify-between mb-5 sm:mb-10 gap-2">
+                <div class="flex items-end justify-between mb-5 sm:mb-10 gap-2 reveal">
                     <div>
                         <span class="text-[11px] sm:text-[11px] uppercase tracking-[0.3em] text-gold font-bold block mb-1">What Our Customers Say</span>
                         <h3 class="font-playfair text-xl sm:text-4xl text-espresso">Real People. Real Results.</h3>
@@ -1380,7 +1396,7 @@
                     </span>
                 </div>
 
-                <div id="reviews-track" class="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-visible snap-x snap-mandatory no-scrollbar gap-3.5 md:gap-0 md:border-t md:border-l border-espresso/15 md:bg-travertine pb-2 md:pb-0">
+                <div id="reviews-track" class="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-visible snap-x snap-mandatory no-scrollbar gap-3.5 md:gap-0 md:border-t md:border-l border-espresso/15 md:bg-travertine pb-2 md:pb-0 reveal">
                     
                     <article class="review-card w-[82vw] max-w-[300px] md:w-auto md:max-w-none shrink-0 snap-center p-5 sm:p-8 bg-travertine border border-espresso/15 md:border-0 md:line-r md:line-b rounded-2xl md:rounded-none flex flex-col justify-between">
                         <div>
@@ -1432,11 +1448,17 @@
 
                 </div>
 
-                <!-- Mobile Review Carousel Pagination Dots -->
-                <div id="reviews-dots" class="md:hidden flex justify-center items-center gap-2 mt-4" role="tablist" aria-label="Review slides">
-                    <button type="button" onclick="scrollToReview(0)" aria-label="Review 1" class="review-dot h-1.5 w-5 rounded-full bg-gold transition-all duration-300"></button>
-                    <button type="button" onclick="scrollToReview(1)" aria-label="Review 2" class="review-dot h-1.5 w-1.5 rounded-full bg-espresso/25 transition-all duration-300"></button>
-                    <button type="button" onclick="scrollToReview(2)" aria-label="Review 3" class="review-dot h-1.5 w-1.5 rounded-full bg-espresso/25 transition-all duration-300"></button>
+                <!-- Mobile Review Carousel Pagination Dots (44x44px Touch Target Wrappers with Compact Visual Dots) -->
+                <div id="reviews-dots" class="md:hidden flex justify-center items-center gap-1 mt-2" role="tablist" aria-label="Review slides">
+                    <button type="button" role="tab" aria-selected="true" onclick="scrollToReview(0)" aria-label="Review 1" class="w-11 h-11 flex items-center justify-center">
+                        <span class="review-dot h-1.5 w-5 rounded-full bg-gold transition-all duration-300 pointer-events-none"></span>
+                    </button>
+                    <button type="button" role="tab" aria-selected="false" onclick="scrollToReview(1)" aria-label="Review 2" class="w-11 h-11 flex items-center justify-center">
+                        <span class="review-dot h-1.5 w-1.5 rounded-full bg-espresso/25 transition-all duration-300 pointer-events-none"></span>
+                    </button>
+                    <button type="button" role="tab" aria-selected="false" onclick="scrollToReview(2)" aria-label="Review 3" class="w-11 h-11 flex items-center justify-center">
+                        <span class="review-dot h-1.5 w-1.5 rounded-full bg-espresso/25 transition-all duration-300 pointer-events-none"></span>
+                    </button>
                 </div>
 
             </div>
@@ -1444,7 +1466,7 @@
 
         <!-- FAQ / DELIVERY / SAFETY (Smooth Hydraulic Accordions). Fill the [bracketed] items before launch. -->
         <section id="faq" class="py-12 lg:py-24 bg-travertine line-b">
-            <div class="max-w-3xl mx-auto px-4 sm:px-10">
+            <div class="max-w-3xl mx-auto px-4 sm:px-10 reveal">
                 <span class="text-gold uppercase tracking-[0.3em] text-[11px] font-bold block mb-2">Before You Order</span>
                 <h2 class="font-playfair text-3xl sm:text-4xl mb-8">Questions, answered</h2>
                 <div class="line-t">
@@ -1511,26 +1533,23 @@
             </div>
         </section>
 
-        <!-- PRE-FOOTER CALL TO ACTION (Flagship Hair Oil Lead + Bundle Option) -->
-        <section class="bg-espresso text-cream py-12 lg:py-20 text-center px-4">
-            <h2 class="font-playfair text-3xl sm:text-5xl mb-3">Ready to try <span class="italic text-gold">Elora</span>?</h2>
-            <p class="text-cream/75 text-sm mb-6 max-w-lg mx-auto">Start with our signature 8-hour infused Herbal Hair Oil — Cash on Delivery nationwide.</p>
-            <div class="flex flex-wrap justify-center gap-3">
-                <button onclick="addToBag('oil')" class="bg-gold text-espresso hover:bg-cream transition-colors rounded-full px-8 py-4 text-[11px] uppercase tracking-[0.2em] font-bold shadow-lg">+ Order Herbal Hair Oil — Rs. 1,850</button>
-                <a href="https://wa.me/923332952456" target="_blank" rel="noopener noreferrer" class="border border-cream/40 hover:border-gold hover:text-gold rounded-full px-8 py-4 text-[11px] uppercase tracking-[0.2em] font-bold no-underline">Ask a question on WhatsApp</a>
-            </div>
-            <div class="mt-5">
-                <button onclick="addDuoBundle()" class="text-cream/70 hover:text-gold text-[11px] uppercase tracking-[0.18em] font-semibold underline underline-offset-4 decoration-cream/30 hover:decoration-gold transition-colors">
-                    Or get the Complete Hair &amp; Skin Set for Rs. 2,550 (Save Rs. 400) &rarr;
-                </button>
+        <!-- PRE-FOOTER CALL TO ACTION (Flows seamlessly into Footer with no dividing line) -->
+        <section class="bg-espresso text-cream pt-12 lg:pt-20 pb-8 lg:pb-12 text-center px-4">
+            <div class="reveal">
+                <h2 class="font-playfair text-3xl sm:text-5xl mb-3">Ready to try <span class="italic text-gold">Elora</span>?</h2>
+                <p class="text-cream/75 text-sm mb-7 max-w-lg mx-auto">Start with our signature 8-hour infused Herbal Hair Oil — Cash on Delivery nationwide.</p>
+                <div class="flex flex-wrap justify-center gap-3.5">
+                    <button onclick="addToBag('oil', this)" class="bg-gold text-espresso hover:bg-cream transition-colors rounded-full px-8 py-4 text-[11px] uppercase tracking-[0.2em] font-bold shadow-lg">Order Herbal Hair Oil — Rs. 1,850</button>
+                    <a href="https://wa.me/923332952456" target="_blank" rel="noopener noreferrer" class="border border-cream/40 hover:border-gold hover:text-gold rounded-full px-8 py-4 text-[11px] uppercase tracking-[0.2em] font-bold no-underline">Ask a question on WhatsApp</a>
+                </div>
             </div>
         </section>
     </main>
 
     <!-- 7. ARCHITECTURAL FOOTER -->
-    <footer class="bg-espresso text-cream pt-12 sm:pt-16 pb-10 sm:pb-12">
+    <footer class="bg-espresso text-cream pt-6 sm:pt-8 pb-8 sm:pb-10">
         <div class="max-w-[1700px] mx-auto px-5 sm:px-10 lg:px-14">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 items-center pb-10 sm:pb-12 line-b-light text-center md:text-left">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8 pb-8 sm:pb-10 line-b-light text-center md:text-left">
                 
                 <!-- Brand Lockup -->
                 <div class="flex items-center justify-center md:justify-start gap-3.5">
@@ -1542,15 +1561,15 @@
                     </div>
                 </div>
 
-                <!-- Order on WhatsApp -->
-                <div class="text-center">
-                    <span class="text-[11px] uppercase tracking-[0.28em] text-cream/40 block mb-2">Order on WhatsApp</span>
+                <!-- WhatsApp Concierge -->
+                <div class="text-center md:text-right">
+                    <span class="text-[11px] uppercase tracking-[0.28em] text-cream/40 block mb-2">WhatsApp Concierge</span>
                     <a href="https://wa.me/923332952456" target="_blank" rel="noopener noreferrer" class="text-sm text-cream hover:text-gold transition-colors tracking-[0.2em] font-medium no-underline inline-flex items-center gap-2.5">
                         <i class="fa-brands fa-whatsapp text-gold text-lg"></i> +92 333 2952456
                     </a>
                 </div>
 
-                <!-- Social Icons (TODO: add real social URLs, then remove "hidden") -->
+                <!-- Social Icons (TODO: add real social URLs, then remove "hidden" and change to "flex") -->
                 <div class="hidden items-center justify-center md:justify-end gap-6">
                     <a href="#" aria-label="Instagram" class="text-cream/60 hover:text-gold transition-colors text-xl no-underline"><i class="fa-brands fa-instagram"></i></a>
                     <a href="#" aria-label="Facebook" class="text-cream/60 hover:text-gold transition-colors text-xl no-underline"><i class="fa-brands fa-facebook-f"></i></a>
@@ -1558,11 +1577,19 @@
                 </div>
 
             </div>
-            <div class="pt-6 sm:pt-8 text-center text-[11px] sm:text-[11px] uppercase tracking-[0.22em] sm:tracking-[0.25em] text-cream/35">
+            <div class="pt-6 text-center text-[11px] uppercase tracking-[0.22em] sm:tracking-[0.25em] text-cream/35">
                 &copy; 2026 Elora Beauty by Rabi. Handcrafted in Pakistan. All rights reserved.
             </div>
         </div>
     </footer>
+
+    <!-- FLOATING WHATSAPP CONCIERGE BUTTON (True 1:1 Circle at Rest; Expands on Desktop Hover; Tucks Away When Mobile Checkout Bar Is Active) -->
+    <a id="floating-wa" href="https://wa.me/923332952456?text=Hello%20Elora%20Beauty%20by%20Rabi,%20I%20have%20a%20question%20about%20your%20products." target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" class="group fixed right-4 sm:right-6 bottom-5 z-30 w-12 h-12 sm:w-14 sm:h-14 sm:hover:w-auto sm:hover:px-5 rounded-full bg-[#25D366] text-white border border-white/25 shadow-2xl flex items-center justify-center gap-0 transition-all duration-500 translate-y-20 opacity-0 pointer-events-none no-underline">
+        <i class="fa-brands fa-whatsapp text-2xl text-white leading-none transition-transform duration-300 group-hover:scale-110"></i>
+        <span class="hidden sm:inline-block max-w-0 overflow-hidden sm:group-hover:max-w-[140px] sm:group-hover:ml-2.5 transition-all duration-300 text-[10px] uppercase tracking-[0.2em] font-bold text-white whitespace-nowrap">
+            Chat with us
+        </span>
+    </a>
 
     <!-- SMART FLOATING MOBILE CHECKOUT BAR (Appears Only After Adding an Item) -->
     <div id="mobile-buybar" class="lg:hidden fixed bottom-0 inset-x-0 z-30 translate-y-full transition-transform duration-300 bg-cream/95 backdrop-blur-md border-t border-espresso/15 px-4 pt-3 flex items-center justify-between gap-3 shadow-2xl" style="padding-bottom:calc(.75rem + env(safe-area-inset-bottom))">
@@ -1570,7 +1597,7 @@
             <span id="buybar-summary" class="block text-[10px] uppercase tracking-[0.14em] text-espresso/65 font-bold">1 Item in Ritual Bag</span>
             <span id="buybar-total" class="font-playfair text-lg font-bold text-espresso">Rs. 1,850</span>
         </div>
-        <button onclick="openBag()" class="h-11 px-5 rounded-full bg-espresso text-cream active:bg-gold active:text-espresso text-[10px] uppercase tracking-[0.16em] font-bold flex items-center gap-2 shadow-md">
+        <button id="mobile-buybar-btn" onclick="openBag()" class="h-11 px-5 rounded-full bg-espresso text-cream active:bg-gold active:text-espresso text-[10px] uppercase tracking-[0.16em] font-bold flex items-center gap-2 shadow-md transition-shadow duration-300">
             <i class="fa-brands fa-whatsapp text-sm text-[#25D366]"></i>
             <span>Checkout</span>
             <span id="buybar-count" class="text-gold font-bold">(1)</span>
@@ -1582,11 +1609,29 @@
         // Helper: Only trigger hover-scrubbing on devices with a real mouse pointer
         const canHover = () => window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-        // 1. Unified Single-Pass rAF Scroll & Resize Engine (Header + Smart Mobile Checkout Bar)
+        // 0. Editorial Scroll-Reveal Observer
+        const revealEls = document.querySelectorAll('.reveal:not(.active)');
+        if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            const revealObserver = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+            revealEls.forEach(el => revealObserver.observe(el));
+        } else {
+            revealEls.forEach(el => el.classList.add('active'));
+        }
+
+        // 1. Unified Single-Pass rAF Scroll & Resize Engine (Header + Smart Mobile Checkout Bar + Floating WhatsApp Sync)
         const header = document.getElementById('atelier-header');
         const bar = document.getElementById('mobile-buybar');
+        const floatingWa = document.getElementById('floating-wa');
         const duo = document.getElementById('duology');
         const foot = document.querySelector('footer');
+        let _justAddedOnMobile = false;
 
         let _tick = false;
         function requestViewportUpdate() {
@@ -1604,8 +1649,21 @@
             if (!bar || !duo || !foot) return;
             const hasItems = (bag.oil + bag.cream) > 0;
             const vh = window.innerHeight;
-            const inScrollZone = duo.getBoundingClientRect().top < vh * 0.85 && foot.getBoundingClientRect().top > vh;
-            bar.classList.toggle('translate-y-full', !(hasItems && inScrollZone));
+            const pastHero = duo.getBoundingClientRect().top < vh * 0.85;
+            const beforeFooter = foot.getBoundingClientRect().top > vh;
+            const inScrollZone = pastHero && beforeFooter;
+            const showMobileBar = hasItems && (inScrollZone || _justAddedOnMobile) && beforeFooter;
+            const mobileBarActive = showMobileBar && window.innerWidth < 1024;
+
+            bar.classList.toggle('translate-y-full', !showMobileBar);
+
+            // Floating WhatsApp: Slides up after Hero; tucks away when Mobile Checkout Bar is active or at the Footer
+            if (floatingWa) {
+                const showWa = inScrollZone && !mobileBarActive;
+                floatingWa.classList.toggle('translate-y-20', !showWa);
+                floatingWa.classList.toggle('opacity-0', !showWa);
+                floatingWa.classList.toggle('pointer-events-none', !showWa);
+            }
         }
 
         function onScroll() {
@@ -1630,6 +1688,7 @@
             if (header) header.inert = on;
             if (foot) foot.inert = on;
             if (bar) bar.inert = on;
+            if (floatingWa) floatingWa.inert = on;
         }
 
         function pushDrawerHistory(drawerName) {
@@ -1765,7 +1824,7 @@
         attachDrawerSwipe(document.getElementById('mobile-drawer'), 'left', () => toggleMobileMenu());
         attachDrawerSwipe(document.getElementById('bag-drawer'), 'right', () => closeBag());
 
-        // 3. Mobile 3-Tab Product Switcher (Compact V4 Padding Preserved + Golden Underline + Swipe Support + ARIA)
+        // 3. Mobile 3-Tab Product Switcher (Compact V4 Padding Preserved + Golden Underline + Swipe + Keyboard Arrow Support)
         const activeProductTabs = { oil: 0, cream: 0 };
 
         function switchMobileProductTab(productKey, tabIdx, btnEl) {
@@ -1774,8 +1833,8 @@
             const panels = document.querySelectorAll(`.${productKey}-m-panel`);
 
             tabs.forEach((t, i) => {
-                t.setAttribute('role', 'tab');
                 t.setAttribute('aria-selected', i === tabIdx);
+                t.setAttribute('tabindex', i === tabIdx ? '0' : '-1');
                 if (i === tabIdx) {
                     t.className = `${productKey}-m-tab py-1.5 border-b-2 border-gold text-[10px] uppercase tracking-[0.16em] font-bold text-espresso transition-all`;
                 } else {
@@ -1784,20 +1843,25 @@
             });
 
             panels.forEach((p, i) => {
-                if (i === tabIdx) {
-                    p.classList.remove('hidden');
-                } else {
-                    p.classList.add('hidden');
-                }
+                p.classList.toggle('hidden', i !== tabIdx);
             });
         }
 
         ['oil', 'cream'].forEach(k => {
-            const t = document.querySelectorAll('.' + k + '-m-tab');
-            if (!t.length) return;
-            t[0].parentElement.setAttribute('role', 'tablist');
-            t.forEach((b, i) => { b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', i === 0); });
-            document.querySelectorAll('.' + k + '-m-panel').forEach(p => p.setAttribute('role', 'tabpanel'));
+            const tabs = document.querySelectorAll('.' + k + '-m-tab');
+            tabs.forEach((tab, idx) => {
+                tab.setAttribute('tabindex', idx === 0 ? '0' : '-1');
+                tab.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        const nextIdx = e.key === 'ArrowRight'
+                            ? (idx + 1) % tabs.length
+                            : (idx - 1 + tabs.length) % tabs.length;
+                        switchMobileProductTab(k, nextIdx, tabs[nextIdx]);
+                        tabs[nextIdx].focus();
+                    }
+                });
+            });
         });
 
         // Horizontal Swipe Helper for Cards, Dial & Lens
@@ -1850,7 +1914,7 @@
                 glowOpacity: "0.25",
                 mobileKicker: "Step 01 • Handpicked Quality",
                 mobileTitle: "Selecting Premium Herbs",
-                mobileDesc: "We carefully choose a blend of whole, unbleached traditional herbs—including Amla, Reetha, Shikakai, Rosemary Leaves, Black Cumin, Methi Dana, and Ratanjot."
+                mobileDesc: "We carefully choose a blend of 11 whole, unbleached traditional herbs—including Amla, Reetha, Shikakai, Rosemary Leaves, Black Cumin, Methi Dana, and Ratanjot."
             },
             {
                 phaseTag: "STEP 02 / 04",
@@ -1889,7 +1953,7 @@
                 glowOpacity: "0.45",
                 mobileKicker: "Step 04 • Pure Cold-Pressed Oils",
                 mobileTitle: "Premium Cold-Pressed Oils",
-                mobileDesc: "Blended with 7 pure cold-pressed oils—including Argan, Jojoba, Sweet Almond, and Pumpkin Seed—extracted without high heat."
+                mobileDesc: "Blended with 4 pure cold-pressed oils—Argan, Jojoba, Sweet Almond, and Pumpkin Seed—extracted without high heat."
             }
         ];
 
@@ -2055,12 +2119,13 @@
             const pills = document.querySelectorAll('.ing-pill');
             pills.forEach((p) => {
                 const pillIdx = parseInt(p.getAttribute('data-idx'), 10);
+                const isMobilePill = p.closest('#mobile-herb-pills') !== null;
                 if (pillIdx === idx) {
                     p.classList.add('bg-espresso', 'text-cream');
                     p.classList.remove('bg-sand/70', 'bg-cream', 'text-espresso');
                 } else {
                     p.classList.remove('bg-espresso', 'text-cream');
-                    p.classList.add('bg-sand/70', 'text-espresso');
+                    p.classList.add(isMobilePill ? 'bg-cream' : 'bg-sand/70', 'text-espresso');
                 }
             });
 
@@ -2115,6 +2180,7 @@
         // 6B. Mobile Reviews Carousel Pagination Dots Sync
         const reviewsTrack = document.getElementById('reviews-track');
         const reviewDots = document.querySelectorAll('.review-dot');
+        const reviewDotBtns = document.querySelectorAll('#reviews-dots > button');
 
         function scrollToReview(idx) {
             const cards = document.querySelectorAll('.review-card');
@@ -2129,13 +2195,16 @@
                 const activeIdx = Math.min(2, Math.max(0, Math.round((reviewsTrack.scrollLeft / maxScroll) * 2)));
                 reviewDots.forEach((dot, i) => {
                     dot.className = i === activeIdx
-                        ? "review-dot h-1.5 w-5 rounded-full bg-gold transition-all duration-300"
-                        : "review-dot h-1.5 w-1.5 rounded-full bg-espresso/25 transition-all duration-300";
+                        ? "review-dot h-1.5 w-5 rounded-full bg-gold transition-all duration-300 pointer-events-none"
+                        : "review-dot h-1.5 w-1.5 rounded-full bg-espresso/25 transition-all duration-300 pointer-events-none";
+                });
+                reviewDotBtns.forEach((btn, i) => {
+                    btn.setAttribute('aria-selected', i === activeIdx);
                 });
             }, { passive: true });
         }
 
-        // 7. Slide-Out WhatsApp Ritual Bag Logic (With LocalStorage Persistence, Per-Field Validation & Form Keyboard Flow)
+        // 7. Slide-Out WhatsApp Ritual Bag Logic (With Device-Aware Add Flow, Fly-to-Bag Animation & LocalStorage Persistence)
         const products = {
             oil: { name: 'Elora Herbal Hair Oil', meta: '200 ml (6.76 fl. oz.)', price: 1850, img: 'Oil v4.jpg' },
             cream: { name: 'Whitening & Brightening Cream', meta: '24K Gold & Vitamin C', price: 1100, img: 'Cream v4.jpg' }
@@ -2159,13 +2228,13 @@
             }
         } catch (e) {}
 
-        // Mobile Keyboard "Next" Progression & Auto-Scroll on Input Focus
+        // Mobile Keyboard "Next" Progression & Auto-Scroll on Input Focus inside Unified Scroll Body
         const formFieldOrder = ['f-name', 'f-phone', 'f-city', 'f-addr'];
         formFieldOrder.forEach((id, i) => {
             const el = document.getElementById(id);
             if (!el) return;
             el.addEventListener('focus', () => {
-                setTimeout(() => el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }), 180);
+                setTimeout(() => el.scrollIntoView({ block: 'center', behavior: 'smooth' }), 220);
             });
             if (i < formFieldOrder.length - 1) {
                 el.addEventListener('keydown', (e) => {
@@ -2190,25 +2259,123 @@
                 void el.offsetWidth;
                 el.classList.add('bag-bump');
             });
+            const buybarBtn = document.getElementById('mobile-buybar-btn');
+            if (buybarBtn) {
+                buybarBtn.classList.add('ring-2', 'ring-gold');
+                setTimeout(() => buybarBtn.classList.remove('ring-2', 'ring-gold'), 520);
+            }
         }
 
-        function addToBag(key) {
+        // Brief "✓ Added" Button Feedback on Mobile/Tablet
+        function flashButtonConfirmation(btnEl) {
+            if (!btnEl) return;
+            const labelEl = btnEl.querySelector('.js-add-label');
+            const iconEl = btnEl.querySelector('.js-add-icon');
+            if (labelEl) {
+                if (!btnEl.dataset.origLabel) btnEl.dataset.origLabel = labelEl.textContent;
+                labelEl.textContent = 'Added';
+                if (iconEl) {
+                    iconEl.classList.remove('fa-bag-shopping');
+                    iconEl.classList.add('fa-check');
+                }
+                clearTimeout(btnEl._flashTimer);
+                btnEl._flashTimer = setTimeout(() => {
+                    labelEl.textContent = btnEl.dataset.origLabel;
+                    if (iconEl) {
+                        iconEl.classList.remove('fa-check');
+                        iconEl.classList.add('fa-bag-shopping');
+                    }
+                }, 1300);
+            }
+        }
+
+        // Subtle Arcing Product Thumbnail Flight into Mobile Checkout Bar
+        function animateFlyToCart(imgSrc, triggerEl) {
+            if (!triggerEl || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                pulseBagBadges();
+                return;
+            }
+
+            const startRect = triggerEl.getBoundingClientRect();
+            const startX = startRect.left + startRect.width / 2;
+            const startY = startRect.top + startRect.height / 2;
+
+            // Target: Mobile bottom Checkout button (if above footer) or top-right Ritual Bag button
+            const beforeFooter = foot ? foot.getBoundingClientRect().top > window.innerHeight : true;
+            const targetBtn = beforeFooter
+                ? document.getElementById('mobile-buybar-btn')
+                : document.getElementById('header-bag-btn');
+            const targetRect = targetBtn ? targetBtn.getBoundingClientRect() : null;
+
+            const endX = targetRect ? (targetRect.left + targetRect.width / 2) : (window.innerWidth - 68);
+            const endY = beforeFooter
+                ? (window.innerHeight - 34)
+                : (targetRect ? (targetRect.top + targetRect.height / 2) : 28);
+
+            const token = document.createElement('img');
+            token.src = imgSrc;
+            token.alt = '';
+            token.setAttribute('aria-hidden', 'true');
+            token.className = 'fly-to-bag-token';
+            token.style.left = `${startX - 22}px`;
+            token.style.top = `${startY - 22}px`;
+            document.body.appendChild(token);
+
+            const dx = endX - startX;
+            const dy = endY - startY;
+            const midX = dx * 0.48;
+            const midY = Math.min(dy * 0.25, -36) - 24;
+
+            if (typeof token.animate === 'function') {
+                const anim = token.animate([
+                    { transform: 'translate3d(0, 0, 0) scale(0.85)', opacity: 0.98, offset: 0 },
+                    { transform: `translate3d(${midX}px, ${midY}px, 0) scale(1.06)`, opacity: 1, offset: 0.36 },
+                    { transform: `translate3d(${dx}px, ${dy}px, 0) scale(0.24)`, opacity: 0.2, offset: 1 }
+                ], {
+                    duration: 580,
+                    easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+                    fill: 'forwards'
+                });
+                anim.onfinish = () => {
+                    token.remove();
+                    pulseBagBadges();
+                };
+            } else {
+                token.remove();
+                pulseBagBadges();
+            }
+        }
+
+        function handlePostAdd(imgSrc, triggerEl) {
+            const drawerIsOpen = !document.getElementById('bag-drawer').inert;
+            if (window.innerWidth >= 1024 || drawerIsOpen) {
+                updateBagCount(true);
+                openBag();
+            } else {
+                _justAddedOnMobile = true;
+                updateBagCount(false);
+                renderBag();
+                flashButtonConfirmation(triggerEl);
+                animateFlyToCart(imgSrc, triggerEl);
+            }
+        }
+
+        function addToBag(key, triggerEl = null) {
             bag[key] += 1;
             document.getElementById('bag-confirmed')?.classList.add('hidden');
-            updateBagCount(true);
-            openBag();
+            handlePostAdd(products[key].img, triggerEl);
         }
 
-        function addDuoBundle() {
+        function addDuoBundle(triggerEl = null) {
             bag.oil += 1;
             bag.cream += 1;
             document.getElementById('bag-confirmed')?.classList.add('hidden');
-            updateBagCount(true);
-            openBag();
+            handlePostAdd(products.oil.img, triggerEl);
         }
 
         function adjustQty(key, delta) {
             bag[key] = Math.max(0, bag[key] + delta);
+            if ((bag.oil + bag.cream) === 0) _justAddedOnMobile = false;
             document.getElementById('bag-confirmed')?.classList.add('hidden');
             updateBagCount(true);
             renderBag();
@@ -2216,6 +2383,7 @@
 
         function clearBagAfterOrder() {
             bag = { oil: 0, cream: 0 };
+            _justAddedOnMobile = false;
             document.getElementById('bag-confirmed')?.classList.add('hidden');
             updateBagCount(false);
             renderBag();
@@ -2259,6 +2427,7 @@
             const origTotalEl = document.getElementById('bag-original-total');
             const upsellBox = document.getElementById('bag-upsell');
             const upsellLabel = document.getElementById('upsell-label');
+            const formSection = document.getElementById('bag-form-section');
             const confirmBtn = document.getElementById('confirm-btn');
             const savedEl = document.getElementById('bag-saved');
 
@@ -2266,6 +2435,7 @@
             confirmBtn.disabled = !count;
             confirmBtn.classList.toggle('opacity-40', !count);
             confirmBtn.classList.toggle('cursor-not-allowed', !count);
+            formSection?.classList.toggle('hidden', count === 0);
 
             if (count === 0) {
                 container.innerHTML = `
