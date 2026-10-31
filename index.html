@@ -39,40 +39,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
     
-    <!-- Tailwind CSS (Will be replaced with compiled static CSS in final launch step) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { 
-                        espresso: '#161311',
-                        umber: '#231e1a',
-                        soot: '#282421',
-                        travertine: '#f3efe6',
-                        sand: '#e7e0d3',
-                        gold: '#c8a45d',
-                        cream: '#faf7f2'
-                    },
-                    fontFamily: { 
-                        playfair: ['"Playfair Display"', 'serif'], 
-                        montserrat: ['"Montserrat"', 'sans-serif'], 
-                        greatvibes: ['"Great Vibes"', 'cursive'] 
-                    },
-                    screens: {
-                        'portrait-hero': { 'raw': '(max-aspect-ratio: 9/10)' },
-                        'wide-hero': { 'raw': 'not all and (max-aspect-ratio: 9/10)' },
-                        'short-land': { 'raw': '(min-aspect-ratio: 9/10) and (max-height: 640px) and (max-width: 1023px)' }
-                    }
-                }
-            }
-        }
-    </script>
 
     <!-- ===================================================================
          SOCIAL MEDIA AD PIXELS (META & TIKTOK)
          Set META_PIXEL_ID and/or TIKTOK_PIXEL_ID below when launching ads.
-         AddToCart, InitiateCheckout, and Purchase events fire automatically.
+         AddToCart, InitiateCheckout, and Lead events fire automatically.
          =================================================================== -->
     <script>
         window.ELORA_PIXELS = {
@@ -611,6 +582,9 @@
         }
     </style>
 
+    <!-- Compiled Tailwind (static). Loaded after the custom styles above, matching how the CDN injected it. -->
+    <link rel="stylesheet" href="tailwind.min.css">
+
     <!-- Structured Data (Schema.org JSON-LD for Rich Search Results) -->
     <script type="application/ld+json">
     {
@@ -641,11 +615,6 @@
                     "priceCurrency": "PKR",
                     "price": "1850",
                     "availability": "https://schema.org/InStock"
-                },
-                "aggregateRating": {
-                    "@type": "AggregateRating",
-                    "ratingValue": "5.0",
-                    "reviewCount": "3"
                 }
             },
             {
@@ -660,11 +629,6 @@
                     "priceCurrency": "PKR",
                     "price": "1100",
                     "availability": "https://schema.org/InStock"
-                },
-                "aggregateRating": {
-                    "@type": "AggregateRating",
-                    "ratingValue": "5.0",
-                    "reviewCount": "3"
                 }
             },
             {
@@ -679,11 +643,6 @@
                     "priceCurrency": "PKR",
                     "price": "2550",
                     "availability": "https://schema.org/InStock"
-                },
-                "aggregateRating": {
-                    "@type": "AggregateRating",
-                    "ratingValue": "5.0",
-                    "reviewCount": "3"
                 }
             }
         ]
@@ -810,7 +769,7 @@
                         <p id="bag-saved" class="hidden text-xs font-semibold" style="color:#0f7a3f"></p>
                         <p id="f-err" role="alert" class="hidden text-xs text-red-700 font-medium"></p>
                         <div id="bag-confirmed" role="status" class="hidden p-3 rounded-lg bg-[#0f7a3f]/10 border border-[#0f7a3f]/30 text-xs text-espresso flex items-center justify-between gap-2">
-                            <span><strong style="color:#0f7a3f">Opened in WhatsApp!</strong> Send the message there to finish your COD order.</span>
+                            <span><strong style="color:#0f7a3f">Your order message is ready.</strong> Send it in WhatsApp to finish your COD order. <a id="wa-retry" href="#" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 font-semibold">WhatsApp didn't open? Tap here</a></span>
                             <button type="button" onclick="clearBagAfterOrder()" class="underline font-bold shrink-0 text-[11px] uppercase tracking-wider">Reset bag</button>
                         </div>
                         <p class="text-xs text-espresso/70">No payment now. We confirm your order on WhatsApp and you pay cash on delivery.</p>
@@ -1022,7 +981,7 @@
                             <span>200 ML (6.76 FL. OZ.)</span>
                         </div>
 
-                        <div class="pg-m relative w-full aspect-[4/4.3] rounded-2xl bg-espresso overflow-hidden shadow-md border border-espresso/10 mb-4" data-gallery="track" role="region" aria-roledescription="carousel" aria-label="Elora Herbal Hair Oil photos"><ul class="pg-track" tabindex="0" aria-label="Swipe to see more photos"><li class="pg-slide on" role="group" aria-roledescription="slide" aria-label="1 of 2"><img loading="lazy" decoding="async" alt="Elora Herbal Hair Oil Flatlay" src="Oil v4.jpg" width="800" height="860"><div class="absolute bottom-2.5 left-2.5 right-2.5 bg-espresso/75 backdrop-blur-md text-cream px-3 py-1.5 rounded-lg border border-white/15 flex justify-between items-center gap-2"><span class="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] sm:tracking-[0.18em] font-semibold whitespace-nowrap">8-Hour Gentle Infusion</span><span class="text-gold font-playfair italic text-[11px] whitespace-nowrap shrink-0">11 Herbs &amp; 4 Oils</span></div></li><li class="pg-slide" role="group" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true" style="--op:center 42%"><img loading="lazy" decoding="async" alt="Pouring Elora Herbal Hair Oil into the palm of a hand" src="oil-pour-800.jpg" srcset="oil-pour-800.jpg 800w, oil-pour-1400.jpg 1400w" sizes="(min-width:1700px) 850px, (min-width:768px) 50vw, 100vw" width="1400" height="1875"><div class="absolute bottom-2.5 left-2.5 right-2.5 bg-espresso/75 backdrop-blur-md text-cream px-3 py-1.5 rounded-lg border border-white/15 flex justify-between items-center gap-2"><span class="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] sm:tracking-[0.18em] font-semibold whitespace-nowrap">Pour Into Your Palm</span><span class="text-gold font-playfair italic text-[11px] whitespace-nowrap shrink-0">4 Cold-Pressed Oils</span></div></li></ul><div class="pg-dots" role="group" aria-label="Choose photo"><button type="button" class="pg-dot" data-pg-go="0" aria-label="Show photo 1 of 2" aria-current="true"></button><button type="button" class="pg-dot" data-pg-go="1" aria-label="Show photo 2 of 2" aria-current="false"></button></div></div>
+                        <div class="pg-m relative w-full aspect-[4/4.3] rounded-2xl bg-espresso overflow-hidden shadow-md border border-espresso/10 mb-4" data-gallery="track" role="region" aria-roledescription="carousel" aria-label="Elora Herbal Hair Oil photos"><ul class="pg-track" tabindex="0" aria-label="Swipe to see more photos"><li class="pg-slide on" role="group" aria-roledescription="slide" aria-label="1 of 2"><img loading="lazy" decoding="async" alt="Elora Herbal Hair Oil Flatlay" src="Oil v4.jpg" width="800" height="860"><div class="absolute bottom-2.5 left-2.5 right-2.5 bg-espresso/75 backdrop-blur-md text-cream px-3 py-1.5 rounded-lg border border-white/15 flex justify-between items-center gap-2"><span class="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] sm:tracking-[0.18em] font-semibold whitespace-nowrap">8-Hour Gentle Infusion</span><span class="text-gold font-playfair italic text-[11px] whitespace-nowrap shrink-0">11 Herbs &amp; 4 Oils</span></div></li><li class="pg-slide" role="group" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true" style="--op:center 42%"><img loading="lazy" decoding="async" alt="Pouring Elora Herbal Hair Oil into the palm of a hand" src="oil-pour-800.jpg" srcset="oil-pour-800.jpg 800w, oil-pour-1400.jpg 1400w" sizes="(min-width:1700px) 850px, (min-width:768px) 50vw, 100vw" width="1400" height="1875"><div class="absolute bottom-2.5 left-2.5 right-2.5 bg-espresso/75 backdrop-blur-md text-cream px-3 py-1.5 rounded-lg border border-white/15 flex justify-between items-center gap-2"><span class="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] sm:tracking-[0.18em] font-semibold whitespace-nowrap">100% Herbal</span><span class="text-gold font-playfair italic text-[11px] whitespace-nowrap shrink-0">4 Cold-Pressed Oils</span></div></li></ul><div class="pg-dots" role="group" aria-label="Choose photo"><button type="button" class="pg-dot" data-pg-go="0" aria-label="Show photo 1 of 2" aria-current="true"></button><button type="button" class="pg-dot" data-pg-go="1" aria-label="Show photo 2 of 2" aria-current="false"></button></div></div>
 
                         <div class="mb-4">
                             <h3 class="font-playfair text-2xl text-espresso leading-tight mb-3 md:min-h-[3.6rem] flex items-end">Elora Herbal Hair Oil</h3>
@@ -1196,7 +1155,7 @@
                 <!-- HAIR OIL -->
                 <article id="crown" class="grid grid-cols-12 line-b relative">
                     <div class="col-span-6 line-r bg-espresso">
-                        <div class="sticky top-[84px] h-[calc(100svh-84px)] w-full" data-gallery="stack" role="region" aria-roledescription="carousel" aria-label="Elora Herbal Hair Oil photos"><div class="pg-stage relative h-full overflow-hidden"><ul class="pg-stack absolute inset-0"><li class="pg-slide on" role="group" aria-roledescription="slide" aria-label="1 of 2"><img loading="lazy" decoding="async" alt="Elora Herbal Hair Oil Flatlay" src="Oil v4.jpg" width="1000" height="1075"><div class="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-espresso/85 via-espresso/40 to-transparent flex justify-between items-end gap-6 text-cream"><div><span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 block mb-0.5">8-Hour Gentle Infusion</span><span class="font-playfair italic text-gold text-lg">11 Whole Herbs &amp; 4 Cold-Pressed Oils</span></div><span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 font-semibold shrink-0 text-right">Paraben &amp; Mineral-Oil Free</span></div></li><li class="pg-slide" role="group" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true" style="--op:center 42%"><img loading="lazy" decoding="async" alt="Pouring Elora Herbal Hair Oil into the palm of a hand" src="oil-pour-800.jpg" srcset="oil-pour-800.jpg 800w, oil-pour-1400.jpg 1400w" sizes="(min-width:1700px) 850px, (min-width:768px) 50vw, 100vw" width="1400" height="1875"><div class="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-espresso/85 via-espresso/40 to-transparent flex justify-between items-end gap-6 text-cream"><div><span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 block mb-0.5">Pour Into Your Palm</span><span class="font-playfair italic text-gold text-lg">Argan, Jojoba, Pumpkin Seed &amp; Almond</span></div><span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 font-semibold shrink-0 text-right">Paraben &amp; Mineral-Oil Free</span></div></li></ul><div class="absolute z-10 pointer-events-none inset-x-0 top-0 p-8 bg-gradient-to-b from-espresso/75 to-transparent flex justify-between items-center text-[11px] uppercase tracking-[0.28em] text-cream/90 font-bold">
+                        <div class="sticky top-[84px] h-[calc(100svh-84px)] w-full" data-gallery="stack" role="region" aria-roledescription="carousel" aria-label="Elora Herbal Hair Oil photos"><div class="pg-stage relative h-full overflow-hidden"><ul class="pg-stack absolute inset-0"><li class="pg-slide on" role="group" aria-roledescription="slide" aria-label="1 of 2"><img loading="lazy" decoding="async" alt="Elora Herbal Hair Oil Flatlay" src="Oil v4.jpg" width="1000" height="1075"><div class="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-espresso/85 via-espresso/40 to-transparent flex justify-between items-end gap-6 text-cream"><div><span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 block mb-0.5">8-Hour Gentle Infusion</span><span class="font-playfair italic text-gold text-lg">11 Whole Herbs &amp; 4 Cold-Pressed Oils</span></div><span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 font-semibold shrink-0 text-right">Paraben &amp; Mineral-Oil Free</span></div></li><li class="pg-slide" role="group" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true" style="--op:center 42%"><img loading="lazy" decoding="async" alt="Pouring Elora Herbal Hair Oil into the palm of a hand" src="oil-pour-800.jpg" srcset="oil-pour-800.jpg 800w, oil-pour-1400.jpg 1400w" sizes="(min-width:1700px) 850px, (min-width:768px) 50vw, 100vw" width="1400" height="1875"><div class="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-espresso/85 via-espresso/40 to-transparent flex justify-between items-end gap-6 text-cream"><div><span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 block mb-0.5">100% Herbal</span><span class="font-playfair italic text-gold text-lg">Argan, Jojoba, Pumpkin Seed &amp; Almond</span></div><span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 font-semibold shrink-0 text-right">Paraben &amp; Mineral-Oil Free</span></div></li></ul><div class="absolute z-10 pointer-events-none inset-x-0 top-0 p-8 bg-gradient-to-b from-espresso/75 to-transparent flex justify-between items-center text-[11px] uppercase tracking-[0.28em] text-cream/90 font-bold">
                                 <span>01 // HERBAL HAIR OIL</span>
                                 <span>200 ML (6.76 FL. OZ.)</span>
                             </div><button type="button" data-pg-prev aria-label="Previous photo" class="pg-arrow pg-prev"><i class="fa-solid fa-chevron-left text-xs"></i></button><button type="button" data-pg-next aria-label="Next photo" class="pg-arrow pg-next"><i class="fa-solid fa-chevron-right text-xs"></i></button><div class="pg-dots pg-dots-d" role="group" aria-label="Choose photo"><button type="button" class="pg-dot" data-pg-go="0" aria-label="Show photo 1 of 2: Bottle" aria-current="true"></button><button type="button" class="pg-dot" data-pg-go="1" aria-label="Show photo 2 of 2: The pour" aria-current="false"></button></div></div></div>
@@ -1977,7 +1936,7 @@
                     window.fbq('track', eventName, payload);
                 }
                 if (window.ttq && typeof window.ttq.track === 'function') {
-                    const ttEvent = eventName === 'Purchase' ? 'CompletePayment' : eventName;
+                    const ttEvent = eventName === 'Purchase' ? 'CompletePayment' : eventName === 'Lead' ? 'PlaceAnOrder' : eventName;
                     window.ttq.track(ttEvent, payload);
                 }
             } catch (e) {}
@@ -2152,14 +2111,6 @@
             renderBag();
             if (wasClosed) {
                 pushDrawerHistory('bag');
-                const { count, finalTotal } = getBagTotals();
-                if (count > 0) {
-                    trackAdEvent('InitiateCheckout', {
-                        value: finalTotal,
-                        currency: 'PKR',
-                        num_items: count
-                    });
-                }
             }
             setTimeout(() => {
                 o.classList.remove('opacity-0');
@@ -2632,11 +2583,21 @@
                 : { known: true, isTwin: false, fee: 250, label: 'Rs. 250 (Nationwide COD)' };
         }
 
+        // Keep quantities as whole numbers between 0 and 99, whatever is stored or added
+        function safeQuantity(value) {
+            const n = Number(value);
+            if (!Number.isFinite(n)) return 0;
+            return Math.min(99, Math.max(0, Math.floor(n)));
+        }
+
         let bag = { oil: 0, cream: 0 };
         try {
             const sv = JSON.parse(localStorage.getItem('elora_bag') || 'null');
-            if (sv) { bag.oil = +sv.oil || 0; bag.cream = +sv.cream || 0; }
-        } catch (e) {}
+            if (sv && typeof sv === 'object' && !Array.isArray(sv)) {
+                bag.oil = safeQuantity(sv.oil);
+                bag.cream = safeQuantity(sv.cream);
+            }
+        } catch (e) { bag = { oil: 0, cream: 0 }; }
 
         function syncClearCustomerBtn() {
             const btn = document.getElementById('clear-cust-btn');
@@ -2821,7 +2782,7 @@
         }
 
         function addToBag(key, triggerEl = null) {
-            bag[key] += 1;
+            bag[key] = safeQuantity(bag[key] + 1);
             document.getElementById('bag-confirmed')?.classList.add('hidden');
             const p = products[key];
             trackAdEvent('AddToCart', {
@@ -2835,8 +2796,8 @@
         }
 
         function addDuoBundle(triggerEl = null) {
-            bag.oil += 1;
-            bag.cream += 1;
+            bag.oil = safeQuantity(bag.oil + 1);
+            bag.cream = safeQuantity(bag.cream + 1);
             document.getElementById('bag-confirmed')?.classList.add('hidden');
             trackAdEvent('AddToCart', {
                 content_ids: [products.oil.id, products.cream.id],
@@ -2849,7 +2810,7 @@
         }
 
         function adjustQty(key, delta) {
-            bag[key] = Math.max(0, bag[key] + delta);
+            bag[key] = safeQuantity(bag[key] + delta);
             if ((bag.oil + bag.cream) === 0) _justAddedOnMobile = false;
             document.getElementById('bag-confirmed')?.classList.add('hidden');
             updateBagCount(true);
@@ -3018,6 +2979,7 @@
     trackAdEvent('Contact', { content_name: 'Bag help request' });
     window.open(`https://wa.me/923332952456?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
 }
+
         function isValidPakistaniMobile(rawPhone) {
             const cleaned = rawPhone.replace(/[\s-]/g, '');
             return /^(?:\+92|0092|92|0)3\d{9}$/.test(cleaned);
@@ -3095,7 +3057,7 @@
                 `Address: ${addr}`
             );
 
-            trackAdEvent('Purchase', {
+            trackAdEvent('Lead', {
                 content_ids: contentIds,
                 content_type: 'product',
                 value: grandTotal,
@@ -3103,9 +3065,21 @@
                 num_items: bag.oil + bag.cream
             });
 
-            window.open(`https://wa.me/923332952456?text=${encodeURIComponent(msg.join('\n'))}`, '_blank', 'noopener,noreferrer');
+            const waUrl = `https://wa.me/923332952456?text=${encodeURIComponent(msg.join('\n'))}`;
+            window.open(waUrl, '_blank', 'noopener,noreferrer');
+            const retry = document.getElementById('wa-retry');
+            if (retry) retry.href = waUrl;
             document.getElementById('bag-confirmed')?.classList.remove('hidden');
         }
+
+        // InitiateCheckout: once per visit, when the customer starts filling in their details
+        ['f-name', 'f-phone', 'f-city', 'f-addr'].forEach(id => document.getElementById(id)?.addEventListener('focus', () => {
+            if (window._icFired) return;
+            const { count, finalTotal } = getBagTotals();
+            if (!count) return;
+            window._icFired = true;
+            trackAdEvent('InitiateCheckout', { value: finalTotal, currency: 'PKR', num_items: count });
+        }));
 
         // Initialize Bag & Scroll State on Load
         updateBagCount(false);
