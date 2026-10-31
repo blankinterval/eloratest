@@ -701,11 +701,11 @@
             </button>
         </div>
         <nav class="flex flex-col gap-4 my-auto py-4">
-            <a href="#duology" onclick="closeMenuForNav()" class="font-playfair text-2xl text-cream hover:text-gold no-underline flex items-baseline justify-between pb-3.5 line-b-light">
+            <a href="#crown-mobile" onclick="this.hash = window.matchMedia('(min-width:1024px)').matches ? 'crown' : 'crown-mobile'; closeMenuForNav()" class="font-playfair text-2xl text-cream hover:text-gold no-underline flex items-baseline justify-between pb-3.5 line-b-light">
                 <span>01. Herbal Hair Oil</span>
                 <span class="text-[11px] font-montserrat uppercase tracking-widest text-gold font-semibold">Rs. 1,850</span>
             </a>
-            <a href="#duology" onclick="closeMenuForNav()" class="font-playfair text-2xl text-cream hover:text-gold no-underline flex items-baseline justify-between pb-3.5 line-b-light">
+            <a href=<a href="#complexion-mobile" onclick="this.hash = window.matchMedia('(min-width:1024px)').matches ? 'complexion' : 'complexion-mobile'; closeMenuForNav()" class="font-playfair text-2xl text-cream hover:text-gold no-underline flex items-baseline justify-between pb-3.5 line-b-light">
                 <span>02. Brightening Cream</span>
                 <span class="text-[11px] font-montserrat uppercase tracking-widest text-gold font-semibold">Rs. 1,100</span>
             </a>
@@ -3025,7 +3025,7 @@
             const ckLbl = document.getElementById('confirm-btn-label');
             if (ckLbl) ckLbl.textContent = 'Opening WhatsApp…';
             setTimeout(() => { window._eloraSending = false; updateDeliveryDisplay(); }, 4000);
-            const msg = ['Hello, I would like to place an order:'];
+            const msg = ['Hello Elora Beauty by Rabi, I would like to place an order:'];
             let raw = 0;
             const contentIds = [];
             if (bag.oil) {
