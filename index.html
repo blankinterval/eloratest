@@ -373,8 +373,7 @@
             padding: 5px 14px;
         }
 
-        @media (min-width: 900px), (orientation: landscape) and (max-height: 520px) and (min-width: 640px) {
-    #infusion { --bar: 76px; }
+        @media (min-width: 900px) {
             #infusion { --bar: 76px; }
             #infusion .pinned-track { height: 260svh; }
             #infusion .pinned-sticky {
@@ -446,15 +445,7 @@
                 padding-top: 0;
             }
         }
-/* Landscape phones: compact side-by-side so the pinned rail never slides under the header */
-@media (orientation: landscape) and (max-height: 520px) and (max-width: 1023px) {
-    #infusion .pinned-sticky { gap: 28px; }
-    #infusion .rail { width: min(240px, 100%); height: min(38svh, 150px); margin: 8px auto; }
-    #infusion .pinned-stage { min-height: 0; padding-left: 28px; }
-    #infusion .pinned-card { gap: 8px; }
-    #infusion .step-title { font-size: 1.4rem; line-height: 1.15; }
-    #infusion .step-desc { font-size: 13px; line-height: 1.5; }
-}
+
         /* Ingredients Panning Lens Transition (900ms silky camera glide + GPU layer) */
         .specimen-photo {
             transform-origin: 50% 50%;
@@ -1164,7 +1155,7 @@
                 <!-- HAIR OIL -->
                 <article id="crown" class="grid grid-cols-12 line-b relative">
                     <div class="col-span-6 line-r bg-espresso">
-                        <div class="sticky top-[84px] h-[calc(100svh-84px)] w-full" data-gallery="stack" role="region" aria-roledescription="carousel" aria-label="Elora Herbal Hair Oil photos"><div class="pg-stage relative h-full overflow-hidden"><ul class="pg-stack absolute inset-0"><li class="pg-slide on" role="group" aria-roledescription="slide" aria-label="1 of 2"><img loading="lazy" decoding="async" alt="Elora Herbal Hair Oil Flatlay" src="Oil v4.jpg" width="1000" height="1075"><div class="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-espresso/85 via-espresso/40 to-transparent flex justify-between items-end gap-6 text-cream"><div><span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 block mb-0.5">8-Hour Gentle Infusion</span><span class="font-playfair italic text-gold text-lg">11 Whole Herbs &amp; 4 Cold-Pressed Oils</span></div><span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 font-semibold shrink-0 text-right">Paraben &amp; Mineral-Oil Free</span></div></li><li class="pg-slide" role="group" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true" style="--op:center 42%"><img loading="lazy" decoding="async" alt="Pouring Elora Herbal Hair Oil into the palm of a hand" src="oil-pour-800.jpg" srcset="oil-pour-800.jpg 800w, oil-pour-1400.jpg 1400w" sizes="(min-width:1700px) 850px, (min-width:768px) 50vw, 100vw" width="1400" height="1875"><div class="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-espresso/85 via-espresso/40 to-transparent flex justify-between items-end gap-6 text-cream"><div><span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 block mb-0.5">100% Herbal</span><span class="font-playfair italic text-gold text-lg">Argan, Jojoba, Pumpkin Seed &amp; Almond</span></div><span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 font-semibold shrink-0 text-right">Paraben &amp; Mineral-Oil Free</span></div></li></ul><div class="absolute z-10 pointer-events-none inset-x-0 top-0 p-8 bg-gradient-to-b from-espresso/75 to-transparent flex justify-between items-center text-[11px] uppercase tracking-[0.28em] text-cream/90 font-bold">
+                        <div class="sticky top-[84px] h-[calc(100svh-84px)] w-full" data-gallery="stack" role="region" aria-roledescription="carousel" aria-label="Elora Herbal Hair Oil photos"><div class="pg-stage relative h-full overflow-hidden"><ul class="pg-stack absolute inset-0"><li class="pg-slide on" role="group" aria-roledescription="slide" aria-label="1 of 2"><img loading="lazy" decoding="async" alt="Elora Herbal Hair Oil Flatlay" src="Oil v4.jpg" width="1000" height="1075"><div class="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-espresso/85 via-espresso/40 to-transparent flex justify-between items-end gap-6 text-cream pr-28"><div><span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 block mb-0.5">8-Hour Gentle Infusion</span><span class="font-playfair italic text-gold text-lg">11 Whole Herbs &amp; 4 Cold-Pressed Oils</span></div><span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 font-semibold shrink-0 text-right">Paraben &amp; Mineral-Oil Free</span></div></li><li class="pg-slide" role="group" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true" style="--op:center 42%"><img loading="lazy" decoding="async" alt="Pouring Elora Herbal Hair Oil into the palm of a hand" src="oil-pour-800.jpg" srcset="oil-pour-800.jpg 800w, oil-pour-1400.jpg 1400w" sizes="(min-width:1700px) 850px, (min-width:768px) 50vw, 100vw" width="1400" height="1875"><div class="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-espresso/85 via-espresso/40 to-transparent flex justify-between items-end gap-6 text-cream pr-28"><div><span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 block mb-0.5">100% Herbal</span><span class="font-playfair italic text-gold text-lg">Argan, Jojoba, Pumpkin Seed &amp; Almond</span></div><span class="text-[11px] uppercase tracking-[0.24em] text-cream/70 font-semibold shrink-0 text-right">Paraben &amp; Mineral-Oil Free</span></div></li></ul><div class="absolute z-10 pointer-events-none inset-x-0 top-0 p-8 bg-gradient-to-b from-espresso/75 to-transparent flex justify-between items-center text-[11px] uppercase tracking-[0.28em] text-cream/90 font-bold">
                                 <span>01 // HERBAL HAIR OIL</span>
                                 <span>200 ML (6.76 FL. OZ.)</span>
                             </div><button type="button" data-pg-prev aria-label="Previous photo" class="pg-arrow pg-prev"><i class="fa-solid fa-chevron-left text-xs"></i></button><button type="button" data-pg-next aria-label="Next photo" class="pg-arrow pg-next"><i class="fa-solid fa-chevron-right text-xs"></i></button><div class="pg-dots pg-dots-d" role="group" aria-label="Choose photo"><button type="button" class="pg-dot" data-pg-go="0" aria-label="Show photo 1 of 2: Bottle" aria-current="true"></button><button type="button" class="pg-dot" data-pg-go="1" aria-label="Show photo 2 of 2: The pour" aria-current="false"></button></div></div></div>
@@ -1742,14 +1733,14 @@
                 </div>
 
                 <!-- Mobile Review Carousel Pagination Dots (44x44px Touch Target Wrappers with Compact Visual Dots) -->
-                <div id="reviews-dots" class="md:hidden flex justify-center items-center gap-1 mt-2" role="tablist" aria-label="Review slides">
-                    <button type="button" role="tab" aria-selected="true" onclick="scrollToReview(0)" aria-label="Review 1" class="w-11 h-11 flex items-center justify-center">
+                <div id="reviews-dots" class="md:hidden flex justify-center items-center gap-1 mt-2" role="group" aria-label="Choose review slide">
+                    <button type="button" aria-current="true" onclick="scrollToReview(0)" aria-label="Show review 1 of 3" class="w-11 h-11 flex items-center justify-center">
                         <span class="review-dot h-1.5 w-5 rounded-full bg-gold transition-all duration-300 pointer-events-none"></span>
                     </button>
-                    <button type="button" role="tab" aria-selected="false" onclick="scrollToReview(1)" aria-label="Review 2" class="w-11 h-11 flex items-center justify-center">
+                    <button type="button" aria-current="false" onclick="scrollToReview(1)" aria-label="Show review 2 of 3" class="w-11 h-11 flex items-center justify-center">
                         <span class="review-dot h-1.5 w-1.5 rounded-full bg-espresso/25 transition-all duration-300 pointer-events-none"></span>
                     </button>
-                    <button type="button" role="tab" aria-selected="false" onclick="scrollToReview(2)" aria-label="Review 3" class="w-11 h-11 flex items-center justify-center">
+                    <button type="button" aria-current="false" onclick="scrollToReview(2)" aria-label="Show review 3 of 3" class="w-11 h-11 flex items-center justify-center">
                         <span class="review-dot h-1.5 w-1.5 rounded-full bg-espresso/25 transition-all duration-300 pointer-events-none"></span>
                     </button>
                 </div>
@@ -1909,7 +1900,7 @@
     </div>
 <!-- SCRIPTS -->
     <style>
-        /* Fix 2: Keep FAQ & "How to Use" + / x icons completely stationary on press and widen right-side click area */
+        /* Fix: Keep FAQ & "How to Use" + / x icons completely stationary on press and widen right-side click area */
         .acc-item > button,
         .acc-item > button:active:not(:disabled) {
             transform: none !important;
@@ -1931,6 +1922,183 @@
             display: inline-block;
             transform-origin: center center;
             backface-visibility: hidden;
+        }
+
+        /* 1. Polyfill utility classes used in HTML that are missing from static tailwind.min.css */
+        .border-espresso\/12 { border-color: rgba(22, 19, 17, 0.12); }
+        .border-current\/25 { border-color: color-mix(in srgb, currentColor 25%, transparent); }
+        .border-current\/50 { border-color: color-mix(in srgb, currentColor 50%, transparent); }
+        @media (min-width: 768px) {
+            .md\:flex-col { flex-direction: column; }
+            .md\:items-start { align-items: flex-start; }
+            .md\:gap-0\.5 { gap: 0.125rem; }
+        }
+
+        /* 2. Prevent anchor scroll jumps to #herbarium, #patronage, #faq from landing off-target */
+        #herbarium, #patronage, #faq {
+            content-visibility: visible;
+        }
+
+        /* 3. Lock side-by-side product cards (768px - 1023px) so photos, titles, and price bars align */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            #crown-mobile > div:first-child > div:first-child,
+            #complexion-mobile > div:first-child > div:first-child {
+                white-space: nowrap;
+            }
+            #crown-mobile h3,
+            #complexion-mobile h3 {
+                min-height: 3.75rem; /* Exact height of 2 lines of text-2xl leading-tight */
+                align-items: flex-start;
+            }
+        }
+
+        /* 4A. Switch #infusion rail to 2-column layout at 860px+ (includes 896px iPhone XS Max) */
+        @media (min-width: 860px) {
+            #infusion { --bar: 72px; }
+            #infusion .pinned-track { height: 260svh; }
+            #infusion .pinned-sticky {
+                display: grid;
+                grid-template-columns: 5fr 7fr;
+                align-items: center;
+                gap: 48px;
+                padding: 0;
+            }
+            #infusion .rail-box {
+                border-bottom: 0;
+                padding-bottom: 0;
+                align-items: center;
+                gap: 18px;
+            }
+            #infusion .read {
+                order: 2;
+                justify-content: center;
+                gap: 12px;
+                padding-top: 6px;
+            }
+            #infusion .rail {
+                height: min(44svh, 310px);
+                width: 290px;
+                margin: 18px auto;
+            }
+            #infusion .rl {
+                left: 18px;
+                right: auto;
+                top: 0;
+                bottom: 0;
+                width: 2px;
+                height: auto;
+            }
+            #infusion .rl i {
+                width: 100%;
+                height: calc(var(--p, 0) * 100%);
+            }
+            #infusion .hd {
+                left: 19px;
+                top: calc(var(--p, 0) * 100%);
+            }
+            #infusion .rn {
+                left: 0;
+                top: var(--at);
+                transform: translateY(-50%);
+                flex-direction: row;
+                gap: 14px;
+                text-align: left;
+            }
+            #infusion .rn span { align-items: flex-start; }
+            #infusion .rn strong { display: block; }
+            #infusion .rn small {
+                font-weight: 400;
+                font-size: 11px;
+                letter-spacing: 0.06em;
+                margin-top: 1px;
+            }
+            #infusion .pinned-stage {
+                align-items: center;
+                min-height: 240px;
+                border-left: 1px solid var(--line);
+                padding-left: 40px;
+                padding-top: 0;
+            }
+        }
+
+        /* 4B. Compact #infusion rail for all short-landscape viewports (matches short-land in tailwind.min.css) */
+        @media (min-aspect-ratio: 9/10) and (max-height: 640px) and (max-width: 1023px) {
+            #atelier-header {
+                padding-top: 0.5rem !important;
+                padding-bottom: 0.5rem !important;
+            }
+            #infusion {
+                --bar: 58px;
+            }
+            #infusion .pinned-sticky {
+                display: grid;
+                grid-template-columns: 5fr 7fr;
+                align-items: center;
+                gap: 28px;
+                padding: 8px 0;
+            }
+            #infusion .rail-box {
+                border-bottom: 0;
+                padding-bottom: 0;
+                align-items: center;
+                gap: 10px;
+            }
+            #infusion .read {
+                order: 2;
+                justify-content: center;
+                gap: 10px;
+                padding-top: 2px;
+            }
+            #infusion .read b {
+                font-size: 1.45rem;
+            }
+            #infusion .rail {
+                height: min(52svh, 210px);
+                width: 250px;
+                margin: 6px auto;
+            }
+            #infusion .rl {
+                left: 15px;
+                right: auto;
+                top: 0;
+                bottom: 0;
+                width: 2px;
+                height: auto;
+            }
+            #infusion .rl i {
+                width: 100%;
+                height: calc(var(--p, 0) * 100%);
+            }
+            #infusion .hd {
+                left: 16px;
+                top: calc(var(--p, 0) * 100%);
+            }
+            #infusion .rn {
+                left: 0;
+                top: var(--at);
+                transform: translateY(-50%);
+                flex-direction: row;
+                gap: 10px;
+                text-align: left;
+            }
+            #infusion .rn b {
+                width: 30px;
+                height: 30px;
+                font-size: 12px;
+            }
+            #infusion .rn span { align-items: flex-start; }
+            #infusion .rn strong { display: block; font-size: 12px; }
+            #infusion .rn small { font-size: 9.5px; margin-top: 1px; }
+            #infusion .pinned-stage {
+                align-items: center;
+                min-height: 0;
+                border-left: 1px solid var(--line);
+                padding-left: 28px;
+                padding-top: 0;
+            }
+            #infusion .pinned-card { gap: 6px; }
+            #infusion .step-title { font-size: 1.35rem; }
+            #infusion .step-desc { font-size: 12.5px; line-height: 1.5; }
         }
     </style>
     <script>
@@ -2379,6 +2547,7 @@ const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABA
             railNodes.forEach((n, k) => {
                 n.classList.toggle('l', k / 3 <= p + 0.001);
                 n.classList.toggle('on', k === i);
+                n.setAttribute('aria-current', k === i ? 'step' : 'false');
             });
             pinnedCards.forEach((c, k) => {
                 c.classList.toggle('on', k === i);
@@ -2527,7 +2696,7 @@ const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABA
                         : "review-dot h-1.5 w-1.5 rounded-full bg-espresso/25 transition-all duration-300 pointer-events-none";
                 });
                 reviewDotBtns.forEach((btn, i) => {
-                    btn.setAttribute('aria-selected', i === activeIdx);
+                    btn.setAttribute('aria-current', i === activeIdx ? 'true' : 'false');
                 });
             }, { passive: true });
         }
@@ -2987,7 +3156,9 @@ const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABA
         ? `Hello, I have a question before I order.\n\nMy bag: ${items.join(' & ')} (Rs. ${finalTotal.toLocaleString()} + delivery)\n\nMy question: `
         : 'Hello, I have a question about your products.\n\nMy question: ';
     trackAdEvent('Contact', { content_name: 'Bag help request' });
-    window.open(`https://wa.me/923332952456?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+    const waUrl = `https://wa.me/923332952456?text=${encodeURIComponent(text)}`;
+    const win = window.open(waUrl, '_blank', 'noopener,noreferrer');
+    if (!win) window.location.href = waUrl;
 }
 
         function normalizePkMobile(raw) {
@@ -3079,10 +3250,11 @@ function isValidPakistaniMobile(raw) { return normalizePkMobile(raw) !== null; }
             });
 
             const waUrl = `https://wa.me/923332952456?text=${encodeURIComponent(msg.join('\n'))}`;
-            window.open(waUrl, '_blank', 'noopener,noreferrer');
             const retry = document.getElementById('wa-retry');
             if (retry) retry.href = waUrl;
             document.getElementById('bag-confirmed')?.classList.remove('hidden');
+            const win = window.open(waUrl, '_blank', 'noopener,noreferrer');
+            if (!win) window.location.href = waUrl;
         }
 
         // InitiateCheckout: once per visit, when the customer starts filling in their details
