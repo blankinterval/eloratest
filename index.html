@@ -2980,16 +2980,19 @@
     window.open(`https://wa.me/923332952456?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
 }
 
-        function isValidPakistaniMobile(rawPhone) {
-            const cleaned = rawPhone.replace(/[\s-]/g, '');
-            return /^(?:\+92|0092|92|0)3\d{9}$/.test(cleaned);
-        }
+        function normalizePkMobile(raw) {
+    const d = String(raw).replace(/[^\d+]/g, '');   // keeps only digits and +, so brackets, dots, spaces, hyphens and hidden marks are dropped
+    const m = d.match(/^(?:\+|00)?(?:92)?0?(3\d{9})$/);
+    return m ? '0' + m[1] : null;                   // always returns 03XXXXXXXXX, or null if invalid
+}
+function isValidPakistaniMobile(raw) { return normalizePkMobile(raw) !== null; }
 
         function dispatchWhatsApp() {
             if (!(bag.oil + bag.cream)) return;
             const g = id => document.getElementById(id).value.trim();
             const err = document.getElementById('f-err');
             const name = g('f-name'), phone = g('f-phone'), city = g('f-city'), addr = g('f-addr');
+			const phoneClean = normalizePkMobile(phone) || phone;
 
             ['f-name', 'f-phone', 'f-city', 'f-addr'].forEach(id => {
                 document.getElementById(id).classList.remove('ring-2', 'ring-red-600', 'border-red-600');
@@ -3016,7 +3019,7 @@
             }
 
             err.classList.add('hidden');
-            try { localStorage.setItem('elora_cust', JSON.stringify({ name, phone, city, addr })); } catch (e) {}
+            try { localStorage.setItem('elora_cust', JSON.stringify({ name, phone: phoneClean, city, addr })); } catch (e) {}
             syncClearCustomerBtn();
             updateDeliveryDisplay();
             // Block accidental double-taps (prevents 2 WhatsApp tabs + duplicate Purchase events)
@@ -3052,7 +3055,7 @@
                 `Total COD Payable: Rs. ${grandTotal.toLocaleString()}`,
                 '',
                 `Name: ${name}`,
-                `Phone: ${phone}`,
+                `Phone: ${phoneClean}`,
                 `City: ${city}`,
                 `Address: ${addr}`
             );
