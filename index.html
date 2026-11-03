@@ -811,7 +811,7 @@
                 </button>
             </div>
             <div class="bg-espresso max-h-[76vh] flex items-center justify-center overflow-hidden">
-                <img id="lightbox-img" src="" alt="Customer result full view" class="max-h-[76vh] w-auto object-contain">
+                <img id="lightbox-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Customer result full view" class="max-h-[76vh] w-auto object-contain">
             </div>
         </div>
     </div>
@@ -2041,7 +2041,7 @@
                 }
             } catch (e) {}
         }
-
+const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
         function openReviewLightbox(src, caption) {
             const box = document.getElementById('review-lightbox');
             if (!box) return;
@@ -2060,6 +2060,7 @@
             if (!box || box.classList.contains('hidden')) return;
             box.classList.add('hidden');
             box.classList.remove('flex');
+			document.getElementById('lightbox-img').src = BLANK_PIXEL;
             lockScroll(false);
             if (!fromHistory) popDrawerHistoryIfNeeded('lightbox');
             _lastFocus?.focus?.();
