@@ -373,7 +373,8 @@
             padding: 5px 14px;
         }
 
-        @media (min-width: 900px) {
+        @media (min-width: 900px), (orientation: landscape) and (max-height: 520px) and (min-width: 640px) {
+    #infusion { --bar: 76px; }
             #infusion { --bar: 76px; }
             #infusion .pinned-track { height: 260svh; }
             #infusion .pinned-sticky {
@@ -445,7 +446,15 @@
                 padding-top: 0;
             }
         }
-
+/* Landscape phones: compact side-by-side so the pinned rail never slides under the header */
+@media (orientation: landscape) and (max-height: 520px) and (max-width: 1023px) {
+    #infusion .pinned-sticky { gap: 28px; }
+    #infusion .rail { width: min(240px, 100%); height: min(38svh, 150px); margin: 8px auto; }
+    #infusion .pinned-stage { min-height: 0; padding-left: 28px; }
+    #infusion .pinned-card { gap: 8px; }
+    #infusion .step-title { font-size: 1.4rem; line-height: 1.15; }
+    #infusion .step-desc { font-size: 13px; line-height: 1.5; }
+}
         /* Ingredients Panning Lens Transition (900ms silky camera glide + GPU layer) */
         .specimen-photo {
             transform-origin: 50% 50%;
