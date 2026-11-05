@@ -584,6 +584,232 @@
 
     <!-- Compiled Tailwind (static). Loaded after the custom styles above, matching how the CDN injected it. -->
     <link rel="stylesheet" href="tailwind.min.css?v=2">
+    <style id="late-fixes">
+        /* Fix: Keep FAQ & "How to Use" + / x icons completely stationary on press and widen right-side click area */
+        .acc-item > button,
+        .acc-item > button:active:not(:disabled) {
+            transform: none !important;
+        }
+        .acc-item > button {
+            position: relative;
+            width: calc(100% + 24px) !important;
+            margin-left: -12px;
+            margin-right: -12px;
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+        .acc-item > button > span:last-child {
+            width: 2.5rem !important;
+            height: 2.5rem !important;
+            margin-right: -0.25rem;
+        }
+        .acc-icon {
+            display: inline-block;
+            transform-origin: center center;
+            backface-visibility: hidden;
+        }
+
+        /* 1. Polyfill utility classes used in HTML that are missing from static tailwind.min.css */
+        .border-espresso\/12 { border-color: rgba(22, 19, 17, 0.12); }
+        .border-current\/25 { border-color: color-mix(in srgb, currentColor 25%, transparent); }
+        .border-current\/50 { border-color: color-mix(in srgb, currentColor 50%, transparent); }
+        @media (min-width: 768px) {
+            .md\:flex-col { flex-direction: column; }
+            .md\:items-start { align-items: flex-start; }
+            .md\:gap-0\.5 { gap: 0.125rem; }
+        }
+
+        /* 2. Prevent anchor scroll jumps to #herbarium, #patronage, #faq from landing off-target */
+        #herbarium, #patronage, #faq {
+            content-visibility: visible;
+        }
+
+        /* 3. Lock side-by-side product cards (768px - 1023px) so photos, titles, and price bars align */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            #crown-mobile > div:first-child > div:first-child,
+            #complexion-mobile > div:first-child > div:first-child {
+                white-space: nowrap;
+            }
+            #crown-mobile h3,
+            #complexion-mobile h3 {
+                min-height: 3.75rem; /* Exact height of 2 lines of text-2xl leading-tight */
+                align-items: flex-start;
+            }
+        }
+
+        /* 4A. Switch #infusion rail to 2-column layout at 860px+ (includes 896px iPhone XS Max) */
+        @media (min-width: 860px) and (max-width: 899px) {
+            #infusion { --bar: 72px; }
+            #infusion .pinned-track { height: 260svh; }
+            #infusion .pinned-sticky {
+                display: grid;
+                grid-template-columns: 5fr 7fr;
+                align-items: center;
+                gap: 48px;
+                padding: 0;
+            }
+            #infusion .rail-box {
+                border-bottom: 0;
+                padding-bottom: 0;
+                align-items: center;
+                gap: 18px;
+            }
+            #infusion .read {
+                order: 2;
+                justify-content: center;
+                gap: 12px;
+                padding-top: 6px;
+            }
+            #infusion .rail {
+                height: min(44svh, 310px);
+                width: 290px;
+                margin: 18px auto;
+            }
+            #infusion .rl {
+                left: 18px;
+                right: auto;
+                top: 0;
+                bottom: 0;
+                width: 2px;
+                height: auto;
+            }
+            #infusion .rl i {
+                width: 100%;
+                height: calc(var(--p, 0) * 100%);
+            }
+            #infusion .hd {
+                left: 19px;
+                top: calc(var(--p, 0) * 100%);
+            }
+            #infusion .rn {
+                left: 0;
+                top: var(--at);
+                transform: translateY(-50%);
+                flex-direction: row;
+                gap: 14px;
+                text-align: left;
+            }
+            #infusion .rn span { align-items: flex-start; }
+            #infusion .rn strong { display: block; }
+            #infusion .rn small {
+                font-weight: 400;
+                font-size: 11px;
+                letter-spacing: 0.06em;
+                margin-top: 1px;
+            }
+            #infusion .pinned-stage {
+                align-items: center;
+                min-height: 240px;
+                border-left: 1px solid var(--line);
+                padding-left: 40px;
+                padding-top: 0;
+            }
+        }
+
+        /* 4B. Compact #infusion rail for all short-landscape viewports (matches short-land in tailwind.min.css) */
+        @media (min-aspect-ratio: 9/10) and (max-height: 640px) and (max-width: 1023px) {
+            #atelier-header {
+                padding-top: 0.5rem !important;
+                padding-bottom: 0.5rem !important;
+            }
+            #infusion {
+                --bar: 58px;
+            }
+            #infusion .pinned-sticky {
+                display: grid;
+                grid-template-columns: 5fr 7fr;
+                align-items: center;
+                gap: 28px;
+                padding: 8px 0;
+            }
+            #infusion .rail-box {
+                border-bottom: 0;
+                padding-bottom: 0;
+                align-items: center;
+                gap: 10px;
+            }
+            #infusion .read {
+                order: 2;
+                justify-content: center;
+                gap: 10px;
+                padding-top: 2px;
+            }
+            #infusion .read b {
+                font-size: 1.45rem;
+            }
+            #infusion .rail {
+                height: min(52svh, 210px);
+                width: 250px;
+                margin: 6px auto;
+            }
+            #infusion .rl {
+                left: 15px;
+                right: auto;
+                top: 0;
+                bottom: 0;
+                width: 2px;
+                height: auto;
+            }
+            #infusion .rl i {
+                width: 100%;
+                height: calc(var(--p, 0) * 100%);
+            }
+            #infusion .hd {
+                left: 16px;
+                top: calc(var(--p, 0) * 100%);
+            }
+            #infusion .rn {
+                left: 0;
+                top: var(--at);
+                transform: translateY(-50%);
+                flex-direction: row;
+                gap: 10px;
+                text-align: left;
+            }
+            #infusion .rn b {
+                width: 30px;
+                height: 30px;
+                font-size: 12px;
+            }
+            #infusion .rn span { align-items: flex-start; }
+            #infusion .rn strong { display: block; font-size: 12px; }
+            #infusion .rn small { font-size: 9.5px; margin-top: 1px; }
+            #infusion .pinned-stage {
+                align-items: center;
+                min-height: 0;
+                border-left: 1px solid var(--line);
+                padding-left: 28px;
+                padding-top: 0;
+            }
+            #infusion .pinned-card { gap: 6px; }
+            #infusion .step-title { font-size: 1.35rem; }
+            #infusion .step-desc { font-size: 12.5px; line-height: 1.5; }
+        }
+        /* 5. Review cards on tablet/desktop: md:line-r and md:line-b are used in the HTML but are not Tailwind classes and were
+              never defined. Two-class selectors so they beat Tailwind's md:border-0 whatever the file order. */
+        @media (min-width: 768px) {
+            .review-card.md\:line-r { border-right: 1px solid rgba(22, 19, 17, 0.12); }
+            .review-card.md\:line-b { border-bottom: 1px solid rgba(22, 19, 17, 0.12); }
+        }
+
+        /* 6. If WhatsApp does not open by itself, the manual link becomes a big, obvious button */
+        #wa-retry.wa-retry-hot { display: block; margin-top: 10px; padding: 12px 16px; border-radius: 999px; background: #0f7a3f; color: #fff !important; text-align: center; font-weight: 700; text-decoration: none !important; }
+
+        /* 7. Lock identical height on Add-to-Bag button and Stepper Pill so the price row never shifts vertically */
+        [data-product-add],
+        [data-product-stepper] {
+            height: 44px;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            box-sizing: border-box;
+        }
+        @media (min-width: 1024px) {
+            [data-product-add],
+            [data-product-stepper] {
+                height: 50px;
+            }
+        }
+    </style>
 
     <!-- Structured Data (Schema.org JSON-LD for Rich Search Results) -->
     <script type="application/ld+json">
@@ -1499,7 +1725,7 @@
                         <h2 class="font-playfair text-2xl sm:text-5xl text-espresso">Pure Herbs &amp; Cold-Pressed Oils</h2>
                     </div>
                     <p class="text-xs text-espresso/65 max-w-md">
-                        Explore the 15 whole herbs and pure cold-pressed oils infused into our signature hair oil.
+                        Explore the 15 ingredients—11 herbs and 4 oils—infused into our signature hair oil.
                     </p>
                 </div>
 
@@ -1596,7 +1822,7 @@
                             <!-- 3. Bottom (Mobile Thumb Zone): 15 Interactive Herb Pills Below Text So Thumb Never Blocks Reading -->
                             <div class="lg:hidden pt-3.5 mt-3.5 border-t border-espresso/10">
                                 <div class="flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-espresso/50 font-bold mb-2">
-                                    <span>Tap or Glide Across Herbs (15)</span>
+                                    <span>Tap or Glide Across Ingredients (15)</span>
                                     <span class="text-gold">Interactive &rarr;</span>
                                 </div>
                                 <div id="mobile-herb-pills" class="flex flex-wrap gap-1.5 select-none">
@@ -1664,15 +1890,15 @@
                         </div>
                         <div>
                             <button type="button" onclick="openReviewLightbox('Review 1.jpeg', 'Alishba A. — Herbal Hair Oil Result')" class="mb-4 w-full p-2 rounded-xl bg-cream border border-espresso/12 hover:border-gold transition-colors flex items-center justify-between gap-3 text-left group cursor-pointer">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-11 h-11 rounded-lg overflow-hidden bg-espresso shrink-0 border border-espresso/15">
+                                <span class="flex items-center gap-3">
+                                    <span class="w-11 h-11 rounded-lg overflow-hidden bg-espresso shrink-0 border border-espresso/15">
                                         <img loading="lazy" decoding="async" src="Review 1.jpeg" width="88" height="88" alt="Alishba A. hair oil result" class="w-full h-full review-thumb-crop transition-transform duration-300 group-hover:scale-125">
-                                    </div>
-                                    <div>
+                                    </span>
+                                    <span>
                                         <span class="text-[10px] uppercase tracking-[0.16em] font-bold text-espresso block">Customer Photo</span>
                                         <span class="text-[11px] text-gold font-medium">Tap to view result</span>
-                                    </div>
-                                </div>
+                                    </span>
+                                </span>
                                 <i class="fa-solid fa-magnifying-glass-plus text-xs text-espresso/50 group-hover:text-gold pr-2 pointer-events-none"></i>
                             </button>
                             <div class="pt-3.5 sm:pt-4 line-t flex justify-between items-center text-[11px] sm:text-[11px] uppercase tracking-[0.18em]">
@@ -1695,15 +1921,15 @@
                         </div>
                         <div>
                             <button type="button" onclick="openReviewLightbox('Review 2.jpeg', 'Hifza M. — Brightening Cream Result')" class="mb-4 w-full p-2 rounded-xl bg-cream border border-espresso/12 hover:border-gold transition-colors flex items-center justify-between gap-3 text-left group cursor-pointer">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-11 h-11 rounded-lg overflow-hidden bg-espresso shrink-0 border border-espresso/15">
+                                <span class="flex items-center gap-3">
+                                    <span class="w-11 h-11 rounded-lg overflow-hidden bg-espresso shrink-0 border border-espresso/15">
                                         <img loading="lazy" decoding="async" src="Review 2.jpeg" width="88" height="88" alt="Hifza M. brightening cream result" class="w-full h-full review-thumb-crop transition-transform duration-300 group-hover:scale-125">
-                                    </div>
-                                    <div>
+                                    </span>
+                                    <span>
                                         <span class="text-[10px] uppercase tracking-[0.16em] font-bold text-espresso block">Customer Photo</span>
                                         <span class="text-[11px] text-gold font-medium">Tap to view result</span>
-                                    </div>
-                                </div>
+                                    </span>
+                                </span>
                                 <i class="fa-solid fa-magnifying-glass-plus text-xs text-espresso/50 group-hover:text-gold pr-2 pointer-events-none"></i>
                             </button>
                             <div class="pt-3.5 sm:pt-4 line-t flex justify-between items-center text-[11px] sm:text-[11px] uppercase tracking-[0.18em]">
@@ -1833,7 +2059,7 @@
                 <h2 class="font-playfair text-3xl sm:text-5xl mb-3">Ready to try <span class="italic text-gold">Elora</span>?</h2>
                 <p class="text-cream/75 text-sm mb-7 max-w-lg mx-auto">Start with our signature 8-hour infused Herbal Hair Oil — Cash on Delivery nationwide.</p>
                 <div class="flex flex-wrap justify-center gap-3.5">
-                    <button onclick="addToBag('oil', this)" class="bg-gold text-espresso hover:bg-cream transition-colors rounded-full px-8 py-4 text-[11px] uppercase tracking-[0.2em] font-bold shadow-lg">Order Herbal Hair Oil — Rs. 1,850</button>
+                    <button onclick="addToBag('oil', this)" class="bg-gold text-espresso hover:bg-cream transition-colors rounded-full px-8 py-4 text-[11px] uppercase tracking-[0.2em] font-bold shadow-lg"><span class="js-add-label">Order Herbal Hair Oil — Rs. 1,850</span></button>
                     <a href="https://wa.me/923332952456" target="_blank" rel="noopener noreferrer" class="border border-cream/40 hover:border-gold hover:text-gold rounded-full px-8 py-4 text-[11px] uppercase tracking-[0.2em] font-bold no-underline">Ask a question on WhatsApp</a>
                 </div>
             </div>
@@ -1899,208 +2125,6 @@
         </button>
     </div>
 <!-- SCRIPTS -->
-    <style>
-        /* Fix: Keep FAQ & "How to Use" + / x icons completely stationary on press and widen right-side click area */
-        .acc-item > button,
-        .acc-item > button:active:not(:disabled) {
-            transform: none !important;
-        }
-        .acc-item > button {
-            position: relative;
-            width: calc(100% + 24px) !important;
-            margin-left: -12px;
-            margin-right: -12px;
-            padding-left: 12px;
-            padding-right: 12px;
-        }
-        .acc-item > button > span:last-child {
-            width: 2.5rem !important;
-            height: 2.5rem !important;
-            margin-right: -0.25rem;
-        }
-        .acc-icon {
-            display: inline-block;
-            transform-origin: center center;
-            backface-visibility: hidden;
-        }
-
-        /* 1. Polyfill utility classes used in HTML that are missing from static tailwind.min.css */
-        .border-espresso\/12 { border-color: rgba(22, 19, 17, 0.12); }
-        .border-current\/25 { border-color: color-mix(in srgb, currentColor 25%, transparent); }
-        .border-current\/50 { border-color: color-mix(in srgb, currentColor 50%, transparent); }
-        @media (min-width: 768px) {
-            .md\:flex-col { flex-direction: column; }
-            .md\:items-start { align-items: flex-start; }
-            .md\:gap-0\.5 { gap: 0.125rem; }
-        }
-
-        /* 2. Prevent anchor scroll jumps to #herbarium, #patronage, #faq from landing off-target */
-        #herbarium, #patronage, #faq {
-            content-visibility: visible;
-        }
-
-        /* 3. Lock side-by-side product cards (768px - 1023px) so photos, titles, and price bars align */
-        @media (min-width: 768px) and (max-width: 1023px) {
-            #crown-mobile > div:first-child > div:first-child,
-            #complexion-mobile > div:first-child > div:first-child {
-                white-space: nowrap;
-            }
-            #crown-mobile h3,
-            #complexion-mobile h3 {
-                min-height: 3.75rem; /* Exact height of 2 lines of text-2xl leading-tight */
-                align-items: flex-start;
-            }
-        }
-
-        /* 4A. Switch #infusion rail to 2-column layout at 860px+ (includes 896px iPhone XS Max) */
-        @media (min-width: 860px) {
-            #infusion { --bar: 72px; }
-            #infusion .pinned-track { height: 260svh; }
-            #infusion .pinned-sticky {
-                display: grid;
-                grid-template-columns: 5fr 7fr;
-                align-items: center;
-                gap: 48px;
-                padding: 0;
-            }
-            #infusion .rail-box {
-                border-bottom: 0;
-                padding-bottom: 0;
-                align-items: center;
-                gap: 18px;
-            }
-            #infusion .read {
-                order: 2;
-                justify-content: center;
-                gap: 12px;
-                padding-top: 6px;
-            }
-            #infusion .rail {
-                height: min(44svh, 310px);
-                width: 290px;
-                margin: 18px auto;
-            }
-            #infusion .rl {
-                left: 18px;
-                right: auto;
-                top: 0;
-                bottom: 0;
-                width: 2px;
-                height: auto;
-            }
-            #infusion .rl i {
-                width: 100%;
-                height: calc(var(--p, 0) * 100%);
-            }
-            #infusion .hd {
-                left: 19px;
-                top: calc(var(--p, 0) * 100%);
-            }
-            #infusion .rn {
-                left: 0;
-                top: var(--at);
-                transform: translateY(-50%);
-                flex-direction: row;
-                gap: 14px;
-                text-align: left;
-            }
-            #infusion .rn span { align-items: flex-start; }
-            #infusion .rn strong { display: block; }
-            #infusion .rn small {
-                font-weight: 400;
-                font-size: 11px;
-                letter-spacing: 0.06em;
-                margin-top: 1px;
-            }
-            #infusion .pinned-stage {
-                align-items: center;
-                min-height: 240px;
-                border-left: 1px solid var(--line);
-                padding-left: 40px;
-                padding-top: 0;
-            }
-        }
-
-        /* 4B. Compact #infusion rail for all short-landscape viewports (matches short-land in tailwind.min.css) */
-        @media (min-aspect-ratio: 9/10) and (max-height: 640px) and (max-width: 1023px) {
-            #atelier-header {
-                padding-top: 0.5rem !important;
-                padding-bottom: 0.5rem !important;
-            }
-            #infusion {
-                --bar: 58px;
-            }
-            #infusion .pinned-sticky {
-                display: grid;
-                grid-template-columns: 5fr 7fr;
-                align-items: center;
-                gap: 28px;
-                padding: 8px 0;
-            }
-            #infusion .rail-box {
-                border-bottom: 0;
-                padding-bottom: 0;
-                align-items: center;
-                gap: 10px;
-            }
-            #infusion .read {
-                order: 2;
-                justify-content: center;
-                gap: 10px;
-                padding-top: 2px;
-            }
-            #infusion .read b {
-                font-size: 1.45rem;
-            }
-            #infusion .rail {
-                height: min(52svh, 210px);
-                width: 250px;
-                margin: 6px auto;
-            }
-            #infusion .rl {
-                left: 15px;
-                right: auto;
-                top: 0;
-                bottom: 0;
-                width: 2px;
-                height: auto;
-            }
-            #infusion .rl i {
-                width: 100%;
-                height: calc(var(--p, 0) * 100%);
-            }
-            #infusion .hd {
-                left: 16px;
-                top: calc(var(--p, 0) * 100%);
-            }
-            #infusion .rn {
-                left: 0;
-                top: var(--at);
-                transform: translateY(-50%);
-                flex-direction: row;
-                gap: 10px;
-                text-align: left;
-            }
-            #infusion .rn b {
-                width: 30px;
-                height: 30px;
-                font-size: 12px;
-            }
-            #infusion .rn span { align-items: flex-start; }
-            #infusion .rn strong { display: block; font-size: 12px; }
-            #infusion .rn small { font-size: 9.5px; margin-top: 1px; }
-            #infusion .pinned-stage {
-                align-items: center;
-                min-height: 0;
-                border-left: 1px solid var(--line);
-                padding-left: 28px;
-                padding-top: 0;
-            }
-            #infusion .pinned-card { gap: 6px; }
-            #infusion .step-title { font-size: 1.35rem; }
-            #infusion .step-desc { font-size: 12.5px; line-height: 1.5; }
-        }
-    </style>
     <script>
         // Helper: Only trigger hover-scrubbing on devices with a real mouse pointer
         const canHover = () => window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -2162,7 +2186,7 @@
             const pastHero = duo.getBoundingClientRect().top < vh * 0.85;
             const beforeFooter = foot.getBoundingClientRect().top > vh;
             const inScrollZone = pastHero && beforeFooter;
-            const showMobileBar = hasItems && (inScrollZone || _justAddedOnMobile) && beforeFooter;
+            const showMobileBar = hasItems && (pastHero || _justAddedOnMobile);
             const mobileBarActive = showMobileBar && window.innerWidth < 1024;
 
             bar.classList.toggle('translate-y-full', !showMobileBar);
@@ -2495,10 +2519,10 @@ const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABA
             {
                 t: "Premium Cold-Pressed Oils",
                 s: "Cold-Pressed Oils",
-                kicker: "Step 04 / 04 • Pure Cold-Pressed Oils",
+                kicker: "Step 04 / 04 • The Oil Base",
                 tag: "PURE",
                 c: ["4 Cold-Pressed Oils"],
-                d: "We blend our formula using a base of 4 premium cold-pressed oils—Argan, Jojoba, Sweet Almond, and Pumpkin Seed. These are valued because they are extracted purely without high heat processing.",
+                d: "Every batch rests on a base of 4 premium cold-pressed oils—Argan, Jojoba, Sweet Almond, and Pumpkin Seed—the same oils the herbs steep in. They are valued because they are extracted purely without high heat processing.",
                 glow: "radial-gradient(circle, #c8a45d 0%, transparent 70%)",
                 glowOp: "0.28"
             }
@@ -2727,6 +2751,8 @@ const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABA
         function isTwinCitiesMatch(rawCity = '') {
             const cleaned = rawCity.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
             if (!cleaned) return false;
+            // "Pindi" on its own means Rawalpindi, but these are different towns in other districts
+            if (/\bpindi\s*(bhattian|gheb)\b/.test(cleaned)) return false;
             const compact = cleaned.replace(/\s+/g, '');
 
             // 1. Abbreviations, shorthand & multi-word variations
@@ -2867,13 +2893,14 @@ const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABA
             });
         }
 
-        // Brief "✓ Added" Button Feedback on Bundle Button
+        // Brief "✓ Added" Button Feedback on Bundle & Pre-Footer Buttons (Width-Locked to Prevent Layout Shift)
         function flashButtonConfirmation(btnEl) {
             if (!btnEl || btnEl.hasAttribute('data-product-add')) return;
             const labelEl = btnEl.querySelector('.js-add-label');
             const iconEl = btnEl.querySelector('.js-add-icon');
             if (labelEl) {
                 if (!btnEl.dataset.origLabel) btnEl.dataset.origLabel = labelEl.textContent;
+                if (!btnEl._flashTimer) btnEl.style.minWidth = `${btnEl.offsetWidth}px`;
                 labelEl.textContent = 'Added';
                 if (iconEl) {
                     iconEl.classList.remove('fa-bag-shopping');
@@ -2882,6 +2909,8 @@ const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABA
                 clearTimeout(btnEl._flashTimer);
                 btnEl._flashTimer = setTimeout(() => {
                     labelEl.textContent = btnEl.dataset.origLabel;
+                    btnEl.style.minWidth = '';
+                    btnEl._flashTimer = null;
                     if (iconEl) {
                         iconEl.classList.remove('fa-check');
                         iconEl.classList.add('fa-bag-shopping');
@@ -2900,16 +2929,13 @@ const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABA
             const startX = startRect.left + startRect.width / 2;
             const startY = startRect.top + startRect.height / 2;
 
-            const beforeFooter = foot ? foot.getBoundingClientRect().top > window.innerHeight : true;
-            const targetBtn = beforeFooter
-                ? document.getElementById('mobile-buybar-btn')
-                : document.getElementById('header-bag-btn');
+            const targetBtn = document.getElementById('mobile-buybar-btn') || document.getElementById('header-bag-btn');
             const targetRect = targetBtn ? targetBtn.getBoundingClientRect() : null;
 
             const endX = targetRect ? (targetRect.left + targetRect.width / 2) : (window.innerWidth - 68);
-            const endY = beforeFooter
-                ? (window.innerHeight - 34)
-                : (targetRect ? (targetRect.top + targetRect.height / 2) : 28);
+            const endY = (targetRect && targetRect.top < window.innerHeight - 10)
+                ? (targetRect.top + targetRect.height / 2)
+                : (window.innerHeight - 34);
 
             const token = document.createElement('img');
             token.src = imgSrc;
@@ -3147,6 +3173,23 @@ const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABA
             updateDeliveryDisplay();
         }
 
+        // Opens WhatsApp. In-app browsers (Instagram, Facebook, TikTok, Snapchat) often block pop-ups, so there we
+        // navigate the current tab instead. window.open() with "noopener" always returns null, so its result is never used.
+        const IN_APP_BROWSER = /FBAN|FBAV|FB_IAB|Instagram|TikTok|musical_ly|Bytedance|Snapchat/i.test(navigator.userAgent);
+        function openWhatsApp(url, retry) {
+            if (retry) retry.classList.remove('wa-retry-hot');
+            if (IN_APP_BROWSER) {
+                if (retry) retry.classList.add('wa-retry-hot');                // a real tap on a real link is the most reliable fallback
+                setTimeout(function () { window.location.href = url; }, 250);  // short pause so the ad pixels can send first
+            } else {
+                window.open(url, '_blank', 'noopener,noreferrer');
+            }
+            // If this page is still in front after 1.5s, WhatsApp did not take over: make the manual link impossible to miss
+            setTimeout(function () {
+                if (document.visibilityState === 'visible' && retry) retry.classList.add('wa-retry-hot');
+            }, 1500);
+        }
+
         function askBagQuestion() {
     const items = [];
     if (bag.oil > 0) items.push(`${bag.oil}x ${products.oil.name}`);
@@ -3157,8 +3200,7 @@ const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABA
         : 'Hello, I have a question about your products.\n\nMy question: ';
     trackAdEvent('Contact', { content_name: 'Bag help request' });
     const waUrl = `https://wa.me/923332952456?text=${encodeURIComponent(text)}`;
-    const win = window.open(waUrl, '_blank', 'noopener,noreferrer');
-    if (!win) window.location.href = waUrl;
+    openWhatsApp(waUrl);
 }
 
         function normalizePkMobile(raw) {
@@ -3253,8 +3295,7 @@ function isValidPakistaniMobile(raw) { return normalizePkMobile(raw) !== null; }
             const retry = document.getElementById('wa-retry');
             if (retry) retry.href = waUrl;
             document.getElementById('bag-confirmed')?.classList.remove('hidden');
-            const win = window.open(waUrl, '_blank', 'noopener,noreferrer');
-            if (!win) window.location.href = waUrl;
+            openWhatsApp(waUrl, retry);
         }
 
         // InitiateCheckout: once per visit, when the customer starts filling in their details
@@ -3292,10 +3333,12 @@ function isValidPakistaniMobile(raw) { return normalizePkMobile(raw) !== null; }
                     marks.forEach(function (m, j) { m.setAttribute('aria-current', j === k ? 'true' : 'false'); });
                     if (cur) cur.textContent = '0' + (k + 1);
                 }
+                var goingTo = -1, goingTimer = 0;   // ignore scroll events until a programmatic scroll arrives
                 function go(k) {
                     k = (k + n) % n;
                     paint(k);
                     if (track && view.clientWidth > 0) {
+                        goingTo = k; clearTimeout(goingTimer); goingTimer = setTimeout(function () { goingTo = -1; }, 800);
                         view.scrollTo({ left: k * view.clientWidth, behavior: mq.matches ? 'auto' : 'smooth' });
                     }
                 }
@@ -3342,6 +3385,7 @@ function isValidPakistaniMobile(raw) { return normalizePkMobile(raw) !== null; }
                             raf = 0;
                             var w = view.clientWidth; if (!w) return;
                             var k = Math.round(view.scrollLeft / w);
+                            if (goingTo !== -1) { if (k === goingTo) goingTo = -1; else return; }
                             if (k !== i && k >= 0 && k < n) {
                                 paint(k);
                                 startAuto();
